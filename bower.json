@@ -1,0 +1,26 @@
+{
+  "name": "meritoss-ui",
+  "description": "the browser side application for meritoss platform",
+  "authors": [
+    "Danny Hadley <dadleyy@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/sizethree/meritoss.ui",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "requirejs": "2.2.0",
+    "bases.scss": "2.4.0",
+    "react": "15.2.0",
+    "page": "1.7.1",
+    "q": "1.0.1",
+    "foundation-sites": "6.2.3",
+    "flyby": "1.2.0"
+  }
+}

@@ -1,0 +1,25 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    title meritoss
+    link(href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700" rel="stylesheet" type="text/css")
+    link(href="/assets/css/app.css" type="text/css" rel="stylesheet")
+  body.bg-bg
+    div.z-10#notes
+    div.z-9#popups
+    main.z-8#main
+    script(src="/assets/vendors/bundle.js" type="text/javascript")
+    script(src="/assets/js/helpers.js" type="text/javascript")
+    script.
+      (function() {
+        requirejs.config({
+          baseUrl: "/assets/js"
+        });
+
+        window.ENV = {
+          API_HOME: "#{API_HOME}" || "/api"
+        };
+
+        require(["main"]);
+      })();

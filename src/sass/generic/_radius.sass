@@ -1,0 +1,17 @@
+@for $i from 0 through 10
+
+  .radius-#{$i}
+    border-radius: $i + unquote("px")
+
+  .radius-bottom-#{$i}
+    border-bottom-right-radius: $i + unquote("px")
+    border-bottom-left-radius: $i + unquote("px")
+
+  .radius-top-#{$i}
+    border-top-right-radius: $i + unquote("px")
+    border-top-left-radius: $i + unquote("px")
+
+
+.radius-50
+  border-radius: 50% 50%
+
