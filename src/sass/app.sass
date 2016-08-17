@@ -19,10 +19,6 @@ html, body
   width: 0
   height: 0
 
-+color-classes("background", $color-background, "bg")
-+color-classes("tomato", $color-tomato, "tomato")
-+color-classes("link", $color-link, "link")
-
 +meyer-reset
 +foundation-grid
 
@@ -32,6 +28,14 @@ html, body
 .pointer
   cursor: pointer
 
+.outline-none
+  outline: none
+
+@import "generic/colors"
 @import "generic/radius"
 @import "generic/typography"
+
+@import "generic/inputs"
 @import "generic/buttons"
+
+@import "specifics"
