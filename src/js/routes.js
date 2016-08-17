@@ -1,6 +1,7 @@
 define([
   "routes/index",
   "routes/error",
+  "routes/welcome",
   "routes/missing"
 ], function(...routes) {
 

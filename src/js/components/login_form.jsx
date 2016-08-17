@@ -3,7 +3,7 @@ define([
 
   function render() {
     return (
-      <div className="clearfix padding-tb-5 bg-black-lighten-10">
+      <div className="m-login-form">
       </div>
     )
   }
