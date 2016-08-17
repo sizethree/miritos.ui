@@ -47,10 +47,15 @@ define([
     // module, this function will log out the reason and send the user to the
     // error route.
     function failed(e) {
-      console.error(e);
+      let {code, url} = e || {};
       Notification.remove(note_id);
-      page("/error");
       note_id = null;
+
+      if(code === 300 && url && url.length >= 1) {
+        return page(url);
+      }
+
+      page("/error");
     }
 
     // success

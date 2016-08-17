@@ -11,8 +11,12 @@ define([
    * To see how the router handlers this see the src/js/router.js file.
    */
 
-  function resolve(ListDelegate) {
+  function resolve(Auth) {
     let {promise, resolve, reject} = Q.defer();
+
+    if(Auth.user() === null)
+      return Q.reject({code: 300, url: "/welcome"});
+
     return promise;
   }
 
@@ -21,6 +25,7 @@ define([
   // process of resolving. In this way, dependencies of the route are able to "skip" 
   // the optimization process.
   resolve.$inject = [
+    "services/auth"
   ];
 
   let path = "/";

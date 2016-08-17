@@ -10,10 +10,7 @@ define([
 
   function render() {
     return (
-      <div className="clearfix">
-        <Header />
-        <div className="padding-tb-50 clearfix row"></div>
-      </div>
+      <div className="clearfix"></div>
     );
   }
 
