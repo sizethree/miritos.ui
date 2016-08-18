@@ -1,0 +1,9 @@
+src
+node_modules
+bower_components
+tmp
+dist
+bin
+auto
+env
+.git

@@ -4,7 +4,8 @@
   "description": "the browser side application for meritoss platform",
   "scripts": {
     "build:debug": "./node_modules/.bin/gulp",
-    "server": "./bin/devserver"
+    "server": "./bin/devserver",
+    "start": "echo \"starting\""
   },
   "repository": {
     "type": "git",
