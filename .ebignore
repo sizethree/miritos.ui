@@ -4,6 +4,6 @@ bower_components
 tmp
 dist
 bin
-auto
 env
+auto/gulp
 .git
