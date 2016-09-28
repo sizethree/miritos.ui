@@ -3,8 +3,8 @@ define([
 ], function(Auth) {
 
   function resolve() {
-    let {promise, resolve, reject} = Q.defer();
-    return promise;
+    let user = Auth.user();
+    return Q.resolve({user});
   }
 
   resolve.$inject = [

@@ -3,7 +3,11 @@ define([
 
   function render() {
     return (
-      <div className="clearfix"></div>
+      <div className="row clearfix">
+        <div className="columns large-6">
+          <h5>error</h5>
+        </div>
+      </div>
     )
   }
 

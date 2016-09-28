@@ -15,32 +15,36 @@ define([
   function prep() {
     let {promise, resolve, reject} = Q.defer()
 
-    if(!session || !session.token)
+    if(session  && !(session.token || session.user))
       return Q.resolve(false);
 
-    let {token} = session;
+    let {token} = session || {};
 
     // once the GET request against the auth api endpoint has finished, we are prepared.
     // if there was an error during the request resolve w/o setting the current user. if 
     // however, the api responded with a 500 of storts, reject w/ error.
-    function loaded(err, result, {status}) {
+    function loaded(err, response, {status}) {
       if(status >= 500)
         return reject(new Error("BAD_API_STATUS"));
 
-      if(err)
+      if(err || !response || response.status !== "SUCCESS")
         return resolve(false);
 
-      console.log(result);
+      let [user] = response.results;
+
+      session = shallow({}, {user});
+      resolve(true);
     }
 
-    AuthResource.get({token}, loaded);
+    let request = token ? {token} : {};
 
+    AuthResource.get(request, loaded);
     return promise;
   }
 
   function token(token) {
     if(arguments.length === 0) return session.token;
-    session = Object.assign({}, {token});
+    session = shallow({}, {token});
   }
 
   return {user, prep, token};

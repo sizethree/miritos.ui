@@ -2,16 +2,16 @@ define([
   "components/login_form"
 ], function(LoginForm) {
 
-  return function({resolved}) {
+  return function render({resolved}) {
     return (
       <div className="clearfix row">
         <div className="columns large-6">
-          <h1>Login</h1>
+          <h5>login</h5>
           <br />
           <LoginForm />
         </div>
       </div>
     );
-  }
+  };
 
 });

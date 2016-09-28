@@ -15,8 +15,11 @@ require([
   Popups.mount(e("popups"));
   Viewport.bind();
 
-  ReactDOM.render(<Header />, e("header"));
 
-  router.init(routes);
+  function onRoute() {
+    ReactDOM.render(<Header />, e("header"));
+  }
+
+  router.init(routes, {onRoute});
 
 });

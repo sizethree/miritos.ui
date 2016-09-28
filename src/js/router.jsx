@@ -21,7 +21,7 @@ define([
    */ 
 
   // scope a variable that will hold our loading notification id
-  let note_id = null;
+  let listeners = [];
 
   // route
   //
@@ -38,6 +38,12 @@ define([
     function render(ViewModule) {
       let container = document.getElementById("main");
       Notification.remove(context.note_id);
+
+      for(let i = 0, c =  listeners.length; i < c; i++) {
+        let {event, fn} = listeners[i];
+        if(event === "route") fn();
+      }
+
       ReactDOM.render(<ViewModule resolved={resolution} />, container);
       note_id = null;
     }
@@ -98,7 +104,10 @@ define([
     return start;
   }
 
-  function init(routes) {
+  function init(routes, {onRoute}) {
+    if("function" === typeof onRoute)
+      listeners.push({event: "route", fn: onRoute});
+
     // bind all of the routes provided by the routes module
     for(let count = routes.length, i = 0; i < count; i++) {
       let r = routes[i];
