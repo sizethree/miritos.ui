@@ -2,13 +2,10 @@ define([
   "components/header"
 ], function(Header) {
 
-
-  function render() {
+  return function render(props) {
     return (
-      <div className="clearfix"></div>
+      <div className="clearfix row"><a href="/">not found</a></div>
     );
   }
-
-  return React.createClass({render})
 
 });

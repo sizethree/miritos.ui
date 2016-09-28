@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "the browser side application for meritoss platform",
   "scripts": {
-    "build:debug": "./node_modules/.bin/gulp",
+    "build:debug": "gulp",
+    "build:watch": "gulp watch",
+    "vendor:install": "bower i",
     "server": "./bin/devserver"
   },
   "repository": {
@@ -17,6 +19,8 @@
   },
   "homepage": "https://github.com/sizethree/meritoss.ui",
   "dependencies": {
+    "btoa": "^1.1.2",
+    "dotenv": "^2.0.0",
     "json5": "^0.5.0"
   },
   "devDependencies": {

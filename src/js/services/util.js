@@ -1,5 +1,6 @@
 define([
-], function() {
+  "services/util/url"
+], function(url) {
 
   /* util service
    *
@@ -19,6 +20,6 @@ define([
     return a1;
   }
 
-  return {replace, pad};
+  return {replace, pad, url};
 
 });

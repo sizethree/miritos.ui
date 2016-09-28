@@ -3,27 +3,51 @@
 "use strict";
 
 const path    = require("path");
+const dotenv  = require("dotenv");
 const express = require("express");
 const program = require("commander");
 const fs      = require("fs");
 const json5   = require("json5");
 const proxy   = require("express-http-proxy");
+const btoa    = require("btoa");
+
 
 (function() {
+
+  dotenv.config();
 
   program
     .option("-p, --port <port>", "the port for express to listen on, defaults to 8080")
     .parse(process.argv);
 
-  let port   = program.port || 8888;
-  let app    = express();
-  let assets = path.join(__dirname, "../dist");
-  let index  = path.join(__dirname, "../dist/index.html");
+  let port      = program.port || 8888;
+  let app       = express();
+  let assets    = path.join(__dirname, "../dist");
+  let index     = path.join(__dirname, "../dist/index.html");
+  let client_id     = process.env["API_CLIENT_ID"];
+  let client_secret = process.env["API_CLIENT_SECRET"];
+  let api_url       = process.env["API_REAL_HOME"];
 
   // serve the js, css from the assets dir
   app.use(express.static(assets));
 
-  app.use("/api", proxy("http://0.0.0.0:8080"));
+  function decorateRequest(request, original) {
+    let auth_header = btoa([client_id, client_secret].join(":"));
+    let query = original.query;
+
+    if(query && query.token)
+      request.headers["X-CLIENT-BEARER-TOKEN"] = query.token;
+
+    request.headers["X-CLIENT-AUTH"] = auth_header;
+    return request;
+  }
+
+  app.get("/api/login/google", function(req, res) {
+    let url = `${api_url}/oauth/google/prompt?client_id=${client_id}`;
+    return res.redirect(url);
+  });
+
+  app.use("/api", proxy(api_url, {decorateRequest}));
 
   // send the same index html for every request - this is a single
   // page application

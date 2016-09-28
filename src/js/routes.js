@@ -2,6 +2,8 @@ define([
   "routes/index",
   "routes/error",
   "routes/welcome",
+  "routes/dashboard",
+  "routes/oauth/google",
   "routes/missing"
 ], function(...routes) {
 

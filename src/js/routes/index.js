@@ -1,5 +1,6 @@
 define([
-], function() {
+  "services/auth"
+], function(Auth) {
 
   /* index route
    *
@@ -10,14 +11,12 @@ define([
    *
    * To see how the router handlers this see the src/js/router.js file.
    */
+  let authenticated_redirect = {code: 300, url: "/dashboard"};
+  let guest_redirect         = {code: 300, url: "/welcome"};
 
-  function resolve(Auth) {
-    let {promise, resolve, reject} = Q.defer();
 
-    if(Auth.user() === null)
-      return Q.reject({code: 300, url: "/welcome"});
-
-    return promise;
+  function resolve() {
+    return Q.reject(Auth.user() ? authenticated_redirect : guest_redirect);
   }
 
   // here we have a special case where the route is defining an array of dependencies
@@ -25,12 +24,12 @@ define([
   // process of resolving. In this way, dependencies of the route are able to "skip" 
   // the optimization process.
   resolve.$inject = [
-    "services/auth"
   ];
 
   let path = "/";
   let view = "views/index";
+  let before = Auth.prep;
 
-  return {resolve, view, path};
+  return {resolve, view, path, before};
 
 });

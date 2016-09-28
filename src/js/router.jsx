@@ -27,9 +27,8 @@ define([
   //
   // @param {object} definition - an object with `resolve`, `view` and `path`
   function route(definition) {
-    let {view, resolve, path} = definition;
-    let resolution   = null;
-    let dependencies = [];
+    let {view, resolve, path, before} = definition;
+    let context      = null;
 
     // render
     //
@@ -38,7 +37,7 @@ define([
     // the route's resolve function
     function render(ViewModule) {
       let container = document.getElementById("main");
-      Notification.remove(note_id);
+      Notification.remove(context.note_id);
       ReactDOM.render(<ViewModule resolved={resolution} />, container);
       note_id = null;
     }
@@ -48,14 +47,13 @@ define([
     // error route.
     function failed(e) {
       let {code, url} = e || {};
-      Notification.remove(note_id);
-      note_id = null;
+      Notification.remove(context.note_id);
+
+      // rejecton w/ redirect
+      if(code === 300 && url && url.length >= 1)
+        return page(url);
 
       console.error(e.stack);
-
-      if(code === 300 && url && url.length >= 1) {
-        return page(url);
-      }
 
       page("/error");
     }
@@ -69,25 +67,35 @@ define([
       require([view], render, failed);
     }
 
-    function handler(page_route_context) {
-      if(note_id === null) note_id = Notification.add("Loading");
+    function handler() {
+      let {note_id, dependencies} = context;
 
-      resolve.apply(null, dependencies.concat([page_route_context]))
+      if(!note_id)
+        context.note_id = Notification.add("Loading");
+
+      resolve.call(context)
         .then(success)
         .catch(failed);
     }
 
-    function inject(context) {
-      note_id = Notification.add("Loading");
-
-      require(resolve.$inject, function(...deps) {
-        dependencies = deps;
-        handler(context);
-      });
+    function injected(...deps) {
+      context.dependencies = deps;
+      return handler();
     }
 
-    let has_deps = resolve.$inject instanceof Array;
-    return has_deps ? inject : handler;
+    function inject() {
+      context.note_id = Notification.add("Loading");
+      require(resolve.$inject, injected);
+    }
+
+    function start(page_context) {
+      let has_before = "function" === typeof before;
+      let has_deps = resolve.$inject instanceof Array && resolve.$inject.length >= 1;
+      context = Object.assign({}, page_context)
+      return (has_before ? before() : Q.resolve()).then(has_deps ? inject : handler).catch(failed);
+    }
+
+    return start;
   }
 
   function init(routes) {
@@ -102,6 +110,6 @@ define([
   }
 
 
-  return {init};
+  return {init, route};
 
 });

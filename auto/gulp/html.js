@@ -8,8 +8,7 @@ module.exports = function(gulp) {
 
   let base   = path.join(__dirname, "../../");
   let locals = {
-    API_HOME: process.env["API_HOME"],
-    API_CLIENT_ID: process.env["API_CLIENT_ID"]
+    API_HOME: process.env["API_PROXY_HOME"]
   };
 
   gulp.task("clean:html", function() {
