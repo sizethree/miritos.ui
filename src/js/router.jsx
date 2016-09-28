@@ -51,6 +51,8 @@ define([
       Notification.remove(note_id);
       note_id = null;
 
+      console.error(e.stack);
+
       if(code === 300 && url && url.length >= 1) {
         return page(url);
       }

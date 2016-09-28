@@ -1,21 +1,53 @@
 define([
+  "components/hoc/table",
   "components/signup_form",
   "components/login_form"
-], function(SignUpForm, LoginForm) {
+], function(TableFactory, SignUpForm, LoginForm) {
 
-  function render() {
-    return (
-      <div className="clearfix padding-tb-15">
-        <div className="row">
-          <div className="column large-6 large-offset-6">
-            <SignUpForm />
-            <LoginForm />
-          </div>
-        </div>
-      </div>
-    )
+  class Row extends React.Component {
+
+    constructor(props) {
+      super(props)
+    }
+
   }
 
-  return React.createClass({render});
+  let Table = TableFactory(Row);
+
+  class Delegate {
+
+    columns() {
+      return [{
+        name: "Name",
+        rel: "name"
+      }, {
+        name: "Age",
+        rel: "age"
+      }];
+    }
+
+    rows(callback) {
+    }
+
+  }
+
+  class Welcome extends React.Component {
+
+    constructor(props) {
+      super(props);
+      this.delegate = new Delegate();
+    }
+
+    render() {
+      return (
+        <div className="row">
+          <Table delegate={this.delegate} />
+        </div>
+      );
+    }
+
+  };
+
+  return Welcome;
 
 });
