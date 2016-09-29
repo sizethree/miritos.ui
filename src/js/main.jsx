@@ -2,7 +2,7 @@ import routes from "./routes"
 import Router from "./router";
 import Popups from "./services/popups";
 import Notes from "./services/notes";
-import Viewport from "./services/Viewport";
+import Viewport from "./services/window";
 import Header from "./components/header"
 
 function e(id) {

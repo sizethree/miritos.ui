@@ -6,6 +6,7 @@
     "build:debug": "gulp",
     "build:watch": "gulp watch",
     "build:release": "gulp release",
+    "clean": "gulp clean",
     "vendor:install": "bower i",
     "server": "./bin/server"
   },

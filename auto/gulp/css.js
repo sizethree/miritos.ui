@@ -13,18 +13,18 @@ module.exports = function(gulp) {
     path.join(base, "bower_components")
   ];
 
-  gulp.task("clean:sass", function() {
+  gulp.task("clean:css", function() {
     return del([destination]);
   });
 
-  gulp.task("sass:release", ["clean:sass"], function() {
+  gulp.task("css:release", ["clean:css"], function() {
     let outputStyle = "compressed";
     return gulp.src(source)
       .pipe(sass({outputStyle, includePaths}).on("error", sass.logError))
       .pipe(gulp.dest(destination));
   });
 
-  gulp.task("sass", ["clean:sass"], function() {
+  gulp.task("css", ["clean:css"], function() {
     let outputStyle = "expanded";
     return gulp.src(source)
       .pipe(sass({outputStyle, includePaths}).on("error", sass.logError))

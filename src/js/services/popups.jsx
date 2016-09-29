@@ -1,5 +1,5 @@
 import uuid from "./uuid";
-import Viewport from "./viewport"
+import Viewport from "./window"
 
 /* popups service
  *
@@ -40,7 +40,7 @@ function create(placement) {
 }
 
 function open(component, placement) {
-  let id    = UUID();
+  let id    = uuid();
   let popup = create(placement);
   ReactDOM.render(component, popup);
   root.appendChild(popup);

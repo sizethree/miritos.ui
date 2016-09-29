@@ -21,9 +21,11 @@ html, body
 
 @import "materialize/sass/components/global"
 @import "materialize/sass/components/typography"
+@import "materialize/sass/components/navbar"
 @import "materialize/sass/components/buttons"
 @import "materialize/sass/components/roboto"
 @import "materialize/sass/components/waves"
+@import "materialize/sass/components/dropdown"
 
 @import "foundation-settings"
 @import "foundation-sites/scss/foundation"
@@ -48,6 +50,11 @@ html, body
 
 .outline-none
   outline: none
+
+.dropdown-content.display-block
+  @extend .display-block
+  @extend .position-relative
+  @extend .opacity-50
 
 @import "generic/colors"
 @import "generic/radius"
