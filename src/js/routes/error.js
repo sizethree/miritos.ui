@@ -1,13 +1,8 @@
-define([
-], function() {
+function resolve() {
+  return Q.resolve(true);
+}
 
-  function resolve() {
-    return Q.resolve(true);
-  }
+let view = "views/error";
+let path = "/error"
 
-  view = "views/error";
-  path = "/error"
-
-  return {resolve, view, path};
-
-});
+export default {resolve, view, path};

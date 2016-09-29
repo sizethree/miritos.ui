@@ -1,25 +1,22 @@
-require([
-  "routes",
-  "router",
-  "services/popups",
-  "services/notes",
-  "services/viewport",
-  "components/header"
-], function(routes, router, Popups, Notes, Viewport, Header) {
+import routes from "./routes"
+import Router from "./router";
+import Popups from "./services/popups";
+import Notes from "./services/notes";
+import Viewport from "./services/Viewport";
+import Header from "./components/header"
 
-  function e(id) {
-    return document.getElementById(id);
-  }
+function e(id) {
+  return document.getElementById(id);
+}
 
+export function Start() {
   Notes.mount(e("notes"));
   Popups.mount(e("popups"));
   Viewport.bind();
-
 
   function onRoute() {
     ReactDOM.render(<Header />, e("header"));
   }
 
-  router.init(routes, {onRoute});
-
-});
+  Router.init(routes, {onRoute});
+}

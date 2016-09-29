@@ -1,8 +1,2 @@
-define([
-], function() {
-
-  const {ENV} = window;
-
-  return Flyby(`${ENV.API_HOME}/auth`);
-
-});
+const {ENV} = window;
+export default Flyby(`${ENV.API_HOME}/auth`);

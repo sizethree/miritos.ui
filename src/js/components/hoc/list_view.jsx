@@ -1,32 +1,24 @@
-define([
-], function() {
+export default function Factory(Transclusion) {
+  let displayName = "list-view";
 
+  function render() {
+    let {delegate, classes} = this.props;
+    let items = delegate.items();
+    let nodes = [];
+    let count = items.length;
 
-  function Factory(Transclusion) {
-    let displayName = "list-view";
+    if(!classes)
+      classes = "list-view clearfix";
 
-    function render() {
-      let {delegate, classes} = this.props;
-      let items = delegate.items();
-      let nodes = [];
-      let count = items.length;
-
-      if(!classes)
-        classes = "list-view clearfix";
-
-      for(let i = 0; i < count; i++) {
-        let item = items[i];
-        nodes.push(<Transclusion item={item} delegate={delegate} key={i} />);
-      }
-
-      return (
-        <div className={classes}>{nodes}</div>
-      );
+    for(let i = 0; i < count; i++) {
+      let item = items[i];
+      nodes.push(<Transclusion item={item} delegate={delegate} key={i} />);
     }
 
-    return React.createClass({render, displayName});
+    return (
+      <div className={classes}>{nodes}</div>
+    );
   }
 
-  return Factory;
-
-});
+  return React.createClass({render, displayName});
+};

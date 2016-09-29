@@ -1,13 +1,8 @@
-define([
-], function() {
+function resolve() {
+  return Q.resolve(true);
+}
 
-  function resolve() {
-    return Q.resolve(true);
-  }
+let view = "views/missing";
+let path = "*";
 
-  let view = "views/missing";
-  let path = "*";
-
-  return {resolve, view, path};
-
-});
+export default {resolve, view, path};

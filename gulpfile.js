@@ -5,7 +5,7 @@ const dotenv = require("dotenv");
 
 dotenv.load();
 
-require("./auto/gulp/sass")(gulp);
+require("./auto/gulp/css")(gulp);
 require("./auto/gulp/js")(gulp);
 require("./auto/gulp/html")(gulp);
 require("./auto/gulp/watch")(gulp);

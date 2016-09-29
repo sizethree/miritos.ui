@@ -13,26 +13,30 @@ module.exports = function(gulp) {
   const base   = path.join(__dirname, "../../");
   const bundle = path.join(base, "dist/assets/vendors/bundle.js");
 
+  function bower(lib_path) {
+    return path.join(base, "bower_components", lib_path);
+  }
+
   let vendors = [
-    path.join(base, "bower_components/q/q.js"),
-    path.join(base, "bower_components/page/page.js"),
-    path.join(base, "bower_components/flyby/flyby.js"),
-    path.join(base, "bower_components/react/react.js"),
-    path.join(base, "bower_components/react/react-dom.js"),
-    path.join(base, "bower_components/requirejs/require.js")
+    bower("q/q.js"),
+    bower("page/page.js"),
+    bower("flyby/flyby.js"),
+    bower("react/react.js"),
+    bower("react/react-dom.js"),
+    bower("requirejs/require.js")
   ];
 
   vendors.release = [
-    path.join(base, "bower_components/q/q.js"),
-    path.join(base, "bower_components/page/page.js"),
-    path.join(base, "bower_components/flyby/flyby.js"),
-    path.join(base, "bower_components/react/react.min.js"),
-    path.join(base, "bower_components/react/react-dom.min.js"),
-    path.join(base, "bower_components/requirejs/require.js")
+    bower("q/q.js"),
+    bower("page/page.js"),
+    bower("flyby/flyby.js"),
+    bower("react/react.min.js"),
+    bower("react/react-dom.min.js"),
+    bower("requirejs/require.js")
   ];
 
   let presets = ["es2015", "react"];
-  let plugins = ["external-helpers"];
+  let plugins = ["external-helpers", "transform-es2015-modules-amd"];
 
   gulp.task("clean:js", function() {
     return del([bundle]);

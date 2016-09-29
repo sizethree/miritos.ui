@@ -13,8 +13,16 @@ module.exports = function(gulp) {
     ]);
   });
 
-  gulp.task("fonts", ["clean:fonts"], function() {
-    return gulp.src("**/*", {cwd: path.join(base, "src/fonts")})
+  gulp.task("fonts:material", ["clean:fonts"], function() {
+    let cwd = path.join(base, "bower_components/materialize/fonts");
+
+    return gulp.src("**/*", {cwd})
+      .pipe(gulp.dest(path.join(base, "dist/assets/fonts")));
+  });
+
+  gulp.task("fonts", ["fonts:material"], function() {
+    let cwd = path.join(base, "src/fonts");
+    return gulp.src("**/*", {cwd})
       .pipe(gulp.dest(path.join(base, "dist/assets/fonts")));
   });
 

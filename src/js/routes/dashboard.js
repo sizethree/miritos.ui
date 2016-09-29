@@ -1,19 +1,15 @@
-define([
-  "services/auth"
-], function(Auth) {
+import Auth from "../services/auth"
 
-  function resolve() {
-    let user = Auth.user();
-    return Q.resolve({user});
-  }
+function resolve() {
+  let user = Auth.user();
+  return Q.resolve({user});
+}
 
-  resolve.$inject = [
-  ];
+resolve.$inject = [
+];
 
-  let path = "/dashboard";
-  let view = "views/dashboard";
-  let before = Auth.prep;
+let path = "/dashboard";
+let view = "views/dashboard";
+let before = Auth.prep;
 
-  return {resolve, view, path, before};
-
-});
+export default {resolve, view, path, before};

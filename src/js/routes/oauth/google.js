@@ -1,24 +1,21 @@
-define([
-  "services/auth"
-], function(Auth) {
+import Auth from "../../services/auth"
 
-  let path = "/oauth/google";
+let path = "/oauth/google";
 
-  function resolve() {
-    let {dependencies, querystring} = this;
-    let [util] = dependencies;
-    let token  = util.url.query(querystring).get("token");
+function resolve() {
+  let {dependencies, querystring} = this;
+  let [{default: util}] = dependencies;
 
-    if(token)
-      Auth.token(token);
+  let token  = util.url.query(querystring).get("token");
 
-    return Q.reject({code: 300, url: "/"});
-  }
+  if(token)
+    Auth.token(token);
 
-  resolve.$inject = [
-    "services/util"
-  ];
+  return Q.reject({code: 300, url: "/"});
+}
 
-  return {path, resolve};
+resolve.$inject = [
+  "services/util"
+];
 
-});
+export default {path, resolve};

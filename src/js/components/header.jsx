@@ -1,31 +1,32 @@
-define([
-  "services/auth"
-], function(Auth) {
+import Auth from "../services/auth"
 
-  function logout() {
-    window.location = "/api/logout";
-  }
+function logout() {
+  window.location = "/api/logout";
+}
 
-  function UserMenu() {
-    return (
-      <div className="clearfix">
-        <a className="white-outline-button" onClick={logout}>logout</a>
-      </div>
-    );
-  }
+function UserMenu() {
+  return (
+    <div className="clearfix">
+      <a className="waves-effect waves-light btn" onClick={logout}>logout</a>
+    </div>
+  );
+}
 
-  function render() {
-    let right = Auth.user() ? <UserMenu /> : <div></div>;
+export default function render() {
+  let right = Auth.user() ? <UserMenu /> : <div></div>;
 
-    return (
-      <div className="clearfix padding-tb-5 bg-black-lighten-10">
-        <div className="clearfix row">
-          <div className="float-right">{right}</div>
+  return (
+    <div className="clearfix padding-tb-5 amber lighten-3">
+      <div className="clearfix row position-relative">
+        <div className="overflow-hidden display-table display-table--fixed width-50 height-50">
+          <div className="display-table-cell v-align-middle align-left">
+            <h5>CAAP</h5>
+          </div>
+          <div className="display-table-cell v-align-middle">
+            <div className="float-right">{right}</div>
+          </div>
         </div>
       </div>
-    )
-  }
-
-  return React.createClass({render});
-
-});
+    </div>
+  )
+};
