@@ -1,4 +1,5 @@
 import uuid from "./uuid";
+import util from "./util";
 import Viewport from "./window"
 
 /* popups service
@@ -15,33 +16,18 @@ import Viewport from "./window"
  * is handled through a unique identifier handle.
  */ 
 
-let root        = null;
-let open_popups = [];
-let mouse       = {start: {}, end: {}};
+let root         = null;
+let open_popups  = [];
+let view_events  = [];
 
 const GUTTER_WIDTH = 100;
 
-function px(amt) {
-  return `${amt}px`;
-}
-
-function create(placement) {
-  let div = document.createElement("div");
-  div.style.position = "fixed";
-  div.style.top = px(placement.top);
-
-  // a right placement trumps a left one
-  if(placement.right) {
-    div.style.right = px(placement.right);
-  } else {
-    div.style.left = px(placement.left);
-  }
-  return div;
-}
-
 function open(component, placement) {
   let id    = uuid();
-  let popup = create(placement);
+  let style = Object.assign({position: "fixed"}, placement);
+  let popup = util.dom.create("div", {style});
+
+  // render the component into the container and add it to our popup root
   ReactDOM.render(component, popup);
   root.appendChild(popup);
 
@@ -51,10 +37,10 @@ function open(component, placement) {
   let ldist    = (bounding.left + bounding.width) - (window.innerWidth - GUTTER_WIDTH);
 
   if(ldist > 0)
-    popup.style.left = px(placement.left - GUTTER_WIDTH);
+    popup.style.left = util.dom.px(placement.left - GUTTER_WIDTH);
 
   if(bounding.left < GUTTER_WIDTH)
-    popup.style.left = px(placement.left + GUTTER_WIDTH);
+    popup.style.left = util.dom.px(placement.left + GUTTER_WIDTH);
 
   open_popups.push({id, popup});
   return id;
@@ -76,40 +62,16 @@ function close(popup_id) {
   return -1;
 }
 
-function mount(target) {
-  root = target;
-}
-
-// contains
-//
-// checks to see if a given child node is a descendant of a given parent
-// node (target)
-function contains(target, child) {
-  let head = child.parentNode;
-
-  while(head != null) {
-    if (head == target) return true;
-    head = head.parentNode;
-  }
-
-  return false;
-}
-
 function closeOpen(e) {
-  let count  = open_popups.length;
   let target = e.target;
 
-  // if this was a drag event - do nothing
-  if(mouse.start.x !== mouse.end.x || mouse.start.y !== mouse.end.y)
-    return true;
-
   // loop over our open popups closing those that are not associated with this event
-  for(let i = 0; i < count; i++) {
+  for(let i = 0, count = open_popups.length; i < count; i++) {
     let popup = open_popups[i];
     let node = ReactDOM.findDOMNode(popup.popup)
 
     // if this node is inside the target of the click - continue
-    if(contains(node, target)) continue;
+    if(util.dom.contains(node, target)) continue;
 
     // otherwise close it
     close(popup.id);
@@ -118,14 +80,16 @@ function closeOpen(e) {
   return true;
 }
 
-Viewport.on("mousedown", function(e) {
-  mouse.start = {x: e.clientX, y: e.clientY};
-});
+function mount(target) {
+  root = target;
 
-Viewport.on("mouseup", function(e) {
-  mouse.end = {x: e.clientX, y: e.clientY};
-});
+  for(let i = 0, c = view_events.length; i < c; i++) {
+    Viewport.off(view_events[i]);
+  }
 
-Viewport.on("click", closeOpen);
+  view_events = [
+    Viewport.on("isoclick", closeOpen)
+  ];
+}
 
 export default {open, close, mount};

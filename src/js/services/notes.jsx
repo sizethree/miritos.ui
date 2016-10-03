@@ -1,4 +1,7 @@
-import Uuid from "./uuid";
+import uuid from "./uuid";
+import util from "./util";
+
+const DEFAULT_FLASH_TIME = 2500;
 
 /* Notes service
  *
@@ -11,83 +14,67 @@ import Uuid from "./uuid";
  * which gets mounted during application startup.
  */
 
-let opened = [];
-let update = null;
-let mounted = false;
+let stack      = [];
+let mountpoint = false;
 
-let NotificationBar = React.createClass({
+function add(component) {
+  let note_id   = uuid();
+  let container = util.dom.create("div");
+  container.setAttribute("data-note-id", note_id);
 
-  componentDidMount() {
-    update = latest_id => this.setState({latest_id})
-  },
+  // render the modal into the newly created container
+  ReactDOM.render(component, container);
 
-  render() {
-    let notes = [];
-    let count = opened.length;
+  // add that container to the modal root
+  mountpoint.appendChild(container);
 
-    for(let i = 0; i < count; i++)
-      notes.push(<Notification text={opened[i].text} key={opened[i].id} />)
+  stack.push({id: note_id, container});
 
-    return (
-      <div className="position-fixed top-0 left-0 width-50">
-        <div className="clearfix">{notes}</div>
-      </div>
-    )
-  }
-
-});
-
-let Notification = React.createClass({
-
-  componentDidMount() {
-  },
-
-  render() {
-    return (
-      <div className="align-center display-block">
-        <div className="padding-tb-4 padding-lr-18 display-inline-block bg-white">
-          <p className="fg-black">{this.props.text}</p>
-        </div>
-      </div>
-    );
-  }
-
-});
-
-function add(text) {
-  let id   = Uuid();
-  let note = null;
-  opened.push({note, id, text});
-  update(id);
-  return id;
+  return note_id;
 }
 
 function remove(target_id) {
-  let count = opened.length;
   let found = null;
 
-  for(let i = 0; i < count; i++) {
-    let {note, id} = opened[i];
-    if(id !== target_id) continue;
-    found = i;
+  for(let i = 0, c = stack.length; i < c; i++) {
+    let {id, container} = stack[i];
+
+    if(target_id !== id) continue;
+
+    found = {container, index: i};
     break;
   }
 
-  if(found === null) return -1;
+  if(found === null)
+    return -1;
 
-  opened.splice(found, 1);
-  update(null);
+  let {index, container} = found;
+
+  // get the dom node from the react component
+  let node = ReactDOM.findDOMNode(container)
+
+  // unmount the react component
+  ReactDOM.unmountComponentAtNode(node);
+
+  // remove the parent node (container)
+  node.parentNode.removeChild(node);
+
+  // remove this item and return the id
+  stack.splice(index, 1);
+
   return target_id;
 }
 
-function mount(target) {
-  if(mounted) {
-    console.warning("already mounted the notification engine");
-    return
-  }
+function flash(component, time = DEFAULT_FLASH_TIME) {
+  let id = add(component);
 
-  mounted = true;
-  ReactDOM.render(<NotificationBar />, target)
+  setTimeout(function() { remove(id); }, time);
+
+  return true;
 }
 
-export default {add, remove, mount};
+function mount(target) {
+  mountpoint = target;
+}
+
+export default {add, remove, mount, flash};

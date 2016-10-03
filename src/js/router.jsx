@@ -1,4 +1,5 @@
-import Notification from "./services/notes";
+import NotificationManager from "./services/notes";
+import Notification from "./components/hoc/notification";
 
 /* router
  *
@@ -35,13 +36,13 @@ function route(definition) {
   // the route's resolve function
   function render({default: View}) {
     let container = document.getElementById("main");
-    Notification.remove(context.note_id);
 
     for(let i = 0, c =  listeners.length; i < c; i++) {
       let {event, fn} = listeners[i];
       if(event === "route") fn();
     }
 
+    NotificationManager.remove(context.note);
     ReactDOM.render(<View resolved={context.resolution} />, container);
   }
 
@@ -50,7 +51,7 @@ function route(definition) {
   // error route.
   function failed(e) {
     let {code, url} = e || {};
-    Notification.remove(context.note_id);
+    NotificationManager.remove(context.note);
 
     // rejecton w/ redirect
     if(code === 300 && url && url.length >= 1)
@@ -73,9 +74,6 @@ function route(definition) {
   function handler() {
     let {note_id, dependencies} = context;
 
-    if(!note_id)
-      context.note_id = Notification.add("Loading");
-
     resolve.call(context)
       .then(success)
       .catch(failed);
@@ -87,14 +85,14 @@ function route(definition) {
   }
 
   function inject() {
-    context.note_id = Notification.add("Loading");
     require(resolve.$inject, injected);
   }
 
   function start(page_context) {
     let has_before = "function" === typeof before;
     let has_deps = resolve.$inject instanceof Array && resolve.$inject.length >= 1;
-    context = Object.assign({}, page_context)
+    context = Object.assign({}, page_context);
+    context.note = NotificationManager.add(<Notification><p>Loading...</p></Notification>);
     return (has_before ? before() : Q.resolve()).then(has_deps ? inject : handler).catch(failed);
   }
 

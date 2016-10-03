@@ -1,3 +1,4 @@
+import util from "../../services/util"
 import Popups from "../../services/popups";
 
 const TARGET_TOP_BUFFER = 3;
@@ -15,17 +16,21 @@ function ActionMenu(ButtonComponent, PopupComponent) {
   function open(event) {
     let target    = event.currentTarget;
     let bounding  = target.getBoundingClientRect();
-    let top       = bounding.top + bounding.height + TARGET_TOP_BUFFER;
+    let top       = util.dom.px(bounding.top + bounding.height + TARGET_TOP_BUFFER);
     let placement = {top};
 
     if(bounding.left > window.innerWidth * 0.5) {
-      placement.right = window.innerWidth - (bounding.left + bounding.width);
+      placement.right = util.dom.px(window.innerWidth - (bounding.left + bounding.width));
     } else {
-      placement.left = bounding.left;
+      placement.left = util.dom.px(bounding.left);
+    }
+
+    function close() {
+      Popups.close(popup);
     }
 
     // open the popup component with all of the props that were given to us
-    let popup = Popups.open(<PopupComponent {...this.props} />, placement);
+    let popup = Popups.open(<PopupComponent {...this.props} close={close} />, placement);
 
     // update our state with the popup id so we may close it on unmount
     this.setState({popup});

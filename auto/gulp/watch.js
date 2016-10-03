@@ -12,7 +12,7 @@ module.exports = function(gulp) {
   gulp.task("watch", ["default"], function() {
     gulp.watch(["**/*.js", "**/*.jsx"], {cwd: js_dir}, ["js"]);
     gulp.watch(["**/*.jade"], {cwd: html_dir}, ["html"]);
-    return gulp.watch(["**/*.sass", "**/*.scss"], {cwd: sass_dir}, ["sass"]);
+    return gulp.watch(["**/*.sass", "**/*.scss"], {cwd: sass_dir}, ["css"]);
   });
 
 };

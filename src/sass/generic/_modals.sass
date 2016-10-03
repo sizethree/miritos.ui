@@ -1,0 +1,26 @@
+.modal
+  @extend .position-fixed
+  @extend .width-50
+  @extend .height-50
+
+.modal__content-wrapper
+  @extend .display-table 
+  @extend .position-absolute
+  @extend .width-50
+  @extend .height-50
+  @extend .display-table--fixed
+  @extend .z-2
+
+.modal__screen
+  @extend .z-1
+  @extend .bg-black
+  @extend .opacity-10
+  @extend .position-absolute
+  @extend .left-0
+  @extend .top-0
+  @extend .width-50
+  @extend .height-50
+
+.modal__transclusion
+  max-height: 60vh
+  overflow-y: auto

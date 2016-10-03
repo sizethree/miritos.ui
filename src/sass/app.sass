@@ -26,11 +26,13 @@ html, body
 @import "materialize/sass/components/roboto"
 @import "materialize/sass/components/waves"
 @import "materialize/sass/components/dropdown"
+@import "materialize/sass/components/forms/file-input"
+@import "materialize/sass/components/forms/input-fields"
 
 @import "foundation-settings"
 @import "foundation-sites/scss/foundation"
 
-#popups
+#popups, #modals, #notes
   position: fixed
   left: 0
   top: 0
@@ -56,9 +58,14 @@ html, body
   @extend .position-relative
   @extend .opacity-50
 
+.input-field.margin-top-0
+  margin-top: 0 !important
+
 @import "generic/colors"
 @import "generic/radius"
 @import "generic/typography"
+@import "generic/modals"
+@import "generic/notes"
 
 @import "generic/inputs"
 @import "generic/buttons"

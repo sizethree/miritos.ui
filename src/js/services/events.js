@@ -22,7 +22,7 @@ class Engine {
 
   on(event, handler, context) {
     if(typeof handler !== "function") return -1;
-    let id = UUID();
+    let id = uuid();
     this.$listeners.push({id, handler, event, context});
     return id;
   }
@@ -55,4 +55,4 @@ class Engine {
 
 }
 
-export default {Engine};
+export {Engine};

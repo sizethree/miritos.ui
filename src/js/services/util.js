@@ -1,4 +1,5 @@
 import url from "./util/url";
+import dom from "./util/dom";
 
 /* util service
  *
@@ -18,4 +19,4 @@ function replace(a1, a2) {
   return a1;
 }
 
-export default {replace, pad, url};
+export default {replace, pad, url, dom};

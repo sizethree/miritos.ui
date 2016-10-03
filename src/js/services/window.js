@@ -16,7 +16,8 @@ import uuid from "./uuid";
  */
 
 let listeners = [];
-let bound = false;
+let bound     = false;
+let mouse     = {};
 
 function on(event_name, handler) {
   var id = uuid();
@@ -37,26 +38,46 @@ function off(id) {
   return -1;
 }
 
-function trigger(event) {
+function trigger(event, fn) {
   return function handler(e) {
-    let count = listeners.length;
-    for(let i = 0; i < count; i++) {
-      let l = listeners[i];
-      if(l.event_name !== event) continue;
-      l.handler(e);
+    if("function" === typeof fn) fn(e);
+
+    for(let i = 0, c = listeners.length; i < c; i++) {
+      let {event_name, handler, context} = listeners[i];
+      if(event_name === event) handler.call(context, e);
     }
+
     return true;
   };
+}
+
+function move(e) {
+  mouse.current = {x: e.clientX, y: e.clientY};
+}
+
+function down(e) {
+  mouse.start = {x: e.clientX, y: e.clientY};
+}
+
+function up(e) {
+  mouse.end = {x: e.clientX, y: e.clientY};
+}
+
+function click(e) {
+  // if this was a drag event - do nothing
+  if(mouse.start.x !== mouse.end.x || mouse.start.y !== mouse.end.y) return;
+  trigger("isoclick")(e);
 }
 
 function bind() {
   if(bound) { return false; }
   bound = true;
 
-  document.addEventListener("click", trigger("click"));
-  document.addEventListener("mousedown", trigger("mousedown"));
-  document.addEventListener("mousemove", trigger("mousemove"));
-  document.addEventListener("mouseup", trigger("mouseup"));
+  document.addEventListener("click", trigger("click", click));
+  document.addEventListener("mousedown", trigger("mousedown", down));
+  document.addEventListener("mousemove", trigger("mousemove", move));
+  document.addEventListener("mouseup", trigger("mouseup", up));
+  document.addEventListener("keyup", trigger("keyup"));
 }
 
 export default {on, off, bind};
