@@ -1,8 +1,10 @@
-export default function({resolved}) {
+import FeedDisplay from "../components/feed_display";
+
+export default function Dashboard({resolved}) {
+  let {feed_delegate} = resolved;
   return (
     <div className="clearfix row">
-      <div className="columns large-6">
-      </div>
+      <FeedDisplay delegate={feed_delegate} />
     </div>
   );
-};
+}

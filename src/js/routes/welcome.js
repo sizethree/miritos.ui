@@ -1,4 +1,3 @@
-
 function resolve() {
   return Q.resolve({new_user: true});
 }

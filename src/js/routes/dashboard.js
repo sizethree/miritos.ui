@@ -1,11 +1,20 @@
 import Auth from "../services/auth"
 
 function resolve() {
-  let user = Auth.user();
-  return Q.resolve({user});
+  let {dependencies} = this;
+  let [{Delegate}]  = dependencies;
+  let user          = Auth.user();
+  let feed_delegate = new Delegate();
+
+  function finish() {
+    return Q.resolve({feed_delegate});
+  }
+
+  return feed_delegate.load().then(finish);
 }
 
 resolve.$inject = [
+  "components/feed_display"
 ];
 
 let path = "/dashboard";
