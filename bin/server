@@ -13,6 +13,7 @@ const redis   = require("redis");
 const fs      = require("fs");
 const json5   = require("json5");
 const proxy   = require("express-http-proxy");
+const formi   = require("formidable");
 
 function btoa(str) {
   return new Buffer(str).toString("base64");
@@ -81,8 +82,10 @@ class Logger {
       return request;
     }
 
-    if(query && query.token)
+    if(query && query.token) {
+      logger.info(`found auth token: ${query.token}`);
       session.bearer_token = query.token;
+    }
 
     if(session.bearer_token)
       request.headers["X-CLIENT-BEARER-TOKEN"] = session.bearer_token;
@@ -107,6 +110,42 @@ class Logger {
     let {url} = req.query;
     let headers = {"X-CLIENT-AUTH": auth_header};
     request({url, headers}).pipe(res);
+  });
+
+  app.post("/api/photos", function(req, res) {
+    let form = new formi.IncomingForm();
+    let {session} = req;
+
+    function forward(err, forwarded_response, body) {
+      if(err) {
+        logger.error(err);
+        return res.status(400).send("");
+      }
+
+      res.json(JSON.parse(body));
+    }
+
+    function parsed(err, fields, files) {
+      let {photo} = files || {};
+
+      if(err || !photo) {
+        logger.error(err);
+        return res.status(400).send("");
+      }
+
+      let {label} = fields;
+      let headers  = {"X-CLIENT-AUTH": auth_header, "X-CLIENT-BEARER-TOKEN": session.bearer_token};
+      let formData = {label};
+
+      formData.photo = {
+        value: fs.createReadStream(photo.path),
+        options: {contentType: photo.type}
+      };
+
+      return request.post(`${api_url}/photos`, {formData, headers}, forward);
+    }
+
+    form.parse(req, parsed);
   });
 
   app.use("/api", proxy(api_url, {decorateRequest}));

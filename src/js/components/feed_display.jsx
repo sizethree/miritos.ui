@@ -8,7 +8,8 @@ function renderItem({activity, actor, object}) {
 
   switch(object_type) {
     case TYPES.PHOTO:
-      child = <img src={object} />;
+      let {url} = object;
+      child = <img src={`/object?url=${url}`} />;
       break;
   }
 
