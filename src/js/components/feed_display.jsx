@@ -1,6 +1,7 @@
 import fetch from "../services/fetch";
 import Activity from "../resources/activity";
 import TYPES from "../var/object_types";
+import FeedPhoto from "./feed_photo";
 
 function renderItem({activity, actor, object}) {
   let {object_type} = activity;
@@ -9,14 +10,15 @@ function renderItem({activity, actor, object}) {
   switch(object_type) {
     case TYPES.PHOTO:
       let {url} = object;
-      child = <img src={`/object?url=${url}`} />;
+      let full = `/object?url=${encodeURIComponent(url)}`;
+      child = <FeedPhoto activity={activity} actor={actor} object={object} />
       break;
   }
 
   if(child === null)
     return null;
 
-  return <div className="feed-display__feed-item" key={activity.id}>{child}</div>
+  return <div className="feed-display__feed-item float-left" key={activity.id}>{child}</div>
 }
 
 function notNull(x) {
@@ -28,7 +30,7 @@ function FeedDisplay({delegate}, context, {enqueueForceUpdate}) {
   let items  = feed.map(renderItem).filter(notNull);
 
   return (
-    <div className="clearfix feed-display">{items}</div>
+    <div className="clearfix feed-display position-relative">{items}</div>
   );
 }
 
