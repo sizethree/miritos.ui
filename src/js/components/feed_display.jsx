@@ -5,20 +5,18 @@ import FeedPhoto from "./feed_photo";
 
 function renderItem({activity, actor, object}) {
   let {object_type} = activity;
-  let child = null;
+  let Target = null;
 
   switch(object_type) {
     case TYPES.PHOTO:
-      let {url} = object;
-      let full = `/object?url=${encodeURIComponent(url)}`;
-      child = <FeedPhoto activity={activity} actor={actor} object={object} />
+      Target = FeedPhoto;
       break;
   }
 
-  if(child === null)
+  if(Target === null)
     return null;
 
-  return <div className="feed-display__feed-item float-left" key={activity.id}>{child}</div>
+  return <Target key={activity.id} activity={activity} object={object} actor={actor} />
 }
 
 function notNull(x) {

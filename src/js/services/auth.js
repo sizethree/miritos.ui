@@ -36,7 +36,7 @@ function prep() {
 
   let request = token ? {token} : {};
 
-  AuthResource.get(request, loaded);
+  AuthResource.user(request, loaded);
   return promise;
 }
 
