@@ -5,17 +5,14 @@ export default function render() {
   let right = Auth.user() ? <UserMenu /> : <div></div>;
 
   return (
-    <div className="clearfix padding-tb-5 lime lighten-3">
-      <div className="clearfix row position-relative">
-        <div className="display-table display-table--fixed width-50 height-50">
-          <div className="display-table-cell v-align-middle align-left">
-            <h5>CAAP</h5>
-          </div>
-          <div className="display-table-cell padding-tb-4 v-align-middle">
-            <div className="float-right">{right}</div>
-          </div>
+    <div className="clearfix row position-relative display-flex items-center">
+      <div className="float-left">
+        <img className="display-block float-left" src="/assets/img/logo-blue.svg" height="40px" />
+        <div className="display-block float-left margin-left-5">
+          <h5 className="upper"><a href="/">miritos</a></h5>
         </div>
       </div>
+      <div className="float-right margin-left-auto">{right}</div>
     </div>
   )
 };

@@ -1,4 +1,5 @@
-import AuthResource from "../resources/auth"
+import defer from "./defer";
+import AuthResource from "../resources/auth";
 
 let session = null;
 
@@ -11,10 +12,10 @@ function user() {
 }
 
 function prep() {
-  let {promise, resolve, reject} = Q.defer()
+  let {promise, resolve, reject} = defer.defer()
 
   if(session  && !(session.token || session.user))
-    return Q.resolve(false);
+    return defer.resolve(false);
 
   let {token} = session || {};
 
@@ -28,9 +29,12 @@ function prep() {
     if(err || !response || response.status !== "SUCCESS")
       return resolve(false);
 
-    let [user] = response.results;
+    let [user]  = response.results;
+    let {admin} = response.meta;
 
     session = shallow({}, {user});
+
+    session.is_admin = admin === true;
     resolve(true);
   }
 
@@ -45,5 +49,10 @@ function token(token) {
   session = shallow({}, {token});
 }
 
-const Auth = {user, prep, token};
+function isAdmin() {
+  return session.is_admin === true;
+}
+
+const Auth = {user, prep, token, isAdmin};
+
 export default Auth;

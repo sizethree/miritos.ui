@@ -1,5 +1,7 @@
-import NotificationManager from "./services/notes";
 import Notification from "./components/hoc/notification";
+import NotificationManager from "./services/notes";
+import uuid from "./services/uuid";
+import defer from "./services/defer";
 
 /* router
  *
@@ -20,7 +22,8 @@ import Notification from "./components/hoc/notification";
  */ 
 
 // scope a variable that will hold our loading notification id
-let listeners = [];
+let listeners       = [];
+let current_context = null;
 
 // route
 //
@@ -37,12 +40,16 @@ function route(definition) {
   function render({default: View}) {
     let container = document.getElementById("main");
 
+    if(current_context.cid !== context.cid)
+      return false;
+
     for(let i = 0, c =  listeners.length; i < c; i++) {
       let {event, fn} = listeners[i];
       if(event === "route") fn();
     }
 
     NotificationManager.remove(context.note);
+    current_context = null;
     ReactDOM.render(<View resolved={context.resolution} />, container);
   }
 
@@ -51,7 +58,15 @@ function route(definition) {
   // error route.
   function failed(e) {
     let {code, url} = e || {};
+
+    // no nothing if we've routed while here
+    if(context.cid !== current_context.cid)
+      return false;
+
     NotificationManager.remove(context.note);
+
+    // clear out the current context (we're done routing)
+    current_context = null;
 
     // rejecton w/ redirect
     if(code === 300 && url && url.length >= 1)
@@ -88,15 +103,24 @@ function route(definition) {
     require(resolve.$inject, injected);
   }
 
-  function start(page_context) {
+  return function start(page_context) {
     let has_before = "function" === typeof before;
     let has_deps = resolve.$inject instanceof Array && resolve.$inject.length >= 1;
-    context = Object.assign({}, page_context);
-    context.note = NotificationManager.add(<Notification><p>Loading...</p></Notification>);
-    return (has_before ? before() : Q.resolve()).then(has_deps ? inject : handler).catch(failed);
-  }
 
-  return start;
+    if(current_context !== null)
+      NotificationManager.remove(current_context.note);
+
+    let note = NotificationManager.add(<p>Loading...</p>);
+    let cid  = uuid();
+
+    // create the context w/ the note and context id
+    context = Object.assign({note, cid}, page_context);
+
+    // update the module's reference to the current context
+    current_context = context;
+
+    return (has_before ? before() : defer.resolve()).then(has_deps ? inject : handler).catch(failed);
+  }
 }
 
 function init(routes, {onRoute}) {

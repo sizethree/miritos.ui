@@ -9,7 +9,6 @@ const uglify  = require("gulp-uglify");
 const rjs     = require("gulp-requirejs-optimize");
 
 module.exports = function(gulp) {
-
   const base   = path.join(__dirname, "../../");
   const bundle = path.join(base, "dist/assets/vendors/bundle.js");
 
@@ -21,8 +20,11 @@ module.exports = function(gulp) {
     bower("q/q.js"),
     bower("page/page.js"),
     bower("flyby/flyby.js"),
+    bower("moment/moment.js"),
+    bower("redux/index.js"),
     bower("react/react.js"),
     bower("react/react-dom.js"),
+    bower("react-day-picker/dist/DayPicker.js"),
     bower("requirejs/require.js")
   ];
 
@@ -30,8 +32,11 @@ module.exports = function(gulp) {
     bower("q/q.js"),
     bower("page/page.js"),
     bower("flyby/flyby.js"),
+    bower("moment/min/moment.min.js"),
+    bower("redux_min/index.js"),
     bower("react/react.min.js"),
     bower("react/react-dom.min.js"),
+    bower("react-day-picker/dist/DayPicker.js"),
     bower("requirejs/require.js")
   ];
 
@@ -39,7 +44,7 @@ module.exports = function(gulp) {
   let plugins = ["external-helpers", "transform-es2015-modules-amd"];
 
   gulp.task("clean:js", function() {
-    return del([bundle]);
+    return del([bundle, path.join(base, "dist/assets/js")]);
   });
 
   gulp.task("js:vendors:release", function() {

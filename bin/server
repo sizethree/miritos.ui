@@ -107,8 +107,9 @@ class Logger {
   });
 
   app.get("/object", function(req, res) {
-    let {url} = req.query;
+    let {url: object_path} = req.query;
     let headers = {"X-CLIENT-AUTH": auth_header};
+    let url = `${api_url}${object_path}`;
     request({url, headers}).pipe(res);
   });
 
@@ -153,7 +154,7 @@ class Logger {
   // send the same index html for every request - this is a single
   // page application
   app.get("*", function(req, res, next) {
-    if(/png|gif|css|js|ttf/i.test(req.path)) return next();
+    if(/png|gif|css|js|ttf|jpeg|svg/i.test(req.path)) return next();
     res.sendFile(index);
   });
 

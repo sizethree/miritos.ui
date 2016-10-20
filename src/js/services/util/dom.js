@@ -2,6 +2,10 @@ function px(amt) {
   return `${amt}px`;
 }
 
+function remove(element) {
+  return element.parentNode.removeChild(element);
+}
+
 function contains(target, child) {
   let head = child.parentNode;
 
@@ -31,4 +35,4 @@ function create(tag, {style} = {}) {
   return element;
 }
 
-export default {contains, create, px};
+export default {contains, create, px, remove};

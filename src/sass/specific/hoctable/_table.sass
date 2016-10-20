@@ -1,0 +1,18 @@
+.hoctable-table
+  @extend .display-table
+  @extend .display-table--fixed
+
+.hoctable-date-picker input[type="text"]
+  @extend .margin-bottom-0
+
+.hoctable-date-picker__input,
+.hoctable-date-picker__toggle
+  @extend .display-table-cell
+  @extend .v-align-middle
+
+.hoctable-date-picker__input
+  +calc("width", "100% - 30px")
+
+.hoctable-date-picker__toggle
+  @extend .align-center
+  width: 30px

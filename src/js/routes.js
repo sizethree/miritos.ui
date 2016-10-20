@@ -4,6 +4,9 @@ import dashboard from "./routes/dashboard";
 // oauth bundle
 import oauth from "./routes/oauth/index";
 
+// admin bundle
+import admin from "./routes/admin/index";
+
 import index from "./routes/index";
 import error from "./routes/error";
 
@@ -16,6 +19,6 @@ let routes = [
   dashboard
 ];
 
-routes = routes.concat(oauth);
+routes = routes.concat(oauth).concat(admin);
 
 export default routes.concat(missing);

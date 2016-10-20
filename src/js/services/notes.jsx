@@ -1,5 +1,6 @@
 import uuid from "./uuid";
 import util from "./util";
+import Notification from "../components/hoc/notification";
 
 const DEFAULT_FLASH_TIME = 2500;
 
@@ -23,7 +24,7 @@ function add(component) {
   container.setAttribute("data-note-id", note_id);
 
   // render the modal into the newly created container
-  ReactDOM.render(component, container);
+  ReactDOM.render(<Notification>{component}</Notification>, container);
 
   // add that container to the modal root
   mountpoint.appendChild(container);

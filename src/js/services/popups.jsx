@@ -31,7 +31,6 @@ function open(component, placement) {
   ReactDOM.render(component, popup);
   root.appendChild(popup);
 
-
   // now we need to make sure the popup remains inside the bounds
   let bounding = popup.getBoundingClientRect();
   let ldist    = (bounding.left + bounding.width) - (window.innerWidth - GUTTER_WIDTH);

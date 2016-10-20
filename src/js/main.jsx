@@ -21,5 +21,6 @@ export function Start() {
     ReactDOM.render(<Header />, e("header"));
   }
 
+  ReactDOM.render(<Header />, e("header"));
   Router.init(routes, {onRoute});
 }

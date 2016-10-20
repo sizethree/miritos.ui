@@ -1,20 +1,22 @@
-import Auth from "../services/auth"
+import Auth from "../services/auth";
+import defer from "../services/defer";
 
 function resolve() {
   let {dependencies} = this;
-  let [{Delegate}]  = dependencies;
-  let user          = Auth.user();
+  let [{default: Delegate}] = dependencies;
+
+  // create the feed delegate
   let feed_delegate = new Delegate();
 
   function finish() {
-    return Q.resolve({feed_delegate});
+    return defer.resolve({feed_delegate});
   }
 
   return feed_delegate.load().then(finish);
 }
 
 resolve.$inject = [
-  "components/feed_display"
+  "services/delegates/feed"
 ];
 
 let path = "/dashboard";

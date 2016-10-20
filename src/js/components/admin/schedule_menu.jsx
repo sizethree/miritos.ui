@@ -1,5 +1,4 @@
-import Auth from "../services/auth";
-import ActionMenu from "./hoc/action_menu";
+import ActionMenu from "../hoc/action_menu";
 
 function Button() {
   return (
@@ -20,15 +19,6 @@ function Menu({close}) {
       <a onClick={logout} className="upper">logout</a>
     </li>
   )];
-
-  if(true === Auth.isAdmin()) {
-    let admin_link = (
-      <li className="position-relative margin-top-0" key="admin">
-        <a href="/admin/schedules" onClick={close} className="upper">admin</a>
-      </li>
-    );
-    items.push(admin_link);
-  }
 
   return (
     <div className="clearfix display-inline-block">
