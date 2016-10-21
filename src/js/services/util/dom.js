@@ -1,3 +1,6 @@
+import classes from "./dom/classes";
+import fx from "./dom/fx";
+
 function px(amt) {
   return `${amt}px`;
 }
@@ -35,4 +38,5 @@ function create(tag, {style} = {}) {
   return element;
 }
 
-export default {contains, create, px, remove};
+export default {classes, contains, create, px, remove, fx};
+

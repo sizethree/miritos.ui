@@ -1,13 +1,7 @@
-import transforms from "./util/transforms";
+import Resource from "../services/resource";
 
 const {ENV} = window;
-const {response} = transforms;
 
-let get = {
-  method: "GET",
-  transform: {response}
-};
-
-let DisplaySchedule = Flyby(`${ENV.API_HOME}/display-schedules`, null, {get});
+let DisplaySchedule = Resource(`${ENV.API_HOME}/display-schedules/:id`, {id: "@id"});
 
 export default DisplaySchedule;

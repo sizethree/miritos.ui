@@ -12,7 +12,7 @@ function PaginationFactory(PageTransclusion) {
     render() {
       let {store}    = this.props;
       let pagination = store.getState();
-    
+
       if(!pagination)
         return (<div className="hoctable-pagination--empty"></div>);
 

@@ -1,6 +1,6 @@
 function Factory({children}) {
   return (
-    <div className="notification">{children}</div>
+    <div className="truncate notification">{children}</div>
   );
 }
 

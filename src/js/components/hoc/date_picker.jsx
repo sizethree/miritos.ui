@@ -6,7 +6,7 @@ const TARGET_TOP_BUFFER = 3;
 const DATE_FORMAT       = "MMM Do, YYYY";
 
 function format(v) {
-  return moment(v.getTime()).format(DATE_FORMAT);
+  return moment(v).format(DATE_FORMAT);
 }
 
 function DatePickerFactory() {
@@ -24,6 +24,9 @@ function DatePickerFactory() {
       let label = "function" == typeof delegate.label ? delegate.label() : null;
       let value = delegate.value() ? format(delegate.value()) : "Not Set";
 
+      // prepare an array that will hold the min and max values of our range
+      let range = [];
+
       let children = [
         <input key="input" name={picker_id} placeholder={value} type="text" disabled />
       ];
@@ -40,9 +43,24 @@ function DatePickerFactory() {
         delegate.select(new_day).then(updated.bind(this));
       }
 
+      function disabled(day) {
+        let [min, max] = range;
+
+        // if there is neither a min nor a max, don't filter
+        if(!min && !max)
+          return false;
+
+        let time = day.getTime();
+
+        // if this date is behind the minimum, filter it out
+        if(min && time < min)
+          return true;
+
+        return max ? time >= max : false;
+      }
+
       function open({currentTarget: target}) {
         let bounding  = target.getBoundingClientRect();
-
         let top       = util.dom.px(bounding.top + bounding.height + TARGET_TOP_BUFFER);
         let placement = {top};
 
@@ -52,7 +70,10 @@ function DatePickerFactory() {
           placement.left = util.dom.px(bounding.left);
         }
 
-        let picker = <DayPicker onDayClick={select.bind(this)} />;
+        if("function" === typeof delegate.range)
+          range = delegate.range();
+
+        let picker = (<DayPicker onDayClick={select.bind(this)} disabledDays={disabled} />);
 
         this.popup = Popups.open(picker, placement);
       }

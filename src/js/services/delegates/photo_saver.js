@@ -60,6 +60,7 @@ class Delegate extends Engine {
     }
 
     function saved() {
+      photos.length = 0;
       this.trigger("saved");
     }
 

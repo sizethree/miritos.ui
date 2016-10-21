@@ -3,6 +3,7 @@ import util from "./util";
 import Notification from "../components/hoc/notification";
 
 const DEFAULT_FLASH_TIME = 2500;
+const REMOVAL_DELAY      = 800;
 
 /* Notes service
  *
@@ -51,14 +52,25 @@ function remove(target_id) {
 
   let {index, container} = found;
 
-  // get the dom node from the react component
-  let node = ReactDOM.findDOMNode(container)
+  function exec() {
+    // get the dom node from the react component
+    let node = ReactDOM.findDOMNode(container)
 
-  // unmount the react component
-  ReactDOM.unmountComponentAtNode(node);
+    // unmount the react component
+    ReactDOM.unmountComponentAtNode(node);
 
-  // remove the parent node (container)
-  node.parentNode.removeChild(node);
+    // remove the parent node (container)
+    node.parentNode.removeChild(node);
+  }
+
+  // fade starts the motion ui animation
+  function fade() {
+    // add the motion ui classes that will "lift" it off screen
+    util.dom.fx.slideOut(container).then(exec);
+  }
+
+  // prepare for removal
+  setTimeout(fade, REMOVAL_DELAY);
 
   // remove this item and return the id
   stack.splice(index, 1);

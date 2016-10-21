@@ -1,7 +1,9 @@
 import util from "../../util";
 import defer from "../../defer";
 import DisplaySchedule from "../../../resources/display_schedule";
+import DateDelegate from "./schedule_date";
 import Activity from "../../../resources/activity";
+import {Engine} from "../../events";
 
 let COLUMNS = [{
   rel: "start",
@@ -40,9 +42,10 @@ let COLUMNS = [{
   sortable: false
 }];
 
-export default class ScheduleDelegate {
+export default class ScheduleDelegate extends Engine {
 
   constructor() {
+    super();
     this.schedules  = [];
     this.activities = [];
   }
@@ -55,11 +58,20 @@ export default class ScheduleDelegate {
     let {schedules, activities} = this;
     let {pagination, sorting}   = store.getState();
     let orderby = sorting.order ? sorting.rel : `-${sorting.rel}`;
-    let total   = null;
+    let {current: page, size: limit} = pagination;
+    let total = null;
+
+    let update = (function() { this.trigger("update"); }).bind(this);
 
     function toRow(schedule) {
       let [activity] = activities.filter(function({id}) { return id === schedule.activity; });
-      return {schedule, activity};
+
+      let delegates  = {
+        start: new DateDelegate("start", schedule),
+        end: new DateDelegate("end", schedule)
+      };
+
+      return {schedule, activity, delegates, signals: {update}};
     }
 
     function loadedActivity(err, result) {
@@ -69,15 +81,21 @@ export default class ScheduleDelegate {
       callback(rows, total);
     }
 
-    function loadedSchedules(err, result) {
-      if(err) return callback([{error: true}], 0);
+    function failed(err) {
+      console.error(err);
+      return callback([{error: true}], 0);
+    }
+
+    function loadedSchedules(result) {
       total = result.$meta.total;
       util.replace(schedules, result);
       let activities = result.map(function({activity}) { return activity; });
       Activity.get({"filter[id]": `in(${activities.join(",")})`}, loadedActivity);
     }
 
-    DisplaySchedule.get({orderby}, loadedSchedules);
+    DisplaySchedule.get({orderby, page, limit})
+      .then(loadedSchedules)
+      .catch(failed);
   }
 
 }
