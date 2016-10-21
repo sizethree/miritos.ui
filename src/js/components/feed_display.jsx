@@ -14,7 +14,11 @@ function renderItem({activity, actor, object}) {
   if(Target === null)
     return null;
 
-  return <Target key={activity.id} activity={activity} object={object} actor={actor} />
+  return (
+    <div className="float-left" key={activity.id}>
+      <Target key={activity.id} activity={activity} object={object} actor={actor} />
+    </div>
+  );
 }
 
 function notNull(x) {
@@ -24,10 +28,7 @@ function notNull(x) {
 function FeedDisplay({delegate}, context, {enqueueForceUpdate}) {
   let {feed} = delegate;
   let items  = feed.map(renderItem).filter(notNull);
-
-  return (
-    <div className="clearfix feed-display position-relative">{items}</div>
-  );
+  return (<div className="clearfix feed-display position-relative">{items}</div>);
 }
 
 export default FeedDisplay;

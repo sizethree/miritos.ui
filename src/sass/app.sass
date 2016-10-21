@@ -52,28 +52,6 @@ header#header, footer#footer
   @extend .height-0
   @extend .align-center
 
-#notes
-  @extend .position-fixed
-  @extend .top-0
-  @extend .height-0
-  @extend .left-25
-  @extend .width-0
-
-#notes [data-note-id]
-  @extend .position-relative
-  @extend .align-center
-  @extend .display-block
-
-#notes [data-note-id] .notification
-  @extend .display-inline-block
-  @extend .padding-tb-5
-  @extend .padding-lr-8
-  @extend .light-blue.darken-1
-  @extend .radius-1
-  @extend .margin-bottom-2
-  @extend .z-depth-1
-  @extend .fg-white
-
 +foundation-grid
 
 main#main
@@ -114,12 +92,14 @@ main#main
 .input-field.margin-top-0
   margin-top: 0 !important
 
+// layers (e.g modals, notes, popups...)
+@import "layers/notes"
+@import "layers/modals"
 
 // generic classes
 @import "generic/colors"
 @import "generic/radius"
 @import "generic/typography"
-@import "generic/modals"
 @import "generic/inputs"
 @import "generic/buttons"
 

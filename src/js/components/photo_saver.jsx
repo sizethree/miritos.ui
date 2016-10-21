@@ -1,24 +1,9 @@
-import NotificationManager from "../services/notes";
-import Notification from "../components/hoc/notification";
+import Notes from "../services/notes";
 import Photo from "../resources/photo";
 import {Engine} from "../services/events";
 
 const LOADING_IMAGE = "http://placehold.it/350x150";
-const IMAGE_STYLE   = {"maxWidth": "400px", "maxHeight": "500px"};
-
-function read(file) {
-  let {promise, reject, resolve} = Q.defer();
-  let reader = new FileReader();
-
-  reader.onload = function onload({target}) {
-    let {result} = target;
-    return (result && result.length >= 1) ? resolve(result) : reject(new Error("BAD_FILE"));
-  };
-
-  reader.readAsDataURL(file);
-
-  return promise;
-};
+const IMAGE_STYLE   = {"maxWidth": "50vw", "maxHeight": "50vh"};
 
 function NextButton({next}) {
   return (
@@ -54,7 +39,7 @@ Saver.prototype.render = function() {
   }
 
   function clean() {
-    NotificationManager.remove(note);
+    Notes.remove(note);
     this.state.busy = false;
   }
 
@@ -65,7 +50,7 @@ Saver.prototype.render = function() {
   function save() {
     if(this.state.busy === true) return false;
 
-    note = NotificationManager.add(<p>saving...</p>);
+    note = Notes.add(<p>saving...</p>);
     this.setState({busy: true, note});
 
     return delegate.save()
@@ -112,78 +97,5 @@ Saver.prototype.render = function() {
     </div>
   );
 }
-
-Saver.Delegate = class Delegate extends Engine {
-
-  constructor() {
-    super();
-    this.photos = [];
-    this.index  = 0;
-  }
-
-  get length() {
-    let {length} = this.photos;
-    return length;
-  }
-
-  get src() {
-    let {photos, index} = this;
-    return photos[index].data;
-  }
-
-  updateCaption(text) {
-    let {index, photos} = this;
-    photos[index].caption = text;
-  }
-
-  save() {
-    let {photos} = this;
-
-    function save(item) {
-      let {file, caption} = item;
-      let {promise, resolve, reject} = Q.defer();
-
-      function finished(err, result) {
-        if(err) return reject(new Error("FAILED_SAVE"));
-        resolve(result[0]);
-      }
-
-      if(!caption || true !== caption.length >= 1)
-        return Q.reject(new Error("BAD_CAPTION"));
-
-      Photo.create({photo: file, label: caption}, finished);
-      return promise;
-    }
-
-    function saved() {
-      this.trigger("saved");
-    }
-
-    let saves = Q.all(photos.map(save));
-    saves.fin(saved.bind(this));
-    return saves;
-  }
-
-  load(files) {
-    let {photos} = this;
-
-    function load(file) {
-      let item = {file};
-
-      function loaded(image_data) {
-        item.data = image_data;
-        photos.push(item);
-        return Q.resolve(image_data);
-      }
-
-      return read(file).then(loaded);
-    }
-
-    let promises = files.map(load);
-    return Q.all(promises);
-  }
-
-}
-
 
 export default Saver;

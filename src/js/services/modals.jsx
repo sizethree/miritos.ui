@@ -23,6 +23,8 @@ function open(component, options) {
 
   stack.push({id, container});
 
+  document.body.style.overflow = "hidden";
+
   return id;
 }
 
@@ -54,6 +56,9 @@ function close(target_id) {
 
   // remove this item and return the id
   stack.splice(index, 1);
+
+  if(stack.length === 0)
+    document.body.style.overflow = "";
 
   return target_id;
 }

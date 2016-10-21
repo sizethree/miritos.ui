@@ -1,6 +1,7 @@
 import defer from "../defer";
 import Activity from "../../resources/activity";
 import fetch from "../fetch";
+import util from "../util";
 
 let {ENV} = window;
 
@@ -14,8 +15,10 @@ export default class Delegate {
     let {feed} = this;
     let {promise, resolve, reject} = defer.defer();
     let activity = null;
+    let new_feed = [];
 
     function finished(results) {
+      util.replace(feed, new_feed);
       return resolve(feed);
     }
 
@@ -29,8 +32,8 @@ export default class Delegate {
         let [actor]   = actor_response.results;
         let [object]  = object_response.results;
         let feed_item = {object, actor, activity: item};
-        feed.push(feed_item);
-        defer.resolve(feed_item);
+        new_feed.push(feed_item);
+        return defer.resolve(feed_item);
       }
 
       return defer.all([
