@@ -70,8 +70,10 @@ a
   @extend .fg-link
   text-decoration: none
 
-.fs-5
-  font-size: 5rem
+@for $i from 1 through 10
+
+  .fs-#{$i}, .fs-#{$i}:before
+    font-size: $i + unquote("rem")
 
 .text-display p, .text-display h4
   margin-bottom: 1rem

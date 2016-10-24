@@ -1,5 +1,6 @@
 import i18n from "../services/i18n";
 import Basic from "./account/basic_info";
+import Links from "./account/linked_accounts";
 
 class AccountSettings extends React.Component {
 
@@ -24,6 +25,7 @@ class AccountSettings extends React.Component {
         <div className="row">
           <div className="columns large-6">
             <h6 className="fg-white-darken-25">{i18n("linked_accounts")}</h6>
+            <div className="clearfix"><Links delegate={account_delegate} /></div>
           </div>
         </div>
       </div>

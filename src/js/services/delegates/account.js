@@ -4,6 +4,7 @@ import defer from "../defer";
 import User from "../../resources/user";
 import ClientToken from "../../resources/client_token";
 import Client from "../../resources/client";
+import GoogleAccount from "../../resources/google_account";
 
 function store(initial) {
   function reduce(state, payload) {
@@ -30,9 +31,10 @@ function store(initial) {
 export default class AccountDelegate {
 
   constructor(user) {
-    this.user    = user;
-    this.clients = [];
-    this.tokens  = [];
+    this.user            = user;
+    this.clients         = [];
+    this.tokens          = [];
+    this.linked_accounts = {};
     this.store   = store({user});
   }
 
@@ -66,15 +68,16 @@ export default class AccountDelegate {
   }
 
   refresh() {
-    let {user, tokens, clients} = this;
+    let {user, tokens, clients, linked_accounts} = this;
 
     function finish(client_data) {
       util.replace(clients, client_data)
       return defer.resolve(true);
     }
 
-    function success([user_results, client_tokens]) {
+    function success([user_results, client_tokens, google_accounts]) {
       let [user_data] = user_results;
+      linked_accounts.google = google_accounts;
 
       // update our user object with the fresh user data
       Object.assign(user, user_data);
@@ -93,7 +96,8 @@ export default class AccountDelegate {
 
     return defer.all([
       User.get({"filter[id]": `eq(${user.id})`}),
-      ClientToken.get({"filter[user]": `eq(${user.id})`})
+      ClientToken.get({"filter[user]": `eq(${user.id})`}),
+      GoogleAccount.get({"filter[user]": `eq(${user.id})`})
     ]).then(success);
   }
 
