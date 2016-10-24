@@ -1,4 +1,5 @@
 import Auth from "../services/auth";
+import i18n from "../services/i18n";
 import ActionMenu from "./hoc/action_menu";
 
 function Button() {
@@ -20,13 +21,13 @@ function Menu({close}) {
   }
 
   let items = [
-    option("logout", (<a onClick={logout} className="upper">logout</a>)),
-    option("account", (<a href="/account" onClick={close} className="upper">account</a>)),
-    option("dashboard", (<a href="/dashboard" onClick={close} className="upper">dashboard</a>))
+    option("logout", (<a onClick={logout}>{i18n("logout")}</a>)),
+    option("account", (<a href="/account" onClick={close}>{i18n("account")}</a>)),
+    option("dashboard", (<a href="/dashboard" onClick={close}>{i18n("dashboard")}</a>))
   ];
 
   if(true === Auth.isAdmin()) {
-    let admin_link = option("admin", (<a href="/admin/schedules" onClick={close} className="upper">admin</a>));
+    let admin_link = option("admin", (<a href="/admin" onClick={close}>{i18n("admin")}</a>));
     items.push(admin_link);
   }
 

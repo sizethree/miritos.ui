@@ -6,6 +6,11 @@ function time(x) {
   return moment(x).toDate().getTime();
 }
 
+function daybreak(x) {
+  let day = moment(x);
+  return day.seconds(0).minutes(0).hours(0).toDate();
+}
+
 class DateDelegate {
 
   constructor(field, schedule) {
@@ -22,7 +27,7 @@ class DateDelegate {
     let note = Notes.add(<p>Updating, please wait...</p>);
 
     let updates = {id: schedule.id};
-    updates[this.field] = new_day;
+    updates[this.field] = daybreak(new_day);
 
     function failed(err) {
       Notes.remove(note);
@@ -43,7 +48,7 @@ class DateDelegate {
 
   range() {
     let {schedule, field} = this;
-    let min = new Date().getTime();
+    let min = daybreak();
     let max = null;
 
     if(field === "end" && schedule.start)

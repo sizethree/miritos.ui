@@ -1,11 +1,9 @@
 import Auth from "../../services/auth";
 import defer from "../../services/defer";
 import Delegate from "../../services/delegates/admin/schedules";
+import filters from "../../services/routing/filters";
 
 function resolve() {
-  if(true !== Auth.isAdmin()) 
-    return defer.reject({});
-
   function sorting(current, action) {
     let result = Object.assign({}, current);
     return result;
@@ -26,6 +24,6 @@ function resolve() {
 
 let path   = "/admin/schedules";
 let view   = "views/admin/schedules";
-let before = Auth.prep;
+let before = filters.admin;
 
 export default {path, view, resolve, before};

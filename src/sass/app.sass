@@ -20,6 +20,7 @@
 
 // materialze classes
 @import "materialize/sass/components/global"
+@import "materialize/sass/components/cards"
 @import "materialize/sass/components/typography"
 @import "materialize/sass/components/navbar"
 @import "materialize/sass/components/buttons"
@@ -62,24 +63,11 @@ main#main
   @extend .z-7
   @extend .padding-tb-20
 
-// things missing from bases
-.display-table--fixed
-  table-layout: fixed
-
-.margin-right-auto
-  margin-right: auto
-
-.margin-left-auto
-  margin-left: auto
-
 .pointer
   cursor: pointer
 
 .overflow-hidden
   overflow: hidden
-
-.display-flex
-  display: flex
 
 .items-center
   align-items: center
@@ -87,23 +75,21 @@ main#main
 .outline-none
   outline: none
 
-.dropdown-content.display-block
-  @extend .display-block
-  @extend .position-relative
-  @extend .opacity-50
-
-.input-field.margin-top-0
-  margin-top: 0 !important
-
 // layers (e.g modals, notes, popups...)
 @import "layers/notes"
 @import "layers/modals"
 
 // generic classes
+@import "generic/display"
+@import "generic/margins"
 @import "generic/colors"
 @import "generic/radius"
 @import "generic/typography"
-@import "generic/inputs"
-@import "generic/buttons"
 
-@import "specifics"
+@import "overrides/cards"
+@import "overrides/inputs"
+@import "overrides/dropdowns"
+
+@import "specific/daypicker"
+@import "specific/hoctable/table"
+@import "specific/signup-form"

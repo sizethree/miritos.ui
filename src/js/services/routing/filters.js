@@ -5,4 +5,8 @@ function authenticated() {
   return Auth.user() ? defer.resolve(true) : defer.reject({url: "/welcome", code: 300});
 }
 
-export default {authenticated};
+function admin() {
+  return Auth.isAdmin() ? defer.resolve(true) : defer.reject({url: "/welcome", code: 300});
+}
+
+export default {admin, authenticated};

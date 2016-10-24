@@ -50,7 +50,7 @@ function token(token) {
 }
 
 function isAdmin() {
-  return session.is_admin === true;
+  return session && session.is_admin === true;
 }
 
 const Auth = {user, prep, token, isAdmin};
