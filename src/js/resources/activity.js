@@ -1,11 +1,7 @@
-import transforms from "./util/transforms";
+import Resource from "../services/resource";
 
 const {ENV} = window;
-const {response} = transforms;
 
-let get = {
-  method: "GET",
-  transform: {response}
-};
+let Activity = Resource(`${ENV.API_HOME}/activity/:id`, {id: "@id"});
 
-export default Flyby(`${ENV.API_HOME}/activity`, null, {get});
+export default Activity;

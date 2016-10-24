@@ -10,7 +10,7 @@ class Dashboard extends React.Component {
 
     function photo() {
       let {feed_delegate} = this.props.resolved;
-      feed_delegate.load().then(update);
+      feed_delegate.load().then(function() { update(); });
     }
 
     this.photo_delegate = new PhotoDelegate();

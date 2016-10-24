@@ -1,4 +1,5 @@
 import i18n from "../services/i18n";
+import Basic from "./account/basic_info";
 
 class AccountSettings extends React.Component {
 
@@ -7,13 +8,23 @@ class AccountSettings extends React.Component {
   }
 
   render() {
+    let {delegate: account_delegate} = this.props;
+
     return (
-      <div className="account-settings row">
-        <div className="columns large-6">
-          <h6 className="fg-white-darken-25">{i18n("basic_info")}</h6>
+      <div className="account-settings">
+        <div className="row">
+          <div className="columns large-6">
+            <h6 className="fg-white-darken-25">{i18n("basic_info")}</h6>
+            <div className="clearfix"><Basic delegate={account_delegate} /></div>
+          </div>
+          <div className="columns large-6">
+            <h6 className="fg-white-darken-25">{i18n("clients")}</h6>
+          </div>
         </div>
-        <div className="columns large-6">
-          <h6 className="fg-white-darken-25">{i18n("clients")}</h6>
+        <div className="row">
+          <div className="columns large-6">
+            <h6 className="fg-white-darken-25">{i18n("linked_accounts")}</h6>
+          </div>
         </div>
       </div>
     );

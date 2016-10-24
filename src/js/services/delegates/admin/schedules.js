@@ -74,11 +74,11 @@ export default class ScheduleDelegate extends Engine {
       return {schedule, activity, delegates, signals: {update}};
     }
 
-    function loadedActivity(err, result) {
-      if(err) return callback([{error: true}], 0);
+    function loadedActivity(result) {
       util.replace(activities, result);
       let rows = schedules.map(toRow);
       callback(rows, total);
+      return defer.resolve(rows);
     }
 
     function failed(err) {
@@ -90,10 +90,15 @@ export default class ScheduleDelegate extends Engine {
       total = result.$meta.total;
       util.replace(schedules, result);
       let activities = result.map(function({activity}) { return activity; });
-      Activity.get({"filter[id]": `in(${activities.join(",")})`}, loadedActivity);
+
+      if(activities.length === 0)
+        return loadedActivity([]);
+
+      return Activity.get({"filter[id]": `in(${activities.join(",")})`})
+        .then(loadedActivity);
     }
 
-    DisplaySchedule.get({orderby, page, limit})
+    return DisplaySchedule.get({orderby, page, limit})
       .then(loadedSchedules)
       .catch(failed);
   }

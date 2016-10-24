@@ -5,12 +5,64 @@ import User from "../../resources/user";
 import ClientToken from "../../resources/client_token";
 import Client from "../../resources/client";
 
+function store(initial) {
+  function reduce(state, payload) {
+    let result = Object.assign({revisions: state.revisions || 0}, state);
+    let {type} = payload;
+    let {user} = state;
+
+    if(type === "CLEAR_REVISIONS")
+      return Object.assign({revisions: 0}, initial);
+
+    if(type === "USER_UPDATE") {
+      let {field, value} = payload;
+      result.user = Object.assign(user, {[field]: value});
+      result.revisions += 1;
+      return result;
+    }
+
+    return result;
+  }
+
+  return Redux.createStore(reduce, initial);
+}
+
 export default class AccountDelegate {
 
   constructor(user) {
     this.user    = user;
     this.clients = [];
     this.tokens  = [];
+    this.store   = store({user});
+  }
+
+  get latest() {
+    return this.store.getState();
+  }
+
+  subscribe(fn) {
+    return this.store.subscribe(fn);
+  }
+
+  dispatch(payload) {
+    return this.store.dispatch(payload);
+  }
+
+  save() {
+    let {latest, store} = this;
+    let {user} = latest;
+    let refresh = this.refresh.bind(this);
+
+    function finished() {
+      store.dispatch({type: "CLEAR_REVISIONS"});
+      return defer.resolve(true);
+    }
+
+    function success() {
+      return refresh().then(finished);
+    }
+
+    return User.update(user).then(success);
   }
 
   refresh() {
