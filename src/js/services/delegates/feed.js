@@ -56,7 +56,7 @@ export default class Delegate {
         .then(finished);
     }
 
-    return Activity.get(null).then(loaded);
+    return Activity.feed(null).then(loaded);
   }
 
 }

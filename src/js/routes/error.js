@@ -7,4 +7,4 @@ function resolve() {
 let view = "views/error";
 let path = "/error"
 
-export default {resolve, view, path};
+export default {resolve, view, path, guest: true};

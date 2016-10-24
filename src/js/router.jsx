@@ -119,7 +119,7 @@ function route(definition) {
     // update the module's reference to the current context
     current_context = context;
 
-    return Auth.prep()
+    return (definition.guest ? defer.resolve(true) : Auth.prep())
       .then(has_before ? before : defer.resolve)
       .then(has_deps ? inject : handler)
       .catch(failed);
