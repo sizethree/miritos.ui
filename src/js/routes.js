@@ -1,5 +1,6 @@
 import welcome from "./routes/welcome";
 import dashboard from "./routes/dashboard";
+import account from "./routes/account";
 
 // oauth bundle
 import oauth from "./routes/oauth/index";
@@ -13,10 +14,11 @@ import error from "./routes/error";
 import missing from "./routes/missing";
 
 let routes = [
+  dashboard,
   welcome,
+  account,
   index,
-  error,
-  dashboard
+  error
 ];
 
 routes = routes.concat(oauth).concat(admin);

@@ -1,5 +1,7 @@
+import defer from "../services/defer";
+
 function resolve() {
-  return Q.resolve(true);
+  return defer.resolve(true);
 }
 
 let view = "views/error";

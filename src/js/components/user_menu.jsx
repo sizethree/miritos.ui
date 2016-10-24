@@ -9,24 +9,25 @@ function Button() {
   )
 }
 
+    
+function option(key, child) { 
+  return (<li className="position-relative margin-top-0" key={key}>{child}</li>); 
+}
+
 function Menu({close}) {
   function logout() {
     window.location = "/api/logout";
     close();
   }
 
-  let items = [(
-    <li className="position-relative margin-top-0" key="logout">
-      <a onClick={logout} className="upper">logout</a>
-    </li>
-  )];
+  let items = [
+    option("logout", (<a onClick={logout} className="upper">logout</a>)),
+    option("account", (<a href="/account" onClick={close} className="upper">account</a>)),
+    option("dashboard", (<a href="/dashboard" onClick={close} className="upper">dashboard</a>))
+  ];
 
   if(true === Auth.isAdmin()) {
-    let admin_link = (
-      <li className="position-relative margin-top-0" key="admin">
-        <a href="/admin/schedules" onClick={close} className="upper">admin</a>
-      </li>
-    );
+    let admin_link = option("admin", (<a href="/admin/schedules" onClick={close} className="upper">admin</a>));
     items.push(admin_link);
   }
 

@@ -1,3 +1,4 @@
+import Auth from "./services/auth";
 import Notification from "./components/hoc/notification";
 import NotificationManager from "./services/notes";
 import uuid from "./services/uuid";
@@ -40,7 +41,7 @@ function route(definition) {
   function render({default: View}) {
     let container = document.getElementById("main");
 
-    if(current_context.cid !== context.cid)
+    if(current_context && current_context.cid !== context.cid)
       return false;
 
     for(let i = 0, c =  listeners.length; i < c; i++) {
@@ -75,6 +76,8 @@ function route(definition) {
     console.error(e.stack);
 
     page("/error");
+
+    return defer.reject(e);
   }
 
   // success
@@ -107,10 +110,7 @@ function route(definition) {
     let has_before = "function" === typeof before;
     let has_deps = resolve.$inject instanceof Array && resolve.$inject.length >= 1;
 
-    if(current_context !== null)
-      NotificationManager.remove(current_context.note);
-
-    let note = NotificationManager.add(<p>Loading...</p>);
+    let note = current_context ? current_context.note : NotificationManager.add(<p>Loading...</p>);
     let cid  = uuid();
 
     // create the context w/ the note and context id
@@ -119,7 +119,10 @@ function route(definition) {
     // update the module's reference to the current context
     current_context = context;
 
-    return (has_before ? before() : defer.resolve()).then(has_deps ? inject : handler).catch(failed);
+    return Auth.prep()
+      .then(has_before ? before : defer.resolve)
+      .then(has_deps ? inject : handler)
+      .catch(failed);
   }
 }
 
