@@ -1,3 +1,4 @@
+import i18n from "../../services/i18n";
 import Table from "../../components/admin/schedule_table";
 
 class Schedules extends React.Component {
@@ -21,7 +22,7 @@ class Schedules extends React.Component {
 
     return (
       <div className="clearfix row collapse">
-        <h5>Schedule Management</h5>
+        <h5>{i18n("schedule_management")}</h5>
         <div className="margin-top-5 clearfix">
           <Table delegate={table_delegate} store={table_store} />
         </div>

@@ -27,7 +27,7 @@ module.exports = function(gulp) {
   gulp.task("css", ["clean:css"], function() {
     let outputStyle = "expanded";
     return gulp.src(source)
-      .pipe(sass({outputStyle, includePaths}).on("error", sass.logError))
+      .pipe(sass({outputStyle, includePaths, sourceComments: true}).on("error", sass.logError))
       .pipe(gulp.dest(destination));
   });
 

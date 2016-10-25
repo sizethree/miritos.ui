@@ -4,8 +4,8 @@ import ActionMenu from "./hoc/action_menu";
 
 function Button() {
   return (
-    <div className="display-inline-block">
-      <a className="waves-effect waves-light btn"><i className="icon ion-navicon-round"></i></a>
+    <div className="user-menu">
+      <a className="user-menu__toggle"><i className="icon ion-navicon-round"></i></a>
     </div>
   )
 }

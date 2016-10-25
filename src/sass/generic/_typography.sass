@@ -70,10 +70,21 @@ a
   @extend .fg-link
   text-decoration: none
 
-@for $i from 1 through 10
+@for $i from 1 through 4
+  .lh-#{$i}, .lh-#{$i}:before 
+    line-height: $i + unquote("rem")
 
   .fs-#{$i}, .fs-#{$i}:before
     font-size: $i + unquote("rem")
+
+  @for $j from 1 through 9
+    $amt: $i + ($j * 0.10)
+
+    .lh-#{$i}-#{$j}, .lh-#{$i}-#{$j}:before 
+      line-height: $amt + unquote("rem")
+
+    .fs-#{$i}-#{$j}, .fs-#{$i}-#{$j}:before
+      font-size: $amt + unquote("rem")
 
 .text-display p, .text-display h4
   margin-bottom: 1rem

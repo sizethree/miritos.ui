@@ -2,23 +2,11 @@ import Auth from "../../services/auth";
 import defer from "../../services/defer";
 import Delegate from "../../services/delegates/admin/schedules";
 import filters from "../../services/routing/filters";
+import tableStore from "../../services/store_factories/paged_table";
 
 function resolve() {
-  function sorting(current, action) {
-    let result = Object.assign({}, current);
-    return result;
-  }
-
-  function pagination(current, action) {
-    let result = Object.assign({}, current);
-    return result;
-  }
-
   let table_delegate = new Delegate();
-  let table_store    = Redux.createStore(Redux.combineReducers({sorting, pagination}), {
-    sorting: {rel: "start"},
-    pagination: {size: 10, current: 0}
-  });
+  let table_store    = tableStore("start", 10);
   return defer.resolve({table_delegate, table_store});
 }
 

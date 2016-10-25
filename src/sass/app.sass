@@ -1,10 +1,10 @@
-// base imports all our variables and mixins that do not output any css
-// but will be available in the rest of the stylesheet.
-@import "base"
-
 // import the mixins+variables we need from materialze and foundation
 @import "materialize/sass/components/mixins"
 @import "foundation-sites/scss/foundation"
+
+// base imports all our variables and mixins that do not output any css
+// but will be available in the rest of the stylesheet.
+@import "base"
 
 // at this point we have all of our settings and our mixins available to us,
 // its now time to start dumping some tangible rules out into the stylesheet.
@@ -42,11 +42,6 @@ html, body
   
 html *, body *
   box-sizing: border-box
-
-header#header, footer#footer
-  @extend .grey
-  @extend .darken-3
-  @extend .padding-tb-5
 
 #popups, #modals
   @extend .position-fixed
@@ -86,10 +81,12 @@ main#main
 @import "generic/radius"
 @import "generic/typography"
 
+@import "overrides/buttons"
 @import "overrides/cards"
 @import "overrides/inputs"
 @import "overrides/dropdowns"
 
+@import "specific/header"
 @import "specific/daypicker"
 @import "specific/hoctable/table"
 @import "specific/signup-form"
