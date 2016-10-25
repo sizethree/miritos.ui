@@ -1,7 +1,7 @@
 header#header
   @extend .padding-tb-10
-  @extend .light-blue.lighten-5
-  @extend .white
+  @extend .bg-pri
+  @extend .white-text
   @extend .z-depth-1
 
 header#header .header
@@ -10,6 +10,9 @@ header#header .header
   @extend .position-relative 
   @extend .display-flex 
   @extend .items-center
+
+header#header .header a
+  @extend .fg-black
 
 header#header .header__left
   @extend .float-left

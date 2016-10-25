@@ -10,7 +10,6 @@ class Index extends React.Component {
   render() {
     return (
       <div className="admin-index">
-        <div className="margin-bottom-10"><Nav /></div>
         <div className="row clearfix">
           <div className="columns large-6 small-12">
             <div className="card grey lighten-5">

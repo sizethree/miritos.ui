@@ -366,7 +366,7 @@ $colors: (
   @return null;
 }
 
-$primary-color: color("brown", "lighten-5");
+$primary-color: color("blue", "darken-1");
 $primary-color-light: lighten($primary-color, 15%);
 $primary-color-dark: darken($primary-color, 15%);
 $secondary-color: color("blue", "darken-1");
