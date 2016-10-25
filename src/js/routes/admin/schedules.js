@@ -1,8 +1,8 @@
-import Auth from "../../services/auth";
-import defer from "../../services/defer";
-import Delegate from "../../services/delegates/admin/schedules";
-import filters from "../../services/routing/filters";
-import tableStore from "../../services/store_factories/paged_table";
+import Auth from "services/auth";
+import defer from "services/defer";
+import Delegate from "services/delegates/admin/schedules";
+import filters from "services/routing/filters";
+import tableStore from "services/store_factories/paged_table";
 
 function resolve() {
   let table_delegate = new Delegate();

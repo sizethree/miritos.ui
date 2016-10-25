@@ -1,3 +1,4 @@
+import i18n from "../../services/i18n";
 import ActionMenu from "../hoc/action_menu";
 import Schedule from "../../resources/display_schedule";
 import Notes from "../../services/notes";
@@ -20,7 +21,7 @@ function Menu({close, signals, schedule}) {
 
   function update() {
     let updates = Object.assign({}, this, {id: schedule.id});
-    let note    = Notes.add(<p className="truncate">Updating activity, please wait...</p>);
+    let note    = Notes.add(<p className="truncate">{i18n("updating_please_wait")}</p>);
 
     function success() {
       // todo - fill this in with good stuff
@@ -45,17 +46,17 @@ function Menu({close, signals, schedule}) {
 
   // if this schedule item is pending but has start/end either approve or deny
   if(pending || schedule.approval === "APPROVED")
-    items.push(option("reject", <a className="upper" onClick={update.bind({approval: "REJECTED"})}>reject</a>));
+    items.push(option("reject", <a onClick={update.bind({approval: "REJECTED"})}>{i18n("reject")}</a>));
 
   // if the item is pending approval but has both a start and end date, allow the user
   // to approve it.
   if((pending || schedule.approval === "REJECTED") && schedule.start && schedule.end)
-    items.push(option("approve", <a className="upper" onClick={update.bind({approval: "APPROVED"})}>approve</a>));
+    items.push(option("approve", <a onClick={update.bind({approval: "APPROVED"})}>{i18n("approve")}</a>));
 
   return (
-    <div className="clearfix display-inline-block">
-      <ul className="user-menu clearfix dropdown-content active display-block">{items}</ul>
-    </div>
+    <section className="dropdown">
+      <ul className="dropdown__option-list">{items}</ul>
+    </section>
   )
 }
 

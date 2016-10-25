@@ -1,6 +1,6 @@
-import i18n from "../../services/i18n";
-import Table from "../../components/admin/user_table"; 
-import Breadcrumbs from "../../components/breadcrumbs";
+import i18n from "services/i18n";
+import Table from "components/admin/user_table"; 
+import Breadcrumbs from "components/breadcrumbs";
 
 const CRUMBS = [{
   href: "/admin", 

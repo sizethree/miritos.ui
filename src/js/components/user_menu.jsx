@@ -32,9 +32,9 @@ function Menu({close}) {
   }
 
   return (
-    <div className="clearfix display-inline-block">
-      <ul className="user-menu clearfix dropdown-content active display-block">{items}</ul>
-    </div>
+    <section className="dropdown">
+      <ul className="dropdown__option-list">{items}</ul>
+    </section>
   )
 }
 

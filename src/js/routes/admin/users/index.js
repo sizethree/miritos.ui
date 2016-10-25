@@ -1,6 +1,6 @@
-import defer from "../../services/defer";
-import filters from "../../services/routing/filters";
-import tableStore from "../../services/store_factories/paged_table";
+import defer from "services/defer";
+import filters from "services/routing/filters";
+import tableStore from "services/store_factories/paged_table";
 
 function resolve() {
   let {dependencies} = this;
@@ -15,6 +15,6 @@ resolve.$inject = [
 ];
 
 let path = "/admin/users";
-let view = "views/admin/users";
+let view = "views/admin/users/index";
 
 export default {resolve, path, view};
