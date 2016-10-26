@@ -40,6 +40,16 @@ function rand(min, max) {
   return Math.floor(theta + min);
 }
 
+function reset(list_element) {
+  if(!list_element) return;
+  let {childNodes: children} = list_element;
+
+  for(let i = 0, c = children.length; i < c; i++) {
+    let child = children[i];
+    Object.assign(child.style, {width: "", height: "", top: "", left: ""});
+  }
+}
+
 function reposition(list_element) {
   if(!list_element) return;
   let {props} = this;
@@ -56,10 +66,12 @@ function reposition(list_element) {
     let colspan = rand(MIN_COLSPAN, MAX_COLSPAN);
     let rowspan = rand(MIN_ROWSPAN, MAX_ROWSPAN);
     let {width, height, left, top} = grid.occupy(colspan, rowspan);
-    console.log(`width[${width}] height[${height}] left[${left}] top[${top}]`);
-  }
 
-  console.log(`rendering at ${width}x${height}`);
+    child.style.left = `${left}px`;
+    child.style.height = `${height}px`;
+    child.style.width = `${width}px`;
+    child.style.top = `${top}px`;
+  }
 }
 
 class FeedDisplay extends React.Component {
@@ -85,7 +97,8 @@ class FeedDisplay extends React.Component {
       let {viewport} = this.refs;
       let {current}  = Viewport.fullscreen;
 
-      if(current) 
+      // if this call happened because we just opened, do nothing.
+      if(current)
         return false;
 
       Viewport.off(listeners.fullscreen);
@@ -117,7 +130,7 @@ class FeedDisplay extends React.Component {
         <div className="feed-display__controls clearfix">
           <a className="btn float-right" onClick={screen_action}><i className={`${screen_icon} icon`}></i></a>
         </div>
-        <div className="feed-display__item-list" ref={is_fs ? reposition.bind(this) : "list"}>{items}</div>
+        <div className="feed-display__item-list" ref={(is_fs ? reposition : reset).bind(this)}>{items}</div>
       </div>
     );
   }
