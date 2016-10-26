@@ -1,5 +1,5 @@
-import classes from "./dom/classes";
-import fx from "./dom/fx";
+import classes from "services/util/dom/classes";
+import fx from "services/util/dom/fx";
 
 function px(amt) {
   return `${amt}px`;

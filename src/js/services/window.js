@@ -1,4 +1,4 @@
-import uuid from "./uuid";
+import uuid from "services/uuid";
 
 /* viewport service
  *
@@ -78,6 +78,50 @@ function bind() {
   document.addEventListener("mousemove", trigger("mousemove", move));
   document.addEventListener("mouseup", trigger("mouseup", up));
   document.addEventListener("keyup", trigger("keyup"));
+  document.addEventListener("keyup", trigger("keyup"));
+
+  let vendors = [
+    "onfullscreenchange",
+    "onwebkitfullscreenchange",
+    "onmozfullscreenchange",
+    "onmsfullscreenchange"
+  ];
+
+  for(let i = 0, c = vendors.length; i < c; i++) {
+    let name = vendors[i];
+    document[name] = trigger("fullscreen");
+  }
 }
 
-export default {on, off, bind};
+const ENTER_FULLSCREEN = ["requestFullscreen", "webkitRequestFullscreen", "mozRequestFullscreen"];
+const EXIT_FULLSCREEN  = ["exitFullscreen", "webkitExitFullscreen", "mozExitFullscreen"];
+
+function fullscreen(el) {
+  let fn      = null;
+  let vendors = (el === null ? EXIT_FULLSCREEN : ENTER_FULLSCREEN).slice(0);
+
+  if(el === null)
+    el = document;
+
+  while(!fn && vendors.length) {
+    let name = vendors.shift();
+    fn = el[name];
+  }
+
+  return "function" === typeof fn ? (fn.call(el) || true) : null;
+}
+
+Object.defineProperty(fullscreen, "current", {
+  get() {
+    let vendors = ["fullscreenElement", "webkitFullscreenElement", "msFullscreenElement", "mozFullScreenElement"];
+    let result  = null;
+
+    while(!result && vendors.length) {
+      result = document[vendors.shift()];
+    }
+
+    return result;
+  }
+});
+
+export default {on, off, bind, fullscreen};

@@ -1,6 +1,6 @@
-import filters from "../services/routing/filters";
-import defer from "../services/defer";
-import Auth from "../services/auth";
+import filters from "services/routing/filters";
+import defer from "services/defer";
+import Auth from "services/auth";
 
 function resolve() {
   let user = Auth.user();

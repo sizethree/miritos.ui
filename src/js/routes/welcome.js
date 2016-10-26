@@ -1,8 +1,10 @@
+import defer from "services/defer";
+
 function resolve() {
-  return Q.resolve({new_user: true});
+  return defer.resolve({new_user: true});
 }
 
 let path = "/welcome";
 let view = "views/welcome";
 
-export default {resolve, view, path};
+export default {resolve, view, path, guest: true};

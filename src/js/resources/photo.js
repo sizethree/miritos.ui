@@ -1,4 +1,4 @@
-import transforms from "./util/transforms";
+import transforms from "resources/util/transforms";
 
 const {ENV} = window;
 const {response} = transforms;

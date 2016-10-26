@@ -1,6 +1,6 @@
-import Notes from "../services/notes";
-import Photo from "../resources/photo";
-import {Engine} from "../services/events";
+import Notes from "services/notes";
+import Photo from "resources/photo";
+import {Engine} from "services/events";
 
 const LOADING_IMAGE = "http://placehold.it/350x150";
 const IMAGE_STYLE   = {"maxWidth": "50vw", "maxHeight": "50vh"};

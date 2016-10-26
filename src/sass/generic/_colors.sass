@@ -1,6 +1,13 @@
+.bg-transparent
+  background-color: transparent !important
+
 +color-classes("link", $link-color, "link")
 +color-classes("secondary", $secondary-color, "sec")
 +color-classes("primary", $primary-color, "pri")
++color-classes("deep-blue", $color-deep-blue, "depblu")
+
+@for $i from 1 through 50
+  +color-classes("deep-blue-lighten-#{$i}", lighten($color-deep-blue, $i), "depblu-l#{$i}")
 
 body
   background-color: $secondary-color

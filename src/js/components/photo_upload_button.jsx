@@ -1,7 +1,7 @@
-import Notes from "../services/notes";
-import Modals from "../services/modals";
-import defer from "../services/defer";
-import Saver from "./photo_saver";
+import Notes from "services/notes";
+import Modals from "services/modals";
+import defer from "services/defer";
+import Saver from "components/photo_saver";
 
 function start({target}) {
   let {files}    = target;

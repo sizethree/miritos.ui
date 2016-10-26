@@ -366,6 +366,7 @@ $colors: (
   @return null;
 }
 
+$color-deep-blue: darken(color("blue", "darken-4"), 30);
 $primary-color: color("blue", "darken-1");
 $primary-color-light: lighten($primary-color, 15%);
 $primary-color-dark: darken($primary-color, 15%);
