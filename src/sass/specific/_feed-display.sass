@@ -31,13 +31,42 @@
   @extend .left-0
   @extend .top-0
 
+.feed-display .feed-display__feed-photo-container
+  @extend .position-relative
+  @extend .display-block
+
+.feed-display .feed-display__feed-photo-container img
+  @extend .position-relative
+  @extend .display-block
+  max-height: 256px
+  max-width: 256px
+  min-height: 20px
+  min-width: 20px
+
+.feed-display .feed-display__feed-photo-fs-background
+  @extend .position-absolute
+  @extend .width-50
+  @extend .height-50
+  @extend .left-0
+  @extend .top-0
+  @extend .display-none
+  background-size: cover
+  background-position: center center
+  background-repeat: none
+
 .feed-display .feed-display__feed-photo
   @extend .display-block
+  @extend .position-relative
+  @extend .float-left
   @extend .width-50
   @extend .height-50
   @extend .bg-primary
-  min-height: 20px
-  min-width: 20px
+
+.feed-display.fullscreen .feed-display__feed-photo-container
+  @extend .display-none
+
+.feed-display.fullscreen .feed-display__feed-photo-fs-background
+  @extend .display-block
 
 .feed-display.fullscreen .feed-display__feed-photo
   @extend .position-absolute
