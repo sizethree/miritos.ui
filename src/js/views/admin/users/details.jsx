@@ -19,9 +19,9 @@ class Details extends React.Component {
 
   render() {
     let {resolved} = this.props;
-    let {user, role_mappings} = resolved;
+    let {user, role_manager} = resolved;
 
-    let crumbs = CRUMBS.concat([{href: `/admin/users/${user.id}`, text: `${user.name} (${user.id})`}]);
+    let crumbs = CRUMBS.concat([{href: `/admin/users/${user.id}`, text: `${user.name} [#${user.id}]`}]);
 
     return (
       <div className="row">
@@ -31,7 +31,7 @@ class Details extends React.Component {
             <div className="margin-bottom-5">
               <h5 className="fg-white-darken-20">{i18n("role_management")}</h5>
             </div>
-            <RoleManagement mappings={role_mappings} user={user} />
+            <RoleManagement manager={role_manager} user={user} />
           </div>
         </div>
       </div>

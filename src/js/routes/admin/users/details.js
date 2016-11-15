@@ -3,24 +3,25 @@ import filters from "services/routing/filters";
 
 function resolve() {
   let {params, dependencies} = this;
-  let [{default: User}, {default: Mapping}] = dependencies;
+  let [{default: User}, {default: Manager}] = dependencies;
 
-  function success([[user], role_mappings]) {
-    return defer.resolve({user, role_mappings});
+  let role_manager = new Manager({id: params.id});
+
+  function success([[user]]) {
+    return defer.resolve({user, role_manager});
   }
 
   let user_request = {"filter[id]": `eq(${params.id})`};
-  let role_request = {"filter[user]": `eq(${params.id})`};
 
   return defer.all([
     User.get(user_request),
-    Mapping.get(role_request)
+    role_manager.refresh()
   ]).then(success);
 }
 
 resolve.$inject = [
   "resources/user",
-  "resources/user_role_mapping"
+  "services/managers/user_roles"
 ];
 
 let path = "/admin/users/:id";

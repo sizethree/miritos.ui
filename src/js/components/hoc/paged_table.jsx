@@ -1,42 +1,7 @@
-import TableFactory from "./table";
-import PaginationFactory from "./pagination";
-import util from "../../services/util";
-
-class Proxy {
-
-  constructor(delegate, store, actions) {
-    this.delegate = delegate;
-    this.cache    = [];
-    this.temp     = false;
-    this.actions  = actions;
-  }
-
-  rows(store, callback) {
-    let {delegate, actions, cache, temp} = this;
-
-    // if we're being called because the paged table is re-rendering - e.g it received 
-    // a new "total" from the api - we know to use the previously loaded data.
-    if(temp === true)
-      return callback(cache);
-
-    // once the real delegate has finished loading it's data, we should update our cache
-    // of the row data, send that along to the waiting table, and let the paged table know
-    // that it has a new total.
-    function loaded(rows, total) {
-      util.replace(cache, rows);
-      callback(rows);
-      actions.update({total});
-    }
-
-    delegate.rows(store, loaded);
-  }
-
-  columns() {
-    let {delegate} = this;
-    return delegate.columns();
-  }
-
-}
+import TableFactory from "components/hoc/table";
+import PaginationFactory from "components/hoc/pagination";
+import util from "services/util";
+import uuid from "services/uuid";
 
 function PagedTableFactory(RowTransclusion, ColumnTransclusion, PageTransclusion) {
   let Table      = TableFactory(RowTransclusion, ColumnTransclusion);
@@ -47,22 +12,34 @@ function PagedTableFactory(RowTransclusion, ColumnTransclusion, PageTransclusion
     constructor(props) {
       super(props);
       let {store, delegate} = props;
+      let cache = props.cache || [];
 
-      function update({total}) {
-        // let the proxy know that we're only asking for rows b/c we're re-rendering.
-        // this will cause it to use the last set of rows from the server.
-        this.proxy.temp = true;
+      function rows(store, callback) {
+        let {temp} = this;
 
-        // update our internal knowledge of the toal amount of rows (triggers render)
-        this.setState({total});
+        // if we're being called because the paged table is re-rendering - e.g it received 
+        // a new "total" from the api - we know to use the previously loaded data.
+        if(temp === true)
+          return callback(cache);
 
-        // clear out the temp flag - next time we ask for rows, we mean it.
-        this.proxy.temp = false;
+        // once the real delegate has finished loading it's data, we should update our cache
+        // of the row data, send that along to the waiting table, and let the paged table know
+        // that it has a new total.
+        function loaded(rows, total) {
+          util.replace(cache, rows);
+          callback(rows);
+        }
+
+        delegate.rows(store, loaded.bind(this));
+      }
+
+      function columns() {
+        return delegate.columns();
       }
 
       // create a proxy delegate that is smart about letting this component know
       // when it has loaded in new rows, and is able to be told to use cached data.
-      this.proxy = new Proxy(delegate, store, {update: update.bind(this)});
+      this.proxy = {rows: rows.bind(this), columns, uuid: uuid()};
     }
 
     componentWillUnmount() {

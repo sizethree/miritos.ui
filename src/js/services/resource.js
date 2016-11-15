@@ -7,7 +7,7 @@ const DEFAULT_ACTIONS = {
   get     : {method: "GET", has_body: false, transform: {response}},
   update  : {method: "PATCH", has_body: true, transform: {response}},
   create  : {method: "POST", has_body: true, transform: {response}},
-  destroy : {method: "POST", has_body: true, transform: {response}}
+  destroy : {method: "DELETE", has_body: true, transform: {response}}
 };
 
 export default function Resource(url_template, params, user_actions) {

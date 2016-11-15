@@ -1,6 +1,6 @@
-import uuid from "./uuid";
-import util from "./util";
-import Notification from "../components/hoc/notification";
+import uuid from "services/uuid";
+import util from "services/util";
+import Notification from "components/hoc/notification";
 
 const DEFAULT_FLASH_TIME = 2500;
 const REMOVAL_DELAY      = 800;

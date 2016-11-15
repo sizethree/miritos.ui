@@ -21,7 +21,7 @@ function open(component, options) {
   // add that container to the modal root
   root.appendChild(container);
 
-  stack.push({id, container});
+  stack.push({id, container, options});
 
   document.body.style.overflow = "hidden";
 
@@ -32,18 +32,18 @@ function close(target_id) {
   let found = null;
 
   for(let i = 0, c = stack.length; i < c; i++) {
-    let {id, container} = stack[i];
+    let {id, container, options} = stack[i];
 
     if(target_id !== id) continue;
 
-    found = {container, index: i};
+    found = {options, container, index: i};
     break;
   }
 
   if(found === null)
     return -1;
 
-  let {index, container} = found;
+  let {index, container, options} = found;
 
   // get the dom node from the react component
   let node = ReactDOM.findDOMNode(container)
@@ -59,6 +59,13 @@ function close(target_id) {
 
   if(stack.length === 0)
     document.body.style.overflow = "";
+
+  if(!options || !options.actions)
+    return target_id;
+
+  let {actions} = options;
+
+  if("function" === typeof actions.closed) actions.closed();
 
   return target_id;
 }
