@@ -3,13 +3,13 @@ import FeedPhoto from "components/feed/photo";
 import Viewport from "services/window";
 import Grid from "services/grid";
 
-const COLUMNS = 10;
+const COLUMNS = 30;
 
 const MIN_COLSPAN = 1;
-const MAX_COLSPAN = 2;
+const MAX_COLSPAN = 10;
 
 const MIN_ROWSPAN = 1;
-const MAX_ROWSPAN = 2;
+const MAX_ROWSPAN = 10;
 
 function renderItem({activity, actor, object}) {
   let {object_type} = activity;

@@ -44,7 +44,7 @@ module.exports = function(gulp) {
   let plugins = ["external-helpers", "transform-es2015-modules-amd"];
 
   gulp.task("clean:js", function() {
-    return del([bundle, path.join(base, "dist/assets/js")]);
+    return del([bundle, path.join(base, "dist/assets/js"), path.join(base, "tmp/js")]);
   });
 
   gulp.task("js:vendors:release", function() {

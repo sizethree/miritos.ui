@@ -1,5 +1,4 @@
 import i18n from "../../services/i18n";
-import Nav from "./nav";
 
 class Index extends React.Component {
 
