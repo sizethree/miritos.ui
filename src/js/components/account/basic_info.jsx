@@ -1,6 +1,7 @@
-import i18n from "../../services/i18n";
-import Notes from "../../services/notes";
-import defer from "../../services/defer";
+import i18n from "services/i18n";
+import Notes from "services/notes";
+import defer from "services/defer";
+import InputField from "components/forms/input_field";
 
 function Actions({delegate: account_delegate}) {
   let note = null;
@@ -57,32 +58,29 @@ class BasicInfo extends React.Component {
     let {user, revisions} = account_delegate.latest;
 
     function update({target}) {
-      let {value, dataset} = target;
-      let {field} = dataset;
+      let {value, attributes} = target;
+      let field = null;
+
+      for(let i = 0, c = attributes.length; i < c; i++) {
+        let {name, value} = attributes[i];
+        if(name !== "name") continue;
+        field = value;
+        break;
+      }
+
       account_delegate.dispatch({type: "USER_UPDATE", field, value});
     }
 
     let actions = revisions >= 1 ? <Actions delegate={account_delegate} /> : null;
+    let password = user.password === undefined ? "empty" : user.password;
 
     return (
       <div className="account-settings__basic-info">
         <div className="row position-relative clearfix">
-          <div className="input-field columns col large-12">
-            <input name="name" type="text" className="validate" value={user.name} onChange={update} data-field="name"/>
-            <label htmlFor="user_name" className="active">{i18n("name")}</label>
-          </div>
+          <InputField value={user.name} name={"name"} label={i18n("name")} type={"text"} update={update} />
         </div>
         <div className="row position-relative clearfix">
-          <div className="input-field columns col large-12">
-            <input name="email" type="text" className="validate" value={user.email} onChange={update} data-field="email" />
-            <label className="active" htmlFor="email">{i18n("email")}</label>
-          </div>
-        </div>
-        <div className="row position-relative clearfix">
-          <div className="input-field columns col large-12">
-            <input name="password" type="password" className="validate" value={user.password || "empty"} onChange={update} data-field="password" />
-            <label className="active" htmlFor="password">{i18n("password")}</label>
-          </div>
+          <InputField disabled={true} value={user.email} name={"email"} label={i18n("email")} type={"email"} update={update} />
         </div>
         <div className="row position-relative clearfix">{actions}</div>
       </div>

@@ -1,7 +1,7 @@
-import defer from "../defer";
-import Activity from "../../resources/activity";
-import fetch from "../fetch";
-import util from "../util";
+import defer from "services/defer";
+import Activity from "resources/activity";
+import fetch from "services/fetch";
+import util from "services/util";
 
 let {ENV} = window;
 

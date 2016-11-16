@@ -9,31 +9,21 @@ let COLUMNS = [{
   rel: "start",
   name: "Start",
   sortable: false,
-  style: {width: "30%"}
+  style: {width: "35%"}
 }, {
   rel: "end",
   name: "End",
-  style: {width: "30%"},
+  style: {width: "35%"},
   sortable: false
 }, {
   rel: "approval",
   name: "Approval",
-  style: {width: "10%"},
+  style: {width: "15%"},
   sortable: false
 }, {
   rel: "action",
   name: "Action",
-  style: {width: "10%"},
-  sortable: false
-}, {
-  rel: "object_type",
-  name: "Object Type",
-  style: {width: "10%"},
-  sortable: false
-}, {
-  rel: "actor_type",
-  name: "Actor Type",
-  style: {width: "10%"},
+  style: {width: "15%"},
   sortable: false
 }, {
   rel: "menu",

@@ -1,5 +1,5 @@
-import ColumnFactory from "./column";
-import util from "../../services/util";
+import ColumnFactory from "components/hoc/column";
+import util from "services/util";
 
 function TableFactory(RowTransclusion, ColumnTransclusion) {
   // compose our column component from the column hoc

@@ -1,10 +1,12 @@
-import Table from "../hoc/paged_table";
-import Notes from "../../services/notes";
-import defer from "../../services/defer";
-import DatePickerFactory from "../hoc/date_picker";
-import ScheduleMenu from "./schedule_menu";
-import TYPES from "../../var/object_types";
-import Schedule from "../../resources/display_schedule";
+import Table from "components/hoc/paged_table";
+import Notes from "services/notes";
+import defer from "services/defer";
+import DatePickerFactory from "components/hoc/date_picker";
+import ScheduleMenu from "components/admin/schedule_menu";
+import Callout from "components/admin/activity_item_callout";
+
+import TYPES from "var/object_types";
+import Schedule from "resources/display_schedule";
 
 let DatePicker = DatePickerFactory();
 
@@ -35,14 +37,8 @@ function Row({row: {schedule, activity, delegates, signals}}) {
       <td className="admin-schedule-row__approval">
         <p>{schedule.approval}</p>
       </td>
-      <td className="admin-schedule-row__approval">
-        <p>{activity.verb}</p>
-      </td>
-      <td className="admin-schedule-row__approval">
-        <p>{translateType(activity.object_type)}</p>
-      </td>
-      <td className="admin-schedule-row__approval">
-        <p>{translateType(activity.actor_type)}</p>
+      <td className="admin-schedule-row__callout">
+        <Callout activity={activity} />
       </td>
       <td className="admin-schedule-row__menu align-center">
         <ScheduleMenu schedule={schedule} signals={signals} />

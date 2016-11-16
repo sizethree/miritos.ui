@@ -17,7 +17,7 @@ function store(initial) {
 
     if(type === "USER_UPDATE") {
       let {field, value} = payload;
-      result.user = Object.assign(user, {[field]: value});
+      result.user = Object.assign({}, user, {[field]: value});
       result.revisions += 1;
       return result;
     }
