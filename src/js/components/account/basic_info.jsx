@@ -80,7 +80,7 @@ class BasicInfo extends React.Component {
           <InputField value={user.name} name={"name"} label={i18n("name")} type={"text"} update={update} />
         </div>
         <div className="row position-relative clearfix">
-          <InputField disabled={true} value={user.email} name={"email"} label={i18n("email")} type={"email"} update={update} />
+          <InputField value={user.email} name={"email"} label={i18n("email")} type={"email"} update={update} />
         </div>
         <div className="row position-relative clearfix">{actions}</div>
       </div>

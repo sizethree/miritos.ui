@@ -86,6 +86,8 @@ function route(definition) {
     if(context.cid !== active.cid)
       return false;
 
+    Notes.remove(active.note, guard);
+
     // clear out the current context (we're done routing)
     active = {};
 
