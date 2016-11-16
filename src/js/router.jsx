@@ -1,8 +1,17 @@
-import Auth from "./services/auth";
-import Notification from "./components/hoc/notification";
-import NotificationManager from "./services/notes";
-import uuid from "./services/uuid";
-import defer from "./services/defer";
+import i18n from "services/i18n";
+import Auth from "services/auth";
+import Notification from "components/hoc/notification";
+import Notes from "services/notes";
+import uuid from "services/uuid";
+import defer from "services/defer";
+
+function Loading() {
+  return (
+    <div className="loading">
+      <p className="black-text">{i18n("loading_please_wait")}</p>
+    </div>
+  );
+}
 
 /* router
  *
@@ -23,15 +32,27 @@ import defer from "./services/defer";
  */ 
 
 // scope a variable that will hold our loading notification id
-let listeners       = [];
-let current_context = null;
+let listeners = [];
+let active    = {};
+let last      = {};
+
+// guard
+//
+// given to every Notes.remove call, this function is called by the notes service
+// and is given a function that, when called, will abort the note's removal process
+// as well as a function that when called with a function, will tell the notes 
+// service to call the provided function when finished.
+function guard(abort, closed) {
+  last = {abort, note: active.note};
+  closed(function() { last = {}; });
+}
 
 // route
 //
 // @param {object} definition - an object with `resolve`, `view` and `path`
 function route(definition) {
   let {view, resolve, path, before} = definition;
-  let context      = null;
+  let context = null;
 
   // render
   //
@@ -41,7 +62,7 @@ function route(definition) {
   function render({default: View}) {
     let container = document.getElementById("main");
 
-    if(current_context && current_context.cid !== context.cid)
+    if(active && active.cid !== context.cid)
       return false;
 
     for(let i = 0, c =  listeners.length; i < c; i++) {
@@ -49,8 +70,9 @@ function route(definition) {
       if(event === "route") fn();
     }
 
-    NotificationManager.remove(context.note);
-    current_context = null;
+    Notes.remove(active.note, guard);
+
+    active = {};
     ReactDOM.render(<View resolved={context.resolution} />, container);
   }
 
@@ -61,13 +83,11 @@ function route(definition) {
     let {code, url} = e || {};
 
     // no nothing if we've routed while here
-    if(context.cid !== current_context.cid)
+    if(context.cid !== active.cid)
       return false;
 
-    NotificationManager.remove(context.note);
-
     // clear out the current context (we're done routing)
-    current_context = null;
+    active = {};
 
     // rejecton w/ redirect
     if(code === 300 && url && url.length >= 1)
@@ -110,14 +130,21 @@ function route(definition) {
     let has_before = "function" === typeof before;
     let has_deps = resolve.$inject instanceof Array && resolve.$inject.length >= 1;
 
-    let note = current_context ? current_context.note : NotificationManager.add(<p>Loading...</p>);
     let cid  = uuid();
 
+    // if there is an active note, abort it
+    if(last.note) {
+      active.note = last.note;
+      last.abort();
+    }
+
+    let note = active.note || Notes.add(<Loading />);
+
     // create the context w/ the note and context id
-    context = Object.assign({note, cid}, page_context);
+    context = Object.assign({cid, note}, page_context);
 
     // update the module's reference to the current context
-    current_context = context;
+    active = context;
 
     return (definition.guest ? defer.resolve(true) : Auth.prep())
       .then(has_before ? before : defer.resolve)

@@ -19,13 +19,13 @@ const REMOVAL_DELAY      = 800;
 let stack      = [];
 let mountpoint = false;
 
-function add(component) {
+function add(component, options) {
   let note_id   = uuid();
   let container = util.dom.create("div");
   container.setAttribute("data-note-id", note_id);
 
   // render the modal into the newly created container
-  ReactDOM.render(<Notification>{component}</Notification>, container);
+  ReactDOM.render(<Notification options={options}>{component}</Notification>, container);
 
   // add that container to the modal root
   mountpoint.appendChild(container);
@@ -35,7 +35,7 @@ function add(component) {
   return note_id;
 }
 
-function remove(target_id) {
+function remove(target_id, callback) {
   let found = null;
 
   for(let i = 0, c = stack.length; i < c; i++) {
@@ -52,6 +52,9 @@ function remove(target_id) {
 
   let {index, container} = found;
 
+  // prepare for removal
+  let removal = {timeout: setTimeout(fade, REMOVAL_DELAY)};
+
   function exec() {
     // get the dom node from the react component
     let node = ReactDOM.findDOMNode(container)
@@ -61,6 +64,12 @@ function remove(target_id) {
 
     // remove the parent node (container)
     node.parentNode.removeChild(node);
+
+    if("function" === typeof removal.closed) removal.closed();
+  }
+
+  function closer(closed) {
+    removal.closed = closed;
   }
 
   // fade starts the motion ui animation
@@ -69,11 +78,16 @@ function remove(target_id) {
     util.dom.fx.slideOut(container).then(exec);
   }
 
-  // prepare for removal
-  setTimeout(fade, REMOVAL_DELAY);
-
   // remove this item and return the id
   stack.splice(index, 1);
+
+  function abort() {
+    clearTimeout(removal.timeout);
+    stack.push({id: target_id, container});
+  }
+
+  if("function" === typeof callback)
+    callback(abort, closer);
 
   return target_id;
 }

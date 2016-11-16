@@ -7,9 +7,8 @@ export default function render() {
   return (
     <div className="header">
       <div className="header__left">
-        <img className="display-block float-left" src="/assets/img/logo.svg" height="40px" />
         <div className="display-block float-left margin-left-5">
-          <h5 className="upper"><a href={home_link}>miritos</a></h5>
+          <h5><a href={home_link} className="white-text"><span className="fw-300">Corporate </span><span className="fw-700">ActivityAggregation</span><span className="fw-300"> Platform</span></a></h5>
         </div>
       </div>
       <div className="header__right">{right}</div>

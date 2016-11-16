@@ -18,6 +18,7 @@ const en = {
   hello_world: "Hello world",
   id: "ID",
   linked_accounts: "Linked Accounts",
+  loading_please_wait: "Loading, please wait...",
   logout: "Logout",
   name: "Name",
   password: "Password",
