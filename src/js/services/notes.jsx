@@ -1,3 +1,4 @@
+/** @module services/notes */
 import uuid from "services/uuid";
 import util from "services/util";
 import Notification from "components/hoc/notification";
@@ -5,20 +6,15 @@ import Notification from "components/hoc/notification";
 const DEFAULT_FLASH_TIME = 2500;
 const REMOVAL_DELAY      = 800;
 
-/* Notes service
- *
- *
- * This service allows components, routes, and any other module to add notifications
- * to the screen. Each call to `add` returns a unique id string similar to the Event
- * class' `on` function.
- *
- * The notifications themselves are then added to the single NotificationBar instance
- * which gets mounted during application startup.
- */
-
 let stack      = [];
 let mountpoint = false;
 
+/**
+ * This function takes a react component and will add it into the `notes` layer.
+ * @function
+ * @param {ReactComponent} component - A react component.
+ * @param {Object} options - Options that will be sent to the notification.
+ */
 function add(component, options) {
   let note_id   = uuid();
   let container = util.dom.create("div");

@@ -7,13 +7,14 @@ const babel   = require("gulp-babel");
 const helpers = require("gulp-babel-external-helpers");
 const uglify  = require("gulp-uglify");
 const rjs     = require("gulp-requirejs-optimize");
+const docs    = require("gulp-documentation");
+const loc     = require("../../locations");
 
 module.exports = function(gulp) {
-  const base   = path.join(__dirname, "../../");
-  const bundle = path.join(base, "dist/assets/vendors/bundle.js");
+  const bundle = path.join(loc.dist.app, "assets/vendors/bundle.js");
 
   function bower(lib_path) {
-    return path.join(base, "bower_components", lib_path);
+    return path.join(loc.base, "bower_components", lib_path);
   }
 
   let vendors = [
@@ -44,7 +45,18 @@ module.exports = function(gulp) {
   let plugins = ["external-helpers", "transform-es2015-modules-amd"];
 
   gulp.task("clean:js", function() {
-    return del([bundle, path.join(base, "dist/assets/js"), path.join(base, "tmp/js")]);
+    return del([
+      bundle, 
+      path.join(loc.dist.app, "assets/js"), 
+      path.join(loc.base, "tmp/js"),
+      path.join(loc.dist.docs, "js")
+    ]);
+  });
+
+  gulp.task("js:docs", function() {
+    return gulp.src(["**/*.js", "**/*.jsx"], {cwd: path.join(loc.base, "src/js")})
+      .pipe(docs("html"))
+      .pipe(gulp.dest(path.join(loc.dist.docs, "js")));
   });
 
   gulp.task("js:vendors:release", function() {
@@ -62,34 +74,34 @@ module.exports = function(gulp) {
   });
 
   gulp.task("js:babel", ["clean:js"], function() {
-    return gulp.src(["**/*.js", "**/*.jsx"], {cwd: path.join(base, "src/js")})
+    return gulp.src(["**/*.js", "**/*.jsx"], {cwd: path.join(loc.base, "src/js")})
       .pipe(babel({presets, plugins}))
       .pipe(helpers("helpers.js"))
-      .pipe(gulp.dest(path.join(base, "tmp/js")));
+      .pipe(gulp.dest(path.join(loc.base, "tmp/js")));
   });
 
   gulp.task("js:copy", ["js:babel", "js:vendors"], function() {
-    return gulp.src("**/*.js", {cwd: path.join(base, "tmp/js")})
-      .pipe(gulp.dest(path.join(base, "dist/assets/js")));
+    return gulp.src("**/*.js", {cwd: path.join(loc.base, "tmp/js")})
+      .pipe(gulp.dest(path.join(loc.dist.app, "assets/js")));
   });
 
   gulp.task("js:copy:release", ["js:babel", "js:vendors"], function() {
-    return gulp.src("**/*.js", {cwd: path.join(base, "tmp/js")})
-      .pipe(gulp.dest(path.join(base, "dist/assets/js")))
+    return gulp.src("**/*.js", {cwd: path.join(loc.base, "tmp/js")})
+      .pipe(gulp.dest(path.join(loc.dist.app, "assets/js")))
       .pipe(uglify())
-      .pipe(gulp.dest(path.join(base, "dist/assets/js")));
+      .pipe(gulp.dest(path.join(loc.dist.app, "assets/js")));
   });
 
   gulp.task("js:rjs", ["js:copy"], function() {
-    return gulp.src(["main.js"], {cwd: path.join(base, "tmp/js")})
+    return gulp.src(["main.js"], {cwd: path.join(loc.base, "tmp/js")})
       .pipe(rjs({optimize: "none"}))
-      .pipe(gulp.dest(path.join(base, "dist/assets/js")));
+      .pipe(gulp.dest(path.join(loc.dist.app, "assets/js")));
   });
 
   gulp.task("js:rjs:release", ["js:copy:release"], function() {
-    return gulp.src(["main.js"], {cwd: path.join(base, "tmp/js")})
+    return gulp.src(["main.js"], {cwd: path.join(loc.base, "tmp/js")})
       .pipe(rjs({optimize: "uglify"}))
-      .pipe(gulp.dest(path.join(base, "dist/assets/js")));
+      .pipe(gulp.dest(path.join(loc.dist.app, "assets/js")));
   });
 
   gulp.task("js", ["js:vendors", "js:rjs"]);

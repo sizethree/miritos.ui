@@ -3,15 +3,13 @@
 const path = require("path");
 const del  = require("del");
 const sass = require("gulp-sass");
+const loc  = require("../../locations");
 
 module.exports = function(gulp) {
 
-  let base         = path.join(__dirname, "../../");
-  let destination  = path.join(base, "dist/assets/css");
-  let source       = [path.join(base, "src/sass/app.sass")];
-  let includePaths = [
-    path.join(base, "bower_components")
-  ];
+  let destination  = path.join(loc.dist.app, "assets/css");
+  let source       = [path.join(loc.base, "src/sass/app.sass")];
+  let includePaths = [path.join(loc.base, "bower_components")];
 
   gulp.task("clean:css", function() {
     return del([destination]);

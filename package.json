@@ -6,12 +6,13 @@
     "build:debug": "gulp",
     "build:watch": "gulp watch",
     "build:release": "gulp release && npm run test",
+    "build:docs": "gulp js:docs",
     "clean": "gulp clean",
     "vendor:install": "bower i",
     "test": "npm run test:unit",
     "test:unit": "karma start --single-run=true --browsers=PhantomJS",
     "test:watch": "karma start --single-run=false --browsers=PhantomJS",
-    "server": "./bin/server"
+    "start": "./bin/server"
   },
   "repository": {
     "type": "git",
@@ -62,6 +63,8 @@
     "karma-phantomjs-launcher": "^1.0.1",
     "karma-requirejs": "^1.1.0",
     "redis": "^2.6.2",
-    "request": "^2.75.0"
+    "request": "^2.75.0",
+    "documentation": "^4.0.0-beta13",
+    "gulp-documentation": "^3.0.0"
   }
 }

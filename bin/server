@@ -14,6 +14,7 @@ const fs      = require("fs");
 const json5   = require("json5");
 const proxy   = require("express-http-proxy");
 const formi   = require("formidable");
+const loc     = require("../locations");
 
 function btoa(str) {
   return new Buffer(str).toString("base64");
@@ -55,8 +56,8 @@ class Logger {
 
   let port         = program.port || 8888;
   let app          = express();
-  let assets       = path.join(__dirname, "../dist");
-  let index        = path.join(__dirname, "../dist/index.html");
+  let assets       = loc.dist.app;
+  let index        = path.join(loc.dist.app, "index.html");
 
   let client_id     = process.env["API_CLIENT_ID"];
   let client_secret = process.env["API_CLIENT_SECRET"];
