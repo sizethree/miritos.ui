@@ -39,7 +39,7 @@ function ActionMenu(ButtonComponent, PopupComponent) {
   function render() {
     return (
       <div className="action-menu clearfix display-inline-block">
-        <div className="display-inline-block" onClick={this.open}><ButtonComponent /></div>
+        <div className="display-inline-block" onClick={this.open}><ButtonComponent {...this.props} /></div>
       </div>
     )
   }

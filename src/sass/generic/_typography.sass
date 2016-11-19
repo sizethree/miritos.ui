@@ -70,6 +70,13 @@ a
   @extend .fg-link
   text-decoration: none
 
+hr
+  @extend .display-block
+  @extend .width-50
+  @extend .bg-white-darken-10
+  border: 0
+  height: 1px
+
 @for $i from 1 through 4
   .lh-#{$i}, .lh-#{$i}:before 
     line-height: $i + unquote("rem")
