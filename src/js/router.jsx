@@ -1,20 +1,4 @@
-import i18n from "services/i18n";
-import Auth from "services/auth";
-import Notification from "components/hoc/notification";
-import Notes from "services/notes";
-import uuid from "services/uuid";
-import defer from "services/defer";
-
-function Loading() {
-  return (
-    <div className="loading">
-      <p className="black-text">{i18n("loading_please_wait")}</p>
-    </div>
-  );
-}
-
-/* router
- *
+/**
  * Heavily influence by angularjs, this module defines a routing engine using 
  * pagejs to handle the url/html5/pushstate logic. Each route defined by the 
  * application is made up of 3 main things:
@@ -29,7 +13,23 @@ function Loading() {
  * 3. a view - this is a react component that the router will mount onto the 
  * main view container, sending along the resolved data as properties of the
  * component.
+ *
+ * @module router
  */ 
+import i18n from "services/i18n";
+import Auth from "services/auth";
+import Notification from "components/hoc/notification";
+import Notes from "services/notes";
+import uuid from "services/uuid";
+import defer from "services/defer";
+
+function Loading() {
+  return (
+    <div className="loading">
+      <p className="black-text">{i18n("loading_please_wait")}</p>
+    </div>
+  );
+}
 
 // scope a variable that will hold our loading notification id
 let listeners = [];

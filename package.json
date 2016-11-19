@@ -7,6 +7,7 @@
     "build:watch": "gulp watch",
     "build:release": "gulp release && npm run test",
     "build:docs": "gulp js:docs",
+    "build:watch:docs": "gulp watch:docs",
     "clean": "gulp clean",
     "vendor:install": "bower i",
     "test": "npm run test:unit",
@@ -50,6 +51,7 @@
     "gulp-sass": "^3.0.0",
     "gulp-uglify": "^2.0.0",
     "gulp-util": "^3.0.7",
+    "gulp-yuidoc": "^0.1.2",
     "jasmine-ajax": "^3.2.0",
     "jasmine-core": "^2.5.2",
     "json5": "^0.5.0",
@@ -64,7 +66,6 @@
     "karma-requirejs": "^1.1.0",
     "redis": "^2.6.2",
     "request": "^2.75.0",
-    "documentation": "^4.0.0-beta13",
-    "gulp-documentation": "^3.0.0"
+    "yuidocjs": "^0.10.2"
   }
 }

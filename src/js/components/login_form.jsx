@@ -1,15 +1,13 @@
-let {API_HOME} = window.ENV;
+import i18n from "services/i18n";
+import GoogleLogin from "components/social/google_login";
+
 
 export default function render(props) {
-  let google_url = `${API_HOME}/login/google`;
-
-  function navigate() {
-    window.location = google_url;
-  }
-
   return (
     <div className="login-form clearfix">
-      <a className="waves-effect waves-light btn float-left" onClick={navigate}>login with google</a>
+      <div className="float-left">
+        <GoogleLogin />
+      </div>
     </div>
   );
 };

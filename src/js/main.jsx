@@ -12,16 +12,7 @@ function e(id) {
 }
 
 /**
- * This function is called from within the compiled `index.html` file and will
- * take care of:
- *
- * 1. Initializing the viewport to prepare for global events (drag, drop)
- * 2. Load in the i18n lang file based on the `locale` url query parameter
- * 3. Mount the notification, popup and modal layers for use
- * 4. Initialize the router and add register application routes
- *
- * Once all of these have been completed, the router takes over and starts handling
- * the current route.
+ * @method start
  */
 export function Start() {
   Viewport.bind();

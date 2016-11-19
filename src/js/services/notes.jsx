@@ -1,4 +1,12 @@
-/** @module services/notes */
+/** 
+ * The notes module is responsible for the management of "notifications" that
+ * can be used to display a message/component to the user at the top of the 
+ * screen. These are commonly used to communicate the application is performing
+ * an action, the action's "successfulness" upon completion and any other
+ * alert-worthy feedback that is helpful to display.
+ *
+ * @module notes
+ */
 import uuid from "services/uuid";
 import util from "services/util";
 import Notification from "components/hoc/notification";
@@ -11,9 +19,8 @@ let mountpoint = false;
 
 /**
  * This function takes a react component and will add it into the `notes` layer.
- * @function
- * @param {ReactComponent} component - A react component.
- * @param {Object} options - Options that will be sent to the notification.
+ *
+ * @method add
  */
 function add(component, options) {
   let note_id   = uuid();
@@ -31,6 +38,11 @@ function add(component, options) {
   return note_id;
 }
 
+/**
+ * This function takes a react component and will add it into the `notes` layer.
+ *
+ * @method remove
+ */
 function remove(target_id, callback) {
   let found = null;
 
