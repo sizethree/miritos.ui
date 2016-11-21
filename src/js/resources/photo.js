@@ -1,3 +1,4 @@
+import Resource from "services/resource";
 import transforms from "resources/util/transforms";
 
 const {ENV} = window;
@@ -20,6 +21,6 @@ create.transform.request = function(data) {
   return form;
 };
 
-let Photo = Flyby(`${ENV.API_HOME}/photos`, null, {create});
+let Photo = Resource(`${ENV.API_HOME}/photos/:id`, {id: "@id"}, {create});
 
 export default Photo;

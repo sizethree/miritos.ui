@@ -1,5 +1,6 @@
 import TYPES from "var/object_types";
 import FeedPhoto from "components/feed/photo";
+import FeedInsta from "components/feed/instagram";
 import Viewport from "services/window";
 import Grid from "services/grid";
 
@@ -16,6 +17,9 @@ function renderItem({activity, actor, object}) {
   let Target = null;
 
   switch(object_type) {
+    case TYPES.INSTAGRAM:
+      Target = FeedInsta;
+      break;
     case TYPES.PHOTO:
       Target = FeedPhoto;
       break;

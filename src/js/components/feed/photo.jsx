@@ -1,7 +1,7 @@
 const style = {maxWidth: "200px", maxHeight: "200px"};
 
 export default function FeedPhoto({activity, actor, object}) {
-  let {url, width, height} = object;
+  let {url, width, height} = object.object;
   let full_url = `/object?url=${encodeURIComponent(url)}`;
   let bg_style = {backgroundImage: `url(${full_url})`};
 

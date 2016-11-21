@@ -1,4 +1,4 @@
-export default function fetch(url) {
+function fetch(url) {
   let xhr = new XMLHttpRequest();
   let {promise, resolve, reject} = Q.defer();
 
@@ -27,3 +27,6 @@ export default function fetch(url) {
   xhr.send();
   return promise;
 }
+
+export default fetch;
+
