@@ -1,0 +1,7 @@
+@mixin transform($transforms) {
+	-webkit-transform: unquote($transforms);
+	-moz-transform: unquote($transforms);
+	-ms-transform: unquote($transforms);
+	transform: unquote($transforms);
+}
+

@@ -1,10 +1,11 @@
-import schedules from "./schedules";
+import system from "routes/admin/system";
+import schedules from "routes/admin/schedules";
 
-import user_index from "./users/index";
-import user_details from "./users/details";
+import user_index from "routes/admin/users/index";
+import user_details from "routes/admin/users/details";
 
-import defer from "../../services/defer";
-import filters from "../../services/routing/filters";
+import defer from "services/defer";
+import filters from "services/routing/filters";
 
 function resolve() {
   return defer.resolve(true);
@@ -16,5 +17,5 @@ let before = filters.admin;
 
 export default [
   {before, resolve, path, view}, 
-  schedules, user_index, user_details
+  schedules, user_index, user_details, system
 ];

@@ -76,13 +76,13 @@ class BasicInfo extends React.Component {
 
     return (
       <div className="account-settings__basic-info">
-        <div className="row position-relative clearfix">
+        <div className="row collapse position-relative clearfix margin-bottom-10">
           <InputField value={user.name} name={"name"} label={i18n("name")} type={"text"} update={update} />
         </div>
-        <div className="row position-relative clearfix">
+        <div className="row collapse position-relative clearfix margin-bottom-10">
           <InputField value={user.email} name={"email"} label={i18n("email")} type={"email"} update={update} />
         </div>
-        <div className="row position-relative clearfix">{actions}</div>
+        <div className="row collapse position-relative clearfix">{actions}</div>
       </div>
     );
   }

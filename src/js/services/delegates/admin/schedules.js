@@ -1,36 +1,10 @@
-import util from "../../util";
-import defer from "../../defer";
-import DisplaySchedule from "../../../resources/display_schedule";
-import DateDelegate from "./schedule_date";
-import Activity from "../../../resources/activity";
-import {Engine} from "../../events";
-
-let COLUMNS = [{
-  rel: "start",
-  name: "Start",
-  sortable: false,
-  style: {width: "35%"}
-}, {
-  rel: "end",
-  name: "End",
-  style: {width: "35%"},
-  sortable: false
-}, {
-  rel: "approval",
-  name: "Approval",
-  style: {width: "15%"},
-  sortable: false
-}, {
-  rel: "action",
-  name: "Action",
-  style: {width: "15%"},
-  sortable: false
-}, {
-  rel: "menu",
-  name: "",
-  style: {width: "80px"},
-  sortable: false
-}];
+import util from "services/util";
+import defer from "services/defer";
+import i18n from "services/i18n";
+import DisplaySchedule from "resources/display_schedule";
+import DateDelegate from "services/delegates/admin/schedule_date";
+import Activity from "resources/activity";
+import {Engine} from "services/events";
 
 export default class ScheduleDelegate extends Engine {
 
@@ -41,7 +15,32 @@ export default class ScheduleDelegate extends Engine {
   }
 
   columns() {
-    return COLUMNS;
+    return [{
+      rel: "start",
+      name: i18n("start"),
+      sortable: false,
+      style: {width: "35%"}
+    }, {
+      rel: "end",
+      name: i18n("end"),
+      style: {width: "35%"},
+      sortable: false
+    }, {
+      rel: "approval",
+      name: i18n("approval"),
+      style: {width: "15%"},
+      sortable: false
+    }, {
+      rel: "action",
+      name: i18n("action"),
+      style: {width: "15%"},
+      sortable: false
+    }, {
+      rel: "menu",
+      name: "",
+      style: {width: "80px"},
+      sortable: false
+    }];
   }
 
   rows(store, callback) {

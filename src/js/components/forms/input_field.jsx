@@ -32,7 +32,7 @@ class InputField extends React.Component {
     }
 
     return (
-      <div className="input-field columns col large-12">
+      <div className="input-field">
         <input ref="input_el" name={name} value={value} {...extra} onChange={update} onFocus={focused.bind(this)} onBlur={blur.bind(this)}/>
         <label className={label_class} htmlFor={name} onClick={click.bind(this)}>{label}</label>
       </div>

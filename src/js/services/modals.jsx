@@ -21,6 +21,9 @@ function open(component, options) {
   // add that container to the modal root
   root.appendChild(container);
 
+  if(stack.length !== 0)
+    stack[0].container.style.display = "none";
+
   stack.push({id, container, options});
 
   document.body.style.overflow = "hidden";
@@ -54,6 +57,9 @@ function close(target_id) {
   // remove the parent node (container)
   node.parentNode.removeChild(node);
 
+  if(index >= 1)
+    stack[index - 1].container.style.display = "block";
+
   // remove this item and return the id
   stack.splice(index, 1);
 
@@ -72,24 +78,22 @@ function close(target_id) {
 
 function closeOpen(e) {
   let {target} = e;
+  if(stack.length === 0) return;
 
-  // loop over our open modals closing those that are not associated with this event
-  for(let i = 0, count = stack.length; i < count; i++) {
-    let {container, id} = stack[i];
-    let node  = ReactDOM.findDOMNode(container);
+  let {container, id} = stack[stack.length - 1];
+  let node  = ReactDOM.findDOMNode(container);
 
-    // if this node is inside the target of the click - continue
-    if(util.dom.contains(node, target)) continue;
+  // if this node is inside the target of the click - continue
+  if(util.dom.contains(node, target)) return;
 
-    // otherwise close it
-    close(id);
-  }
-
+  // otherwise close it
+  close(id);
   return true;
 }
 
 function checkEscape({keyCode: key}) {
-  return key === ESCAPE && stack.length >= 1 ? close(stack[0].id) : true;
+  let {length: latest} = stack;
+  return key === ESCAPE && stack.length >= 1 ? close(stack[latest - 1].id) : true;
 }
 
 function mount(target) {

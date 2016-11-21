@@ -1,4 +1,4 @@
-import i18n from "../../services/i18n";
+import i18n from "services/i18n";
 
 function Card({name, icon, path}) {
   const className = `icon ${icon}`;
@@ -34,7 +34,7 @@ class Index extends React.Component {
         </div>
         <div className="row clearfix">
           <div className="columns large-6 small-12">
-            <Card name="system_management" icon="ion-settings" path="/admin/settings" />
+            <Card name="system_management" icon="ion-settings" path="/admin/system" />
           </div>
         </div>
       </div>

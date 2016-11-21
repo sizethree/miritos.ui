@@ -78,7 +78,7 @@ function bind() {
   document.addEventListener("mousemove", trigger("mousemove", move));
   document.addEventListener("mouseup", trigger("mouseup", up));
   document.addEventListener("keyup", trigger("keyup"));
-  document.addEventListener("keyup", trigger("keyup"));
+  document.addEventListener("keydown", trigger("keydown"));
 
   let vendors = [
     "onfullscreenchange",

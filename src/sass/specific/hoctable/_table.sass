@@ -1,6 +1,10 @@
 .hoctable-table
   @extend .display-table
   @extend .display-table--fixed
+  @extend .bordered
+
+.hoctable-table tbody:nth-child(even) tr
+  background-color: #f2f2f2
 
 .hoctable-date-picker input[type="text"]
   @extend .margin-bottom-0
@@ -19,6 +23,9 @@
 
 .hoctable-paged-table__pagination
   @extend .clearfix
+
+.hoctable-pagination__info[data-single-page="true"]
+  @extend .display-none
 
 .hoctable-paged-table__pagination .hoctable-pagination__info,
 .hoctable-paged-table__pagination .hoctable-pagination__next,

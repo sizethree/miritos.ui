@@ -1,4 +1,4 @@
-import Resource from "../services/resource";
+import Resource from "services/resource";
 
 const {ENV} = window;
 
