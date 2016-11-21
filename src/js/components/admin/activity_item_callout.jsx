@@ -6,8 +6,30 @@ import defer from "services/defer";
 import Photo from "resources/photo";
 import Callout from "components/hoc/action_menu";
 
-function Inner({activity = {}}) {
-  return (<a className="cursor-pointer">{i18n(activity.verb)} ({i18n("hover_to_view")})</a>);
+function Inner({object, type}) {
+  let text = null;
+  let link = null;
+
+  switch(type) {
+    case TYPES.PHOTO:
+      link = i18n("photo");
+      break;
+    case TYPES.USER:
+    case TYPES.CLIENT:
+      text = object.name;
+      link = i18n("client");
+      break;
+    case TYPES.INSTAGRAM:
+      link = i18n("instagram");
+      break;
+    default:
+      text = null;
+      break;
+  }
+
+  let inner = text ? (<p><span>{text}</span> (<a>{link}</a>)</p>) : <a>{link}</a>;
+
+  return <div className="activity-object-label">{inner}</div>
 }
 
 function Image({image}) {
@@ -73,60 +95,7 @@ function Preview({type, object}) {
       break;
   }
 
-  return <div className="activity-card__preview-content">{content}</div>;
+  return <div className="activity-card">{content}</div>;
 }
 
-class Card extends React.Component {
-
-  constructor(props) {
-    super(props);
-  }
-
-  componentWillUnmount() {
-    this.canceled = true;
-  }
-
-  load() {
-    let {activity} = this.props;
-
-    function loaded([actor_response, object_response]) {
-      if(this.canceled) return;
-      let {results: [actor]} = actor_response;
-      let {results: [object]} = object_response;
-      this.setState({actor, object, loaded: true});
-    }
-
-    defer.all([
-      `/object?url=${encodeURIComponent(activity.actor_url)}`, 
-      `/object?url=${encodeURIComponent(activity.object_url)}`
-    ].map(fetch)).then(loaded.bind(this));
-  }
-
-  render() {
-    let {state, props} = this;
-    let {activity} = props;
-
-    if(!state || !state.loaded) {
-      this.load();
-      return (<div className="activity-card activity-card--loading"><p>{i18n("loading_please_wait")}</p></div>);
-    }
-
-    let {actor, object} = this.state;
-
-    return (
-      <div className="activity-card activity-card--loaded">
-        <div className="row collapse">
-          <div className="columns large-6 activity-card__preview">
-            <Preview type={activity.actor_type} object={actor} />
-          </div>
-          <div className="columns large-6 activity-card__preview">
-            <Preview type={activity.object_type} object={object} />
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-}
-
-export default Callout(Inner, Card);
+export default Callout(Inner, Preview);

@@ -1,10 +1,15 @@
 import util from "services/util";
 import defer from "services/defer";
+import fetch from "services/fetch";
 import i18n from "services/i18n";
 import DisplaySchedule from "resources/display_schedule";
 import DateDelegate from "services/delegates/admin/schedule_date";
 import Activity from "resources/activity";
 import {Engine} from "services/events";
+
+function objectUrl(s) {
+  return `/object?url=${encodeURIComponent(s)}`;
+}
 
 export default class ScheduleDelegate extends Engine {
 
@@ -12,28 +17,44 @@ export default class ScheduleDelegate extends Engine {
     super();
     this.schedules  = [];
     this.activities = [];
+    this.objects    = [];
   }
 
   columns() {
     return [{
+      rel: "id",
+      name: i18n("activity_id"),
+      sortable: false,
+      style: {width: "10%"}
+    }, {
       rel: "start",
       name: i18n("start"),
       sortable: false,
-      style: {width: "35%"}
+      style: {width: "21%"}
     }, {
       rel: "end",
       name: i18n("end"),
-      style: {width: "35%"},
+      style: {width: "21%"},
+      sortable: false
+    }, {
+      rel: "actor",
+      name: i18n("actor"),
+      style: {width: "15%"},
+      sortable: false
+    }, {
+      rel: "object",
+      name: i18n("object"),
+      style: {width: "15%"},
       sortable: false
     }, {
       rel: "approval",
       name: i18n("approval"),
-      style: {width: "15%"},
+      style: {width: "10%"},
       sortable: false
     }, {
       rel: "action",
       name: i18n("action"),
-      style: {width: "15%"},
+      style: {width: "8%"},
       sortable: false
     }, {
       rel: "menu",
@@ -44,7 +65,7 @@ export default class ScheduleDelegate extends Engine {
   }
 
   rows(store, callback) {
-    let {schedules, activities} = this;
+    let {objects, schedules, activities} = this;
     let {pagination, sorting}   = store.getState();
     let orderby = sorting.order ? sorting.rel : `-${sorting.rel}`;
     let {current: page, size: limit} = pagination;
@@ -54,20 +75,44 @@ export default class ScheduleDelegate extends Engine {
 
     function toRow(schedule) {
       let [activity] = activities.filter(function({id}) { return id === schedule.activity; });
+      let [actor] = objects.filter(function({url}) { return url === activity.actor_url; });
+      let [object] = objects.filter(function({url}) { return url === activity.object_url; });
 
       let delegates  = {
         start: new DateDelegate("start", schedule),
         end: new DateDelegate("end", schedule)
       };
 
-      return {schedule, activity, delegates, signals: {update}};
+      return {schedule, activity, delegates, signals: {update}, actor, object};
+    }
+
+    function finished(results) {
+      util.replace(objects, results);
+      let rows = schedules.map(toRow);
+      callback(rows);
+      return defer.resolve(rows);
+    }
+
+    function loadItem(url) {
+      function normalize({results}) {
+        let [object] = results;
+        return defer.resolve({object, url});
+      }
+
+     return fetch(objectUrl(url)).then(normalize);
     }
 
     function loadedActivity(result) {
       util.replace(activities, result);
-      let rows = schedules.map(toRow);
-      callback(rows, total);
-      return defer.resolve(rows);
+      let unique_urls = [];
+
+      for(let i = 0, c = activities.length; i < c; i++) {
+        let {actor_url, object_url} = activities[i];
+        if(unique_urls.indexOf(actor_url) === -1) unique_urls.push(actor_url);
+        if(unique_urls.indexOf(object_url) === -1) unique_urls.push(object_url);
+      }
+
+      return defer.all(unique_urls.map(loadItem)).then(finished);
     }
 
     function failed(err) {
