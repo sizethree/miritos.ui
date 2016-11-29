@@ -112,4 +112,8 @@ function mount(target) {
   mountpoint = target;
 }
 
-export default {add, remove, mount, flash};
+function info(text) {
+  return add(<p className="">{text}</p>);
+}
+
+export default {add, remove, mount, flash, info};

@@ -44,7 +44,7 @@ html *, body *
   box-sizing: border-box
 
 #popups, #modals
-  @extend .position-fixed
+  @extend .position-absolute
   @extend .left-0
   @extend .top-0
   @extend .width-50
@@ -57,9 +57,6 @@ main#main
   +calc("min-height", "100% - 60px")
   @extend .z-7
   @extend .padding-tb-20
-
-.pointer
-  cursor: pointer
 
 .overflow-hidden
   overflow: hidden

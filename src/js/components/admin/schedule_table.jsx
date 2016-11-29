@@ -12,6 +12,10 @@ import Schedule from "resources/display_schedule";
 
 let DatePicker = DatePickerFactory();
 
+function lower(s) {
+  return s && "function" === typeof s.toLowerCase ? s.toLowerCase() : s;
+}
+
 function translateType(type) {
   let result = "Unknown";
 
@@ -25,37 +29,64 @@ function translateType(type) {
   return result;
 }
 
-function Row({row: {schedule, activity, delegates, signals, actor, object}}) {
-  let {start: start_delegate, end: end_delegate} = delegates;
+class Row extends React.Component {
 
-  return (
-    <tr className="admin-schedule-row">
-      <td className="admin-schedule-row__id">
-        <p><Light text={i18n("activity")} /> #{activity.id}</p>
-      </td>
-      <td className="admin-schedule-row__start">
-        <DatePicker delegate={start_delegate} />
-      </td>
-      <td className="admin-schedule-row__end">
-        <DatePicker delegate={end_delegate} />
-      </td>
-      <td className="admin-schedule-row__actor">
-        <Callout object={actor.object} type={activity.actor_type}/>
-      </td>
-      <td className="admin-schedule-row__object">
-        <Callout object={object.object} type={activity.object_type} />
-      </td>
-      <td className="admin-schedule-row__approval">
-        <p>{schedule.approval}</p>
-      </td>
-      <td className="admin-schedule-row__callout">
-        <p>{i18n(activity.verb)}</p>
-      </td>
-      <td className="admin-schedule-row__menu align-center">
-        <ScheduleMenu schedule={schedule} signals={signals} />
-      </td>
-    </tr>
-  );
+  constructor(props) {
+    super(props);
+    let {row} = this.props;
+    let {schedule, activity, delegates, signals, actor, object} = row;
+
+    let update = this.forceUpdate.bind(this);
+
+    delegates.end.on("updated", update);
+    delegates.start.on("updated", update);
+  }
+
+  render() {
+    let {row} = this.props;
+    let {schedule, activity, delegates, signals, actor, object} = row;
+    let {start: start_delegate, end: end_delegate} = delegates;
+
+    let approval_color = "grey-text darken-1";
+
+    switch(schedule.approval) {
+      case "APPROVED":
+        approval_color = "green-text lighten-1";
+        break;
+      case "REJECTED":
+        approval_color = "red-text darken-3";
+        break;
+    }
+
+    return (
+      <tr className="admin-schedule-row">
+        <td className="admin-schedule-row__id">
+          <p><Light text={i18n("activity")} /> #{activity.id}</p>
+        </td>
+        <td className="admin-schedule-row__start">
+          <DatePicker delegate={delegates.start} />
+        </td>
+        <td className="admin-schedule-row__end">
+          <DatePicker delegate={delegates.end} />
+        </td>
+        <td className="admin-schedule-row__actor">
+          <Callout object={actor.object} type={activity.actor_type}/>
+        </td>
+        <td className="admin-schedule-row__object">
+          <Callout object={object.object} type={activity.object_type} />
+        </td>
+        <td className="admin-schedule-row__approval">
+          <p className={approval_color}>{i18n(lower(schedule.approval))}</p>
+        </td>
+        <td className="admin-schedule-row__callout">
+          <p>{i18n(activity.verb)}</p>
+        </td>
+        <td className="admin-schedule-row__menu align-center">
+          <ScheduleMenu schedule={schedule} signals={signals} />
+        </td>
+      </tr>
+    );
+  }
 }
 
 export default Table(Row);

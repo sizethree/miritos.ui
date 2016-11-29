@@ -89,7 +89,7 @@ export default class ScheduleDelegate extends Engine {
     function finished(results) {
       util.replace(objects, results);
       let rows = schedules.map(toRow);
-      callback(rows);
+      callback(rows, total);
       return defer.resolve(rows);
     }
 

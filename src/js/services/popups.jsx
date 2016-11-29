@@ -24,7 +24,7 @@ const GUTTER_WIDTH = 100;
 
 function open(component, placement) {
   let id    = uuid();
-  let style = Object.assign({position: "fixed"}, placement);
+  let style = Object.assign({position: "absolute"}, placement);
   let popup = util.dom.create("div", {style});
 
   // render the component into the container and add it to our popup root

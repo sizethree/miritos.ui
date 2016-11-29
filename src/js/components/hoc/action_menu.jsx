@@ -16,7 +16,7 @@ function ActionMenu(ButtonComponent, PopupComponent) {
   function open(event) {
     let target    = event.currentTarget;
     let bounding  = target.getBoundingClientRect();
-    let top       = util.dom.px(bounding.top + bounding.height + TARGET_TOP_BUFFER);
+    let top       = util.dom.px(bounding.top + bounding.height + TARGET_TOP_BUFFER + window.scrollY);
     let placement = {top};
 
     if(bounding.left > window.innerWidth * 0.5) {
