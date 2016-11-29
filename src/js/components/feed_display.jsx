@@ -4,13 +4,9 @@ import FeedInsta from "components/feed/instagram";
 import Viewport from "services/window";
 import Grid from "services/grid";
 
-const COLUMNS = 30;
-
-const MIN_COLSPAN = 1;
-const MAX_COLSPAN = 10;
-
-const MIN_ROWSPAN = 1;
-const MAX_ROWSPAN = 10;
+const COLUMNS  = 12;
+const MIN_SIZE = 1;
+const MAX_SIZE = 3;
 
 function renderItem({activity, actor, object}) {
   let {object_type} = activity;
@@ -63,13 +59,17 @@ function reposition(list_element) {
 
   // create the grid manager
   let grid = new Grid(width, height, COLUMNS);
+  let max_size = MAX_SIZE;
 
   // loop over each child element, positioning them
   for(let i = 0, c = children.length; i < c; i++) {
-    let child   = children[i];
-    let colspan = rand(MIN_COLSPAN, MAX_COLSPAN);
-    let rowspan = rand(MIN_ROWSPAN, MAX_ROWSPAN);
-    let {width, height, left, top} = grid.occupy(colspan, rowspan);
+    let child = children[i];
+    let size  = rand(MIN_SIZE, max_size);
+
+    if(size >= max_size && max_size >= 1)
+      max_size--;
+
+    let {width, height, left, top} = grid.occupy(size, size);
 
     child.style.left = `${left}px`;
     child.style.height = `${height}px`;
