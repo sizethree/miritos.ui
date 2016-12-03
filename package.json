@@ -68,9 +68,15 @@
     "karma-jasmine-ajax": "0.1.13",
     "karma-phantomjs-launcher": "1.0.2",
     "karma-requirejs": "1.1.0",
+    "karma-typescript-preprocessor": "0.3.0",
     "merge-stream": "1.0.1",
     "redis": "2.6.3",
     "request": "2.79.0",
+<<<<<<< HEAD
+=======
+    "typescript": "2.0.10",
+    "typings": "2.0.0",
+>>>>>>> b3651b5... adding typescript karma preprocessor
     "yuidocjs": "0.10.2"
   }
 }
