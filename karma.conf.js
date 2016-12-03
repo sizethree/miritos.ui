@@ -1,8 +1,9 @@
 const babel = require("babel-core");
 
 module.exports = function(config) {
-  let browsers      = ["PhantomJS"];
-  let frameworks    = ["requirejs", "jasmine"];
+  let browsers   = ["PhantomJS"];
+  let frameworks = ["requirejs", "jasmine"];
+  let reporters  = ["dots", "narrow"];
 
   let preprocessors = {
     "src/**/*.js": ["babel"],
@@ -45,6 +46,7 @@ module.exports = function(config) {
     "karma-typescript-preprocessor",
     "karma-phantomjs-launcher",
     "karma-chrome-launcher",
+    "karma-narrow-reporter",
     {"preprocessor:babelexternal": ["factory", external]},
   ];
 
@@ -70,6 +72,10 @@ module.exports = function(config) {
     transformPath: function(path) {
       return path.replace(/\.ts$/, ".js");
     }
+  };
+
+  options.narrowReporter = {
+    showSuccess: true
   };
 
   config.set(options);

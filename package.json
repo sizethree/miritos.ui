@@ -5,7 +5,7 @@
   "scripts": {
     "build:debug": "gulp",
     "build:watch": "gulp watch",
-    "build:release": "gulp release && npm run test",
+    "build:release": "gulp release",
     "build:docs": "gulp js:docs",
     "build:watch:docs": "gulp watch:docs",
     "clean": "gulp clean",
@@ -66,6 +66,7 @@
     "karma-coffee-preprocessor": "1.0.1",
     "karma-jasmine": "1.0.2",
     "karma-jasmine-ajax": "0.1.13",
+    "karma-narrow-reporter": "^2.0.1",
     "karma-phantomjs-launcher": "1.0.2",
     "karma-requirejs": "1.1.0",
     "karma-typescript-preprocessor": "0.3.0",
