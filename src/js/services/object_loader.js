@@ -11,7 +11,6 @@ function pass() {
   return defer.resolve({});
 }
 
-
 function load({type, url}) {
   let {promise, resolve, reject} = defer.defer();
 

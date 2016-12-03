@@ -1,5 +1,5 @@
-import Auth from "../services/auth";
-import UserMenu from "./user_menu";
+import Auth from "services/auth";
+import UserMenu from "components/user_menu";
 
 export default function render() {
   let [right, home_link] = Auth.user() ? [<UserMenu />, "/dashboard"] : [null, "/welcome"];

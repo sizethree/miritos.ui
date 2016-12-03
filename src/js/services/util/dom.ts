@@ -1,15 +1,11 @@
 import classes from "services/util/dom/classes";
 import fx from "services/util/dom/fx";
 
-function px(amt) {
-  return `${amt}px`;
-}
-
-function remove(element) {
+function remove(element : HTMLElement) : Node {
   return element.parentNode.removeChild(element);
 }
 
-function contains(target, child) {
+function contains(target : HTMLElement, child : HTMLElement) : boolean {
   let head = child.parentNode;
 
   while(head != null) {
@@ -20,7 +16,7 @@ function contains(target, child) {
   return false;
 }
 
-function create(tag, {style} = {}) {
+function create(tag : string, style? : React.CSSProperties) : HTMLElement {
   let element = document.createElement(tag);
 
   element.setAttribute("util-dom", "true");
@@ -38,5 +34,4 @@ function create(tag, {style} = {}) {
   return element;
 }
 
-export default {classes, contains, create, px, remove, fx};
-
+export default {classes, contains, create, remove, fx};

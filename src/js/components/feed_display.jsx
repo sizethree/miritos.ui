@@ -31,10 +31,6 @@ function renderItem({activity, actor, object}) {
   );
 }
 
-function notNull(x) {
-  return x !== null;
-}
-
 function rand(min, max) {
   let theta = Math.random() * max;
   return Math.floor(theta + min);
@@ -66,7 +62,7 @@ function reposition(list_element) {
     let child = children[i];
     let size  = rand(MIN_SIZE, max_size);
 
-    if(size >= max_size && max_size >= 1)
+    if(size >= max_size && max_size > 1)
       max_size--;
 
     let {width, height, left, top} = grid.occupy(size, size);
@@ -95,7 +91,12 @@ class FeedDisplay extends React.Component {
     let {delegate} = props;
     let {feed} = delegate;
     let is_fs  = state && state.fullscreen === true;
-    let items  = feed.map(renderItem).filter(notNull);
+    let items  = [];
+    
+    for(let i = 0, c = feed.length; i < c; i++) {
+      let item = renderItem(feed[i], delegate);
+      if(item !== null) items.push(item);
+    }
 
     function close() {
       let {viewport} = this.refs;

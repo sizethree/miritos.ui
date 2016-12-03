@@ -1,5 +1,5 @@
-import classes from "./classes";
-import defer from "../../defer";
+import classes from "services/util/dom/classes";
+import defer from "services/defer";
 
 const FADE_DELAY = 501;
 

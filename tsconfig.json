@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "target"    : "es6",
+    "module"    : "es6",
+    "sourceMap" : false,
+    "baseUrl"   : "./src/js",
+    "typeRoots" : ["./typings/modules", "./typings/globals"],
+    "allowJs"   : true,
+    "jsx"       : "React"
+  }
+}

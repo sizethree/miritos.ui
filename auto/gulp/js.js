@@ -7,7 +7,9 @@ const babel   = require("gulp-babel");
 const helpers = require("gulp-babel-external-helpers");
 const uglify  = require("gulp-uglify");
 const rjs     = require("gulp-requirejs-optimize");
+const merge   = require("merge-stream");
 const docs    = require("gulp-yuidoc");
+const tsc     = require("gulp-typescript");
 const loc     = require("../../locations");
 
 module.exports = function(gulp) {
@@ -75,8 +77,31 @@ module.exports = function(gulp) {
       .pipe(gulp.dest(path.dirname(bundle)));
   });
 
-  gulp.task("js:babel", ["clean:js"], function() {
-    return gulp.src(["**/*.js", "**/*.jsx"], {cwd: path.join(loc.base, "src/js")})
+  gulp.task("js:ts", ["clean:js"], function() {
+    let type_root = path.join(loc.base, "typings");
+
+    return gulp.src(["**/*.ts", "**/*.tsx"], {cwd: path.join(loc.base, "src/js")})
+      .pipe(tsc({
+        "target"    : "es6",
+        "module"    : "es6",
+        "sourceMap" : false,
+        "baseUrl"   : path.join(loc.base, "src/js"),
+        "allowJs"   : true,
+        "jsx"       : "React",
+
+        "typeRoots" : [
+          path.join(type_root, "modules"), 
+          path.join(type_root, "globals")
+        ]
+      }))
+      .pipe(gulp.dest(path.join(loc.base, "tmp/ts")));
+  });
+
+  gulp.task("js:babel", ["js:ts"], function() {
+    let vanilla = gulp.src(["**/*.js", "**/*.jsx"], {cwd: path.join(loc.base, "src/js")});
+    let typed = gulp.src(["**/*.js", "**/*.jsx"], {cwd: path.join(loc.base, "tmp/ts")});
+
+    return merge(vanilla, typed)
       .pipe(babel({presets, plugins}))
       .pipe(helpers("helpers.js"))
       .pipe(gulp.dest(path.join(loc.base, "tmp/js")));

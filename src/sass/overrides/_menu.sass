@@ -1,20 +1,18 @@
-section.dropdown
+.menu
   @extend .clearfix 
   @extend .display-inline-block
 
-section.dropdown .dropdown__option-list
-  @extend .dropdown-content 
+.menu .menu__option-list
+  @extend .dropdown-content
 
-section.dropdown ul.dropdown__option-list
+.menu > .menu__option-list
   @extend .clearfix 
   @extend .active 
   @extend .display-block
   @extend .position-relative
   @extend .opacity-50
-
-section.dropdown ul.dropdown__option-list li
   min-height: inherit
 
-section.dropdown ul.dropdown__option-list li > a
+.menu .menu__item
   @extend .fs-1-1
   @extend .lh-1-1

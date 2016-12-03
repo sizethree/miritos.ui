@@ -1,6 +1,6 @@
-import Table from "../hoc/paged_table";
-import date from "../../services/formatters/date";
-import Menu from "./user_menu";
+import Table from "components/hoc/table";
+import date from "services/formatters/date";
+import Menu from "components/admin/user_menu";
 
 function Row({row: {user}}) {
   let detail_url = `/admin/users/${user.id}`;

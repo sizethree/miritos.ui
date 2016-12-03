@@ -1,5 +1,5 @@
 import i18n from "services/i18n";
-import Table from "components/hoc/paged_table";
+import Table from "components/hoc/table";
 
 const DATE_FORMAT = "MMM Do, YYYY";
 

@@ -1,5 +1,5 @@
 import i18n from "services/i18n";
-import Table from "components/hoc/paged_table";
+import Table from "components/hoc/table";
 import Notes from "services/notes";
 import defer from "services/defer";
 import DatePickerFactory from "components/hoc/date_picker";
