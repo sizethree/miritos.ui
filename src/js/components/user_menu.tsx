@@ -36,4 +36,4 @@ class Menu extends React.Component<any, any> {
 
 }
 
-export default ActionMenu(Menu, Button);
+export default ActionMenu(Menu);

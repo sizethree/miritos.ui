@@ -21,7 +21,7 @@ function bottom(box : ClientRect) : number {
   return box.top + box.height;
 }
 
-function DefaultButton(props : any) : React.ReactElement<any> {
+export function DefaultButton(props : any) : React.ReactElement<any> {
   let {text} = props;
   return (<a className="action-menu__button">{text}</a>);
 };

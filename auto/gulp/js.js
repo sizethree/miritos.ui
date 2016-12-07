@@ -13,10 +13,11 @@ const tsc     = require("gulp-typescript");
 const loc     = require("../../locations");
 
 module.exports = function(gulp) {
-  const bundle = path.join(loc.dist.app, "assets/vendors/bundle.js");
+  const bower_root = path.join(loc.base, "bower_components");
+  const bundle     = path.join(loc.dist.app, "assets/vendors/bundle.js");
 
   function bower(lib_path) {
-    return path.join(loc.base, "bower_components", lib_path);
+    return path.join(bower_root, lib_path);
   }
 
   let vendors = [
@@ -79,29 +80,19 @@ module.exports = function(gulp) {
 
   gulp.task("js:ts", ["clean:js"], function() {
     let type_root = path.join(loc.base, "typings");
+    let npm_root  = path.join(loc.base, "node_modules");
+    let project   = tsc.createProject(path.join(loc.base, "tsconfig.json"));
 
     return gulp.src(["**/*.ts", "**/*.tsx"], {cwd: path.join(loc.base, "src/js")})
-      .pipe(tsc({
-        "target"    : "es6",
-        "module"    : "es6",
-        "sourceMap" : false,
-        "baseUrl"   : path.join(loc.base, "src/js"),
-        "allowJs"   : true,
-        "jsx"       : "React",
-
-        "typeRoots" : [
-          path.join(type_root, "modules"), 
-          path.join(type_root, "globals")
-        ]
-      }))
-      .pipe(gulp.dest(path.join(loc.base, "tmp/ts")));
+      .pipe(project())
+      .pipe(gulp.dest(path.join(loc.base, "tmp/js")));
   });
 
   gulp.task("js:babel", ["js:ts"], function() {
     let vanilla = gulp.src(["**/*.js", "**/*.jsx"], {cwd: path.join(loc.base, "src/js")});
-    let typed = gulp.src(["**/*.js", "**/*.jsx"], {cwd: path.join(loc.base, "tmp/ts")});
+    let typed   = gulp.src(["**/*.js", "**/*.jsx"], {cwd: path.join(loc.base, "tmp/ts")});
 
-    return merge(vanilla, typed)
+    return vanilla
       .pipe(babel({presets, plugins}))
       .pipe(helpers("helpers.js"))
       .pipe(gulp.dest(path.join(loc.base, "tmp/js")));
@@ -121,7 +112,12 @@ module.exports = function(gulp) {
 
   gulp.task("js:rjs", ["js:copy"], function() {
     return gulp.src(["main.js"], {cwd: path.join(loc.base, "tmp/js")})
-      .pipe(rjs({optimize: "none"}))
+      .pipe(rjs({
+        optimize: "none",
+        shim: {
+          "hoctable": {exports: "hoctable"}
+        }
+      }))
       .pipe(gulp.dest(path.join(loc.dist.app, "assets/js")));
   });
 

@@ -18,7 +18,7 @@ export declare interface ButtonProps {
   handler : () => void;
 }
 
-function DefaultButton(props : ButtonProps) {
+export function DefaultButton(props : ButtonProps) {
   let {label, handler} = props;
   let class_name = `hoctable-pagination__${label}`;
   return (<div className={class_name}><a onClick={handler}>{label}</a></div>);

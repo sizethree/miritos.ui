@@ -1,11 +1,13 @@
 {
   "compilerOptions": {
-    "target"    : "es6",
-    "module"    : "es6",
-    "sourceMap" : false,
+    "target"    : "es5",
+    "module"    : "amd",
     "baseUrl"   : "./src/js",
-    "typeRoots" : ["./typings/modules", "./typings/globals"],
+    "sourceMap" : false,
     "allowJs"   : true,
-    "jsx"       : "React"
+    "jsx"       : "React",
+    "typeRoots" : [
+      "./typings/globals"
+    ]
   }
 }
