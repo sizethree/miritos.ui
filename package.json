@@ -27,8 +27,6 @@
   "homepage": "https://github.com/sizethree/miritos.ui",
   "dependencies": {},
   "devDependencies": {
-    "typescript": "^2.0.10",
-    "typings": "^2.0.0",
     "babel-core": "6.18.2",
     "babel-plugin-external-helpers": "6.18.0",
     "babel-plugin-transform-es2015-modules-amd": "6.18.0",
@@ -64,7 +62,7 @@
     "karma-chrome-launcher": "2.0.0",
     "karma-cli": "1.0.1",
     "karma-coffee-preprocessor": "1.0.1",
-    "karma-jasmine": "1.0.2",
+    "karma-jasmine": "^1.1.0",
     "karma-jasmine-ajax": "0.1.13",
     "karma-narrow-reporter": "^2.0.1",
     "karma-phantomjs-launcher": "1.0.2",
