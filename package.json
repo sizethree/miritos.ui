@@ -37,7 +37,7 @@
     "gulp-filter": "^4.0.0",
     "gulp-pug": "^3.0.3",
     "gulp-requirejs-optimize": "^1.2.0",
-    "gulp-sass": "^2.3.2",
+    "gulp-sass": "^3.0.0",
     "gulp-uglify": "^2.0.0",
     "gulp-util": "^3.0.7",
     "jasmine-ajax": "^3.2.0",
