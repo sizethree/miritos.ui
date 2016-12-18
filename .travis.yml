@@ -1,15 +1,12 @@
 language: node_js
 sudo: false
 node_js:
-  - "6.5.0"
   - "6.9.0"
-
 before_install:
   - npm i -g npm@3.9.0
-
 install:
   - npm install
-
+  - npm run vendor:install
 script:
   - npm run build:release
   - npm run test:unit -- --reporters=narrow
