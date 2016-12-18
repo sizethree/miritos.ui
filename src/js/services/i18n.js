@@ -20,6 +20,7 @@ i18n.locale = function(lang) {
   let path = `var/i18n/${lang}`;
 
   function failed(e) {
+    console.error(e);
     return reject(e);
   }
 

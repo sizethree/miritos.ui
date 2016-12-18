@@ -1,7 +1,7 @@
-import uuid from "./uuid";
-import util from "./util";
-import Viewport from "./window"
-import Modal from "../components/hoc/modal"
+import uuid from "services/uuid";
+import util from "services/util";
+import Modal from "components/hoc/modal"
+import {services} from "hoctable"
 
 let root        = null;
 let stack       = [];
@@ -100,12 +100,12 @@ function mount(target) {
   root = target;
 
   for(let i = 0, c = view_events.length; i < c; i++) {
-    Viewport.off(view_events[i]);
+    services.Viewport.off(view_events[i]);
   }
 
   view_events = [
-    Viewport.on("isoclick", closeOpen),
-    Viewport.on("keyup", checkEscape)
+    services.Viewport.on("isoclick", closeOpen),
+    services.Viewport.on("keyup", checkEscape)
   ];
 }
 

@@ -1,8 +1,8 @@
 import Auth from "services/auth";
 import i18n from "services/i18n";
-import ActionMenu from "components/hoc/action_menu";
 import MenuItem from "components/micro/menu_item";
 import MenuContents from "components/micro/menu_contents";
+import {hoc} from "hoctable";
 
 function Button() {
   return (
@@ -36,4 +36,4 @@ class Menu extends React.Component<any, any> {
 
 }
 
-export default ActionMenu(Menu);
+export default hoc.ActionMenu(Menu, Button);

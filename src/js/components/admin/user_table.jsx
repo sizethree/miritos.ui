@@ -1,6 +1,6 @@
-import Table from "components/hoc/table";
 import date from "services/formatters/date";
 import Menu from "components/admin/user_menu";
+import {hoc} from "hoctable";
 
 function Row({row: {user}}) {
   let detail_url = `/admin/users/${user.id}`;
@@ -29,4 +29,4 @@ function Row({row: {user}}) {
   );
 }
 
-export default Table(Row);
+export default hoc.Table(Row);

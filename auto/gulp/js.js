@@ -44,8 +44,10 @@ module.exports = function(gulp) {
     bower("requirejs/require.js")
   ];
 
-  let presets = ["es2015", "react"];
-  let plugins = ["external-helpers", "transform-es2015-modules-amd"];
+  let presets  = ["es2015", "react"];
+  let plugins  = ["external-helpers", "transform-es2015-modules-amd"];
+  let rjs_conf = {
+  };
 
   gulp.task("clean:js:docs", function() {
     return del([path.join(loc.dist.docs, "js")]);
@@ -79,7 +81,6 @@ module.exports = function(gulp) {
   });
 
   gulp.task("js:ts", ["clean:js"], function() {
-    let type_root = path.join(loc.base, "typings");
     let npm_root  = path.join(loc.base, "node_modules");
     let project   = tsc.createProject(path.join(loc.base, "tsconfig.json"));
 
@@ -103,32 +104,40 @@ module.exports = function(gulp) {
       .pipe(gulp.dest(path.join(loc.dist.app, "assets/js")));
   });
 
-  gulp.task("js:copy:release", ["js:babel", "js:vendors"], function() {
-    return gulp.src("**/*.js", {cwd: path.join(loc.base, "tmp/js")})
-      .pipe(gulp.dest(path.join(loc.dist.app, "assets/js")))
-      .pipe(uglify())
-      .pipe(gulp.dest(path.join(loc.dist.app, "assets/js")));
-  });
-
-  gulp.task("js:rjs", ["js:copy"], function() {
+  gulp.task("js", ["js:copy"], function() {
     return gulp.src(["main.js"], {cwd: path.join(loc.base, "tmp/js")})
       .pipe(rjs({
         optimize: "none",
-        shim: {
-          "hoctable": {exports: "hoctable"}
+        paths: {
+          "hoctable": path.join(bower_root, "hoctable/es5/hoctable/hoctable")
         }
       }))
       .pipe(gulp.dest(path.join(loc.dist.app, "assets/js")));
   });
 
-  gulp.task("js:rjs:release", ["js:copy:release"], function() {
-    return gulp.src(["main.js"], {cwd: path.join(loc.base, "tmp/js")})
-      .pipe(rjs({optimize: "uglify"}))
-      .pipe(gulp.dest(path.join(loc.dist.app, "assets/js")));
+  /* js:release:stage
+   *
+   * this task removes the tmp/js directory which is now no longer needed since the 
+   * source has been compiled completely into the dist/app/assets/js directory. after
+   * removing the directory, it copies the dist directory.
+   */
+  gulp.task("js:release:unstage", ["js"], function() {
+    return del([path.join(loc.base, "tmp/js")]);
   });
 
-  gulp.task("js", ["js:vendors", "js:rjs"]);
+  gulp.task("js:release:stage", ["js:release:unstage"], function() {
+    return gulp.src(["**/*.js"], {cwd: path.join(loc.dist.app, "assets/js")})
+      .pipe(gulp.dest(path.join(loc.base, "tmp/js")));
+  });
 
-  gulp.task("js:release", ["js:vendors:release", "js:rjs:release"]);
+  gulp.task("js:release:clean", ["js:release:stage"], function() {
+    return del([path.join(loc.dist.app, "assets/js/**/*")]);
+  });
+
+  gulp.task("js:release", ["js:release:clean"], function() {
+    return gulp.src(["**/*.js"], {cwd: path.join(loc.base, "tmp/js")})
+      .pipe(uglify())
+      .pipe(gulp.dest(path.join(loc.dist.app, "assets/js")));
+  });
 
 };

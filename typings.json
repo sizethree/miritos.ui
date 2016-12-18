@@ -1,6 +1,7 @@
 {
   "name": "meritoss-ui",
-  "dependencies": {},
+  "dependencies": {
+  },
   "globalDependencies": {
     "react": "registry:dt/react#0.14.0+20161124131900",
     "react-addons-create-fragment": "registry:dt/react-addons-create-fragment#0.14.0+20160709044614",

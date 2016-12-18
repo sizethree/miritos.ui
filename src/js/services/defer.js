@@ -14,4 +14,4 @@ function all(x) {
   return Q.all(x);
 }
 
-module.exports = {defer, resolve, reject, all};
+export default {defer, resolve, reject, all};

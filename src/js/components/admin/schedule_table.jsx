@@ -1,11 +1,11 @@
 import i18n from "services/i18n";
-import Table from "components/hoc/table";
 import Notes from "services/notes";
 import defer from "services/defer";
 import DatePickerFactory from "components/hoc/date_picker";
 import ScheduleMenu from "components/admin/schedule_menu";
 import Callout from "components/admin/activity_item_callout";
 import {Light} from "components/type/weights";
+import {hoc} from "hoctable";
 
 import TYPES from "var/object_types";
 import Schedule from "resources/display_schedule";
@@ -89,4 +89,4 @@ class Row extends React.Component {
   }
 }
 
-export default Table(Row);
+export default hoc.Table(Row);

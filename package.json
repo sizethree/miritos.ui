@@ -9,7 +9,7 @@
     "build:docs": "gulp js:docs",
     "build:watch:docs": "gulp watch:docs",
     "clean": "gulp clean",
-    "vendor:install": "bower i",
+    "vendor:install": "bower i && typings i",
     "test": "npm run test:unit",
     "test:unit": "karma start --single-run=true --browsers=PhantomJS",
     "test:watch": "karma start --single-run=false --browsers=PhantomJS",
@@ -73,11 +73,7 @@
     "merge-stream": "1.0.1",
     "redis": "2.6.3",
     "request": "2.79.0",
-<<<<<<< HEAD
-=======
     "typescript": "2.0.10",
-    "typings": "2.0.0",
->>>>>>> b3651b5... adding typescript karma preprocessor
-    "yuidocjs": "0.10.2"
+    "typings": "2.0.0"
   }
 }

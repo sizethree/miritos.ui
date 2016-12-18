@@ -7,6 +7,48 @@ import DateDelegate from "services/delegates/admin/schedule_date";
 import Activity from "resources/activity";
 import {Engine} from "services/events";
 
+const COLUMNS = [{
+  rel: "id",
+  name: i18n("activity_id"),
+  sortable: false,
+  style: {width: "10%"}
+}, {
+  rel: "start",
+  name: i18n("start"),
+  sortable: false,
+  style: {width: "21%"}
+}, {
+  rel: "end",
+  name: i18n("end"),
+  style: {width: "21%"},
+  sortable: false
+}, {
+  rel: "actor",
+  name: i18n("actor"),
+  style: {width: "15%"},
+  sortable: false
+}, {
+  rel: "object",
+  name: i18n("object"),
+  style: {width: "15%"},
+  sortable: false
+}, {
+  rel: "approval",
+  name: i18n("approval"),
+  style: {width: "10%"},
+  sortable: false
+}, {
+  rel: "action",
+  name: i18n("action"),
+  style: {width: "8%"},
+  sortable: false
+}, {
+  rel: "menu",
+  name: "",
+  style: {width: "80px"},
+  sortable: false
+}];
+
 function objectUrl(s) {
   return `/object?url=${encodeURIComponent(s)}`;
 }
@@ -18,55 +60,27 @@ export default class ScheduleDelegate extends Engine {
     this.schedules  = [];
     this.activities = [];
     this.objects    = [];
+    let pagination = {current: 0, size: 10};
+    let sorting    = {rel: "email"};
+
+    this.state = {sorting, pagination};
   }
 
   columns() {
-    return [{
-      rel: "id",
-      name: i18n("activity_id"),
-      sortable: false,
-      style: {width: "10%"}
-    }, {
-      rel: "start",
-      name: i18n("start"),
-      sortable: false,
-      style: {width: "21%"}
-    }, {
-      rel: "end",
-      name: i18n("end"),
-      style: {width: "21%"},
-      sortable: false
-    }, {
-      rel: "actor",
-      name: i18n("actor"),
-      style: {width: "15%"},
-      sortable: false
-    }, {
-      rel: "object",
-      name: i18n("object"),
-      style: {width: "15%"},
-      sortable: false
-    }, {
-      rel: "approval",
-      name: i18n("approval"),
-      style: {width: "10%"},
-      sortable: false
-    }, {
-      rel: "action",
-      name: i18n("action"),
-      style: {width: "8%"},
-      sortable: false
-    }, {
-      rel: "menu",
-      name: "",
-      style: {width: "80px"},
-      sortable: false
-    }];
+    return COLUMNS.slice(0);
   }
 
-  rows(store, callback) {
-    let {objects, schedules, activities} = this;
-    let {pagination, sorting}   = store.getState();
+  pagination() {
+    return this.state.pagination;
+  }
+
+  sorting() {
+    return this.state.sorting;
+  }
+
+  rows(callback) {
+    let {objects, state, schedules, activities} = this;
+    let {pagination, sorting}   = state;
     let orderby = sorting.order ? sorting.rel : `-${sorting.rel}`;
     let {current: page, size: limit} = pagination;
     let total = null;

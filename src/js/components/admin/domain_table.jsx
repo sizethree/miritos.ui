@@ -1,5 +1,5 @@
 import i18n from "services/i18n";
-import Table from "components/hoc/table";
+import {hoc} from "hoctable";
 
 const DATE_FORMAT = "MMM Do, YYYY";
 
@@ -39,4 +39,4 @@ class Row extends React.Component {
 
 }
 
-export default Table(Row);
+export default hoc.Table(Row);

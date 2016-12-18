@@ -32,11 +32,24 @@ class Delegate {
 
   constructor() {
     this.users = [];
+    let pagination = {current: 0, size: 10};
+    let sorting    = {rel: "email"};
+    this.state = {sorting, pagination};
   }
 
-  rows(store, callback) {
-    let {users} = this;
-    let {pagination, sorting}   = store.getState();
+  pagination() {
+    let {pagination} = this.state;
+    return pagination;
+  }
+
+  sorting() {
+    let {sorting} = this.state;
+    return sorting;
+  }
+
+  rows(callback) {
+    let {users, state} = this;
+    let {sorting, pagination} = state;
     let orderby = sorting.order ? sorting.rel : `-${sorting.rel}`;
     let {current: page, size: limit} = pagination;
     let total = null;

@@ -4,7 +4,7 @@ import fetch from "services/fetch";
 import i18n from "services/i18n";
 import defer from "services/defer";
 import Photo from "resources/photo";
-import Callout from "components/hoc/action_menu";
+import {hoc} from "hoctable";
 
 function Inner({object, type}) {
   let text = null;
@@ -98,4 +98,4 @@ function Preview({type, object}) {
   return <div className="activity-card">{content}</div>;
 }
 
-export default Callout(Inner, Preview);
+export default hoc.ActionMenu(Preview, Inner);

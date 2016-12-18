@@ -1,6 +1,6 @@
-import i18n from "../../services/i18n";
-import ActionMenu from "../hoc/action_menu";
-import Notes from "../../services/notes";
+import i18n from "services/i18n";
+import {hoc} from "hoctable";
+import Notes from "services/notes";
 
 function Button() {
   return (
@@ -25,4 +25,4 @@ function Menu({close, signals, user}) {
   );
 }
 
-export default ActionMenu(Button, Menu);
+export default hoc.ActionMenu(Menu, Button);

@@ -1,14 +1,18 @@
 import Auth from "services/auth";
 import defer from "services/defer";
-import Delegate from "services/delegates/admin/schedules";
 import filters from "services/routing/filters";
-import tableStore from "services/store_factories/paged_table";
 
 function resolve() {
+  let {dependencies} = this;
+  let [{default: Delegate}] = dependencies;
   let table_delegate = new Delegate();
-  let table_store    = tableStore("start", 10);
-  return defer.resolve({table_delegate, table_store});
+
+  return defer.resolve({table_delegate});
 }
+
+resolve.$inject = [
+  "services/delegates/admin/schedules"
+];
 
 let path   = "/admin/schedules";
 let view   = "views/admin/schedules";

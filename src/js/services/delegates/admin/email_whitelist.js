@@ -33,10 +33,23 @@ class Delegate extends Engine {
   constructor() {
     super();
     this.domains = [];
+    let pagination = {current: 0, size: 10};
+    let sorting    = {rel: "email"};
+    this.state = {sorting, pagination};
   }
 
-  rows(store, callback) {
-    let {domains} = this;
+  pagination() {
+    let {pagination} = this.state;
+    return pagination;
+  }
+
+  sorting() {
+    let {sorting} = this.state;
+    return sorting;
+  }
+
+  rows(callback) {
+    let {domains, state} = this;
     let remove = this.remove.bind(this);
 
     function loaded(results) {
@@ -46,8 +59,9 @@ class Delegate extends Engine {
       if(!total)
         return callback([{empty: true}], 1);
 
+      state.pagination.total = total;
       let rows = results.map(function(domain) { return {remove, domain}; });
-      return callback(rows, total);
+      return callback(rows);
     }
 
     Domain.get({}).then(loaded);

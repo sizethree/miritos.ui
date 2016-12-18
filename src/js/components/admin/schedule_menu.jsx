@@ -1,7 +1,7 @@
-import i18n from "../../services/i18n";
-import ActionMenu from "../hoc/action_menu";
-import Schedule from "../../resources/display_schedule";
-import Notes from "../../services/notes";
+import i18n from "services/i18n";
+import Schedule from "resources/display_schedule";
+import Notes from "services/notes";
+import {hoc} from "hoctable";
 
 function Button() {
   return (
@@ -60,4 +60,4 @@ function Menu({close, signals, schedule}) {
   )
 }
 
-export default ActionMenu(Button, Menu);
+export default hoc.ActionMenu(Button, Menu);

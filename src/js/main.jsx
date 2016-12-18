@@ -6,6 +6,7 @@ import Modals from "./services/modals";
 import Notes from "./services/notes";
 import Viewport from "./services/window";
 import Header from "./components/header";
+import {services} from "hoctable";
 
 function e(id) {
   return document.getElementById(id);
@@ -15,7 +16,11 @@ function e(id) {
  * @method start
  */
 export function Start() {
-  Viewport.bind();
+  services.Viewport.bind();
+  services.Popups.mount(e("popups"));
+  Notes.mount(e("notes"));
+  Modals.mount(e("modals"));
+
   let {search: query_string} = window.location;
 
   if('?' === query_string.charAt(0))
@@ -29,24 +34,20 @@ export function Start() {
     if(name === "locale") locale = value;
   }
 
-  Notes.mount(e("notes"));
-  Popups.mount(e("popups"));
-  Modals.mount(e("modals"));
-
   function onRoute() {
     ReactDOM.render(<Header />, e("header"));
   }
 
-  ReactDOM.render(<Header />, e("header"));
 
   function init() {
-    i18n("hello_world");
-    i18n("account.email");
+    ReactDOM.render(<Header />, e("header"));
     Router.init(routes, {onRoute});
   }
 
-  i18n.locale(locale).then(init).catch(function(e) {
+  function fallback(e) {
     console.error("bad locale, defaulting back to \"en\"");
     return i18n.locale("en").then(init);
-  });
+  }
+
+  i18n.locale(locale).then(init).catch(fallback);
 }

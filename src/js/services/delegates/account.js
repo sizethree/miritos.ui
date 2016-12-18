@@ -1,10 +1,10 @@
 import util from "../util";
 import defer from "../defer";
 
-import User from "../../resources/user";
-import ClientToken from "../../resources/client_token";
-import Client from "../../resources/client";
-import GoogleAccount from "../../resources/google_account";
+import User from "resources/user";
+import ClientToken from "resources/client_token";
+import Client from "resources/client";
+import GoogleAccount from "resources/google_account";
 
 function store(initial) {
   function reduce(state, payload) {

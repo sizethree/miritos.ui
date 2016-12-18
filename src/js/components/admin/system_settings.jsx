@@ -2,7 +2,6 @@ import i18n from "services/i18n";
 import Modals from "services/modals";
 import DomainEditor from "components/admin/domain_editor";
 import DomainDelegate from "services/delegates/admin/email_whitelist";
-import tableStore from "services/store_factories/paged_table";
 
 class SystemSettings extends React.Component {
 
@@ -37,8 +36,7 @@ class SystemSettings extends React.Component {
     function editEmails() {
       let delegate = new DomainDelegate();
       let title    = i18n("edit_domains");
-      let store    = tableStore("domain", 10);
-      this.modal_id = Modals.open(<DomainEditor delegate={delegate} store={store} />, {title});
+      this.modal_id = Modals.open(<DomainEditor delegate={delegate} />, {title});
     }
 
     let controls = [(
