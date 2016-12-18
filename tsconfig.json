@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target"    : "es5",
+    "module"    : "amd",
+    "baseUrl"   : "./src/js",
+    "sourceMap" : false,
+    "allowJs"   : true,
+    "jsx"       : "React",
+    "typeRoots" : [
+      "./typings/globals",
+      "./typings/modules",
+      "./bower_components/hoctable/typings"
+    ]
+  }
+}

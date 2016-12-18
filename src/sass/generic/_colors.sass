@@ -1,4 +1,37 @@
-+color-classes("background", $color-background, "bg")
-+color-classes("tomato", $color-tomato, "tomato")
-+color-classes("link", $color-link, "link")
-+color-classes("blue", $color-blue, "blu")
+.bg-transparent
+  background-color: transparent !important
+
++color-classes("link", $link-color, "link")
++color-classes("secondary", $secondary-color, "sec")
++color-classes("primary", $primary-color, "pri")
++color-classes("deep-blue", $color-deep-blue, "depblu")
+
+@for $i from 1 through 50
+  +color-classes("deep-blue-lighten-#{$i}", lighten($color-deep-blue, $i), "depblu-l#{$i}")
+
+body
+  background-color: $secondary-color
+
+@each $color_name, $color in $colors
+  @each $color_type, $color_value in $color
+    @if $color_type == "base"
+      .#{$color_name}
+        background-color: $color_value !important
+
+      .#{$color_name}-text
+        color: $color_value !important
+
+    @else if $color_name != "shades"
+      .#{$color_name}.#{$color_type}
+        background-color: $color_value !important
+
+      .#{$color_name}-text.text-#{$color_type}
+        color: $color_value !important
+
+// Shade classes
+@each $color, $color_value in $shades
+  .#{$color}
+    background-color: $color_value !important
+
+  .#{$color}-text
+    color: $color_value !important

@@ -1,0 +1,30 @@
+#notes
+  @extend .position-fixed
+  @extend .top-0
+  @extend .height-0
+  @extend .left-0
+  @extend .width-50
+  @extend .bg-secondary
+  @extend .align-center
+
+#notes [data-note-id]
+  @extend .position-relative
+  @extend .align-center
+  @extend .display-inline-block
+  margin: 0 1rem 0 0
+
+#notes [data-note-id] .notification
+  @extend .display-inline-block
+  @extend .padding-tb-5
+  @extend .padding-lr-8
+  @extend .radius-1
+  @extend .margin-bottom-2
+  @extend .z-depth-1
+
+#notes [data-note-id] .notification--standard
+  @extend .bg-white
+  @extend .fg-black
+
+#notes [data-note-id] .notification--loading
+  @extend .bg-white
+  @extend .fg-black

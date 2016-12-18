@@ -1,11 +1,17 @@
-.capitalize
+.tt-none
+  text-transform: none !important
+
+.tt-capitalize, .capitalize
   text-transform: capitalize
   
 .upper
   text-transform: uppercase
 
+.ff-fira
+  font-family: "Fira Sans", sans-serif
+
 .ff-sans
-  font-family: 'Open Sans', sans-serif
+  font-family: "Open Sans", sans-serif
 
 .fw-700
   font-weight: 700
@@ -20,11 +26,11 @@
   font-weight: 300
 
 h1, h2, h3, h4, h5, h6, p, code
-  @extend .ff-sans
+  @extend .ff-fira
   @extend .fw-400
+  @extend .margin-0
+  @extend .padding-0
   font-style: normal
-  margin: 0
-  padding: 0
 
 h1, h1 a
   font-size: 3rem
@@ -65,10 +71,31 @@ b
 
 a
   @extend .fg-link
+  @extend .cursor-pointer
   text-decoration: none
 
-.fs-5
-  font-size: 5rem
+hr
+  @extend .display-block
+  @extend .width-50
+  @extend .bg-white-darken-10
+  border: 0
+  height: 1px
+
+@for $i from 1 through 4
+  .lh-#{$i}, .lh-#{$i}:before 
+    line-height: $i + unquote("rem")
+
+  .fs-#{$i}, .fs-#{$i}:before
+    font-size: $i + unquote("rem")
+
+  @for $j from 1 through 9
+    $amt: $i + ($j * 0.10)
+
+    .lh-#{$i}-#{$j}, .lh-#{$i}-#{$j}:before 
+      line-height: $amt + unquote("rem")
+
+    .fs-#{$i}-#{$j}, .fs-#{$i}-#{$j}:before
+      font-size: $amt + unquote("rem")
 
 .text-display p, .text-display h4
   margin-bottom: 1rem

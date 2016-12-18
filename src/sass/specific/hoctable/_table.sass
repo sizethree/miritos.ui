@@ -1,0 +1,44 @@
+.hoctable-table
+  @extend .display-table
+  @extend .display-table--fixed
+  @extend .bordered
+
+.hoctable-table tbody:nth-child(even) tr
+  background-color: #f2f2f2
+
+.hoctable-date-picker input[type="text"]
+  @extend .margin-bottom-0
+
+.hoctable-date-picker__input,
+.hoctable-date-picker__toggle
+  @extend .display-table-cell
+  @extend .v-align-middle
+
+.hoctable-date-picker__input
+  +calc("width", "100% - 30px")
+
+.hoctable-date-picker__toggle
+  @extend .align-center
+  width: 30px
+
+.hoctable-paged-table__table
+  @extend .margin-bottom-10
+
+.hoctable-paged-table__pagination
+  @extend .clearfix
+
+.hoctable-pagination__info[data-single-page="true"]
+  @extend .display-none
+
+.hoctable-paged-table__pagination .hoctable-pagination__info,
+.hoctable-paged-table__pagination .hoctable-pagination__next,
+.hoctable-paged-table__pagination .hoctable-pagination__previous
+  @extend .float-left
+  @extend .margin-right-10
+
+.hoctable-paged-table__pagination .hoctable-pagination__info p
+  @extend .padding-tb-5
+
+.hoctable-paged-table__pagination .hoctable-pagination__next a,
+.hoctable-paged-table__pagination .hoctable-pagination__previous a
+  @extend .btn

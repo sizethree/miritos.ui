@@ -1,0 +1,26 @@
+#modals .modal
+  @extend .position-fixed
+  @extend .width-50
+  @extend .height-50
+
+#modals .modal__content-wrapper
+  @extend .display-table 
+  @extend .position-absolute
+  @extend .width-50
+  @extend .height-50
+  @extend .display-table--fixed
+  @extend .z-2
+
+#modals .modal__screen
+  @extend .z-1
+  @extend .bg-black
+  @extend .opacity-10
+  @extend .position-absolute
+  @extend .left-0
+  @extend .top-0
+  @extend .width-50
+  @extend .height-50
+
+#modals .modal__transclusion
+  +calc("max-height", "90vh - 55px")
+  overflow-y: auto

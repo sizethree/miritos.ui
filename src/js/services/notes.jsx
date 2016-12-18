@@ -1,97 +1,119 @@
-define([
-  "services/uuid"
-], function(Uuid) {
+/** 
+ * The notes module is responsible for the management of "notifications" that
+ * can be used to display a message/component to the user at the top of the 
+ * screen. These are commonly used to communicate the application is performing
+ * an action, the action's "successfulness" upon completion and any other
+ * alert-worthy feedback that is helpful to display.
+ *
+ * @module notes
+ */
+import uuid from "services/uuid";
+import util from "services/util";
+import Notification from "components/hoc/notification";
 
-  /* Notes service
-   *
-   *
-   * This service allows components, routes, and any other module to add notifications
-   * to the screen. Each call to `add` returns a unique id string similar to the Event
-   * class' `on` function.
-   *
-   * The notifications themselves are then added to the single NotificationBar instance
-   * which gets mounted during application startup.
-   */
+const DEFAULT_FLASH_TIME = 2500;
+const REMOVAL_DELAY      = 800;
 
-  let opened = [];
-  let update = null;
-  let mounted = false;
+let stack      = [];
+let mountpoint = false;
 
-  let NotificationBar = React.createClass({
+/**
+ * This function takes a react component and will add it into the `notes` layer.
+ *
+ * @method add
+ */
+function add(component, options) {
+  let note_id   = uuid();
+  let container = util.dom.create("div");
+  container.setAttribute("data-note-id", note_id);
 
-    componentDidMount() {
-      update = latest_id => this.setState({latest_id})
-    },
+  // render the modal into the newly created container
+  ReactDOM.render(<Notification options={options}>{component}</Notification>, container);
 
-    render() {
-      let notes = [];
-      let count = opened.length;
+  // add that container to the modal root
+  mountpoint.appendChild(container);
 
-      for(let i = 0; i < count; i++)
-        notes.push(<Notification text={opened[i].text} key={opened[i].id} />)
+  stack.push({id: note_id, container});
 
-      return (
-        <div className="position-fixed top-0 left-0 width-50">
-          <div className="clearfix">{notes}</div>
-        </div>
-      )
-    }
+  return note_id;
+}
 
-  });
+/**
+ * This function takes a react component and will add it into the `notes` layer.
+ *
+ * @method remove
+ */
+function remove(target_id, callback) {
+  let found = null;
 
-  let Notification = React.createClass({
+  for(let i = 0, c = stack.length; i < c; i++) {
+    let {id, container} = stack[i];
 
-    componentDidMount() {
-    },
+    if(target_id !== id) continue;
 
-    render() {
-      return (
-        <div className="align-center display-block">
-          <div className="padding-tb-4 padding-lr-18 display-inline-block bg-white">
-            <p className="fg-black">{this.props.text}</p>
-          </div>
-        </div>
-      );
-    }
-
-  });
-
-  function add(text) {
-    let id   = Uuid();
-    let note = null;
-    opened.push({note, id, text});
-    update(id);
-    return id;
+    found = {container, index: i};
+    break;
   }
 
-  function remove(target_id) {
-    let count = opened.length;
-    let found = null;
+  if(found === null)
+    return -1;
 
-    for(let i = 0; i < count; i++) {
-      let {note, id} = opened[i];
-      if(id !== target_id) continue;
-      found = i;
-      break;
-    }
+  let {index, container} = found;
 
-    if(found === null) return -1;
+  // prepare for removal
+  let removal = {timeout: setTimeout(fade, REMOVAL_DELAY)};
 
-    opened.splice(found, 1);
-    update(null);
-    return target_id;
+  function exec() {
+    // get the dom node from the react component
+    let node = ReactDOM.findDOMNode(container)
+
+    // unmount the react component
+    ReactDOM.unmountComponentAtNode(node);
+
+    // remove the parent node (container)
+    node.parentNode.removeChild(node);
+
+    if("function" === typeof removal.closed) removal.closed();
   }
 
-  function mount(target) {
-    if(mounted) {
-      console.warning("already mounted the notification engine");
-      return
-    }
-
-    mounted = true;
-    ReactDOM.render(<NotificationBar />, target)
+  function closer(closed) {
+    removal.closed = closed;
   }
 
-  return {add, remove, mount};
+  // fade starts the motion ui animation
+  function fade() {
+    // add the motion ui classes that will "lift" it off screen
+    util.dom.fx.slideOut(container).then(exec);
+  }
 
-});
+  // remove this item and return the id
+  stack.splice(index, 1);
+
+  function abort() {
+    clearTimeout(removal.timeout);
+    stack.push({id: target_id, container});
+  }
+
+  if("function" === typeof callback)
+    callback(abort, closer);
+
+  return target_id;
+}
+
+function flash(component, time = DEFAULT_FLASH_TIME) {
+  let id = add(component);
+
+  setTimeout(function() { remove(id); }, time);
+
+  return true;
+}
+
+function mount(target) {
+  mountpoint = target;
+}
+
+function info(text) {
+  return add(<p className="">{text}</p>);
+}
+
+export default {add, remove, mount, flash, info};

@@ -1,13 +1,10 @@
-define([
-], function() {
+import defer from "../services/defer";
 
-  function resolve() {
-    return Q.resolve(true);
-  }
+function resolve() {
+  return defer.resolve(true);
+}
 
-  view = "views/error";
-  path = "/error"
+let view = "views/error";
+let path = "/error"
 
-  return {resolve, view, path};
-
-});
+export default {resolve, view, path, guest: true};

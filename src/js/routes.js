@@ -1,12 +1,26 @@
-define([
-  "routes/index",
-  "routes/error",
-  "routes/welcome",
-  "routes/missing"
-], function(...routes) {
+import welcome from "./routes/welcome";
+import dashboard from "./routes/dashboard";
+import account from "./routes/account";
 
-  // this is really a shim to allow the codebase to have a single place to define all routes
-  // used by the application, converting that list into an array usable by the router.
-  return routes;
+// oauth bundle
+import oauth from "./routes/oauth/index";
 
-});
+// admin bundle
+import admin from "./routes/admin/index";
+
+import index from "./routes/index";
+import error from "./routes/error";
+
+import missing from "./routes/missing";
+
+let routes = [
+  dashboard,
+  welcome,
+  account,
+  index,
+  error
+];
+
+routes = routes.concat(oauth).concat(admin);
+
+export default routes.concat(missing);

@@ -1,21 +1,11 @@
-define([
-  "components/signup_form",
-  "components/login_form"
-], function(SignUpForm, LoginForm) {
+import LoginForm from "../components/login_form"
 
-  function render() {
-    return (
-      <div className="clearfix padding-tb-15">
-        <div className="row">
-          <div className="column large-6 large-offset-6">
-            <SignUpForm />
-            <LoginForm />
-          </div>
-        </div>
+export default function render({resolved}) {
+  return (
+    <div className="clearfix row collapse">
+      <div className="columns large-6">
+        <LoginForm />
       </div>
-    )
-  }
-
-  return React.createClass({render});
-
-});
+    </div>
+  );
+};

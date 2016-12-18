@@ -1,41 +1,97 @@
-@import "base"
-@import "bases"
+// import the mixins+variables we need from materialze and foundation
+@import "materialize/sass/components/mixins"
+@import "foundation-sites/scss/foundation"
 
-@import "foundation"
-@import "settings"
+// base imports all our variables and mixins that do not output any css
+// but will be available in the rest of the stylesheet.
+@import "base"
+
+// at this point we have all of our settings and our mixins available to us,
+// its now time to start dumping some tangible rules out into the stylesheet.
+
+// reset everthing to blank slate
++meyer-reset
+
+// transition classes
+@import "motion-ui/motion-ui"
+
+// materialze classes
+@import "materialize/sass/components/global"
+@import "materialize/sass/components/cards"
+@import "materialize/sass/components/typography"
+@import "materialize/sass/components/navbar"
+@import "materialize/sass/components/buttons"
+@import "materialize/sass/components/roboto"
+@import "materialize/sass/components/waves"
+@import "materialize/sass/components/dropdown"
+@import "materialize/sass/components/forms/file-input"
+@import "materialize/sass/components/forms/input-fields"
+
+// import utility classes
+@import "krmp-cc/base-7e5aa7"
+@import "bases.scss/src/bases"
+
+#materialize-breakpoint
+  display: none
 
 html, body
-  position: relative
-  width: 100%
-  height: 100%
+  @extend .grey
+  @extend .lighten-5
+  @extend .position-relative
+  @extend .height-50
+  @extend .width-50
+  
+html *, body *
+  box-sizing: border-box
 
-  *
-    box-sizing: border-box
+#popups, #modals
+  @extend .position-absolute
+  @extend .left-0
+  @extend .top-0
+  @extend .width-50
+  @extend .height-0
+  @extend .align-center
 
-#popups
-  position: fixed
-  left: 0
-  top: 0
-  width: 0
-  height: 0
-
-+meyer-reset
 +foundation-grid
 
-.display-table--fixed
-  table-layout: fixed
+main#main
+  +calc("min-height", "100% - 60px")
+  @extend .z-7
+  @extend .padding-tb-20
 
-.pointer
-  cursor: pointer
+.overflow-hidden
+  overflow: hidden
+
+.items-center
+  align-items: center
 
 .outline-none
   outline: none
 
+// layers (e.g modals, notes, popups...)
+@import "layers/notes"
+@import "layers/modals"
+
+// generic classes
+@import "generic/cursors"
+@import "generic/display"
+@import "generic/margins"
 @import "generic/colors"
 @import "generic/radius"
 @import "generic/typography"
-
-@import "generic/inputs"
 @import "generic/buttons"
+@import "generic/inputs"
 
-@import "specifics"
+@import "overrides/breadcrumbs"
+@import "overrides/buttons"
+@import "overrides/cards"
+@import "overrides/inputs"
+@import "overrides/menu"
+
+@import "specific/header"
+@import "specific/footer"
+@import "specific/daypicker"
+@import "specific/hoctable/table"
+@import "specific/signup-form"
+@import "specific/feed-display"
+@import "specific/activity-card"

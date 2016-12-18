@@ -1,13 +1,13 @@
-define([
-], function() {
+import i18n from "services/i18n";
+import GoogleLogin from "components/social/google_login";
 
-  function render() {
-    return (
-      <div className="m-login-form">
+
+export default function render(props) {
+  return (
+    <div className="login-form clearfix">
+      <div className="float-left">
+        <GoogleLogin />
       </div>
-    )
-  }
-
-  return React.createClass({render});
-
-});
+    </div>
+  );
+};

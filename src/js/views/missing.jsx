@@ -1,14 +1,5 @@
-define([
-  "components/header"
-], function(Header) {
-
-
-  function render() {
-    return (
-      <div className="clearfix"></div>
-    );
-  }
-
-  return React.createClass({render})
-
-});
+export default function render(props) {
+  return (
+    <div className="clearfix row"><a href="/">not found</a></div>
+  );
+};
