@@ -35,7 +35,7 @@
     "bower": "1.8.0",
     "btoa": "1.1.2",
     "commander": "2.9.0",
-    "connect-redis": "3.1.0",
+    "connect-redis": "3.2.0",
     "del": "2.2.2",
     "dotenv": "2.0.0",
     "express": "5.0.0-alpha.4",
