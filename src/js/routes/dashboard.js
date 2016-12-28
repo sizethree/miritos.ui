@@ -6,15 +6,18 @@ function resolve() {
   let {dependencies} = this;
   let [{default: Delegate}] = dependencies;
   let current_user = Auth.user();
+  let {resolve: done, reject, promise} = defer.defer();
 
   // create the feed delegate
   let feed_delegate = new Delegate();
 
-  function finish() {
-    return defer.resolve({feed_delegate});
+  function finish(cache) {
+    done({feed_delegate, cache});
   }
 
-  return feed_delegate.load().then(finish);
+  feed_delegate.feed(finish);
+
+  return promise;
 }
 
 resolve.$inject = [

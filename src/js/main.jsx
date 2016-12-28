@@ -1,11 +1,9 @@
-import routes from "./routes";
-import i18n from "./services/i18n";
-import Router from "./router";
-import Popups from "./services/popups";
-import Modals from "./services/modals";
-import Notes from "./services/notes";
-import Viewport from "./services/window";
-import Header from "./components/header";
+import routes from "routes";
+import i18n from "services/i18n";
+import Router from "router";
+import Modals from "services/modals";
+import Notes from "services/notes";
+import Header from "components/header";
 import {services} from "hoctable";
 
 function e(id) {

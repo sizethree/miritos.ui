@@ -15,6 +15,8 @@ function Button() {
 class Menu extends React.Component<any, any> {
 
   render() {
+    let {close} = this.props;
+
     function logout() {
       window.location.replace("/api/logout");
       close();
@@ -22,12 +24,12 @@ class Menu extends React.Component<any, any> {
 
     let items = [
       <MenuItem key="logout" handler={logout} text={i18n("logout")} />,
-      <MenuItem key="account" href={"/account"} text={i18n("account")} />,
-      <MenuItem key="dashboard" href={"/dashboard"} text={i18n("dashboard")} />
+      <MenuItem key="account" handler={close} href={"/account"} text={i18n("account")} />,
+      <MenuItem key="dashboard" handler={close} href={"/dashboard"} text={i18n("dashboard")} />
     ];
 
     if(true === Auth.isAdmin()) {
-      let admin = <MenuItem key="a" href="/admin" text={i18n("admin")} />;
+      let admin = <MenuItem key="a" href="/admin" text={i18n("admin")} handler={close} />;
       items.push(admin);
     }
 

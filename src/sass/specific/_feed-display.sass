@@ -3,7 +3,7 @@
   @extend .position-relative
   @extend .clearfix
 
-.feed-display .feed-display__item
+.feed-display .feed-display__grid-item
   @extend .float-left
   @extend .position-relative
 
@@ -32,7 +32,7 @@
   @extend .left-0
   @extend .z-3
 
-.feed-display.fullscreen .feed-display__item
+.feed-display.fullscreen .feed-display__grid-item
   @extend .position-absolute
   @extend .padding-2
   @extend .border-3
@@ -40,26 +40,16 @@
   @extend .bg-transparent
   @extend .left-0
   @extend .top-0
+  float: none
 
-.feed-display .feed-display__feed-photo-container
-  @extend .position-relative
-  @extend .display-block
-
-.feed-display .feed-display__feed-photo-container img
-  @extend .position-relative
-  @extend .display-block
-  max-height: 256px
-  max-width: 256px
-  min-height: 20px
-  min-width: 20px
 
 .feed-display .feed-display__feed-photo-fs-background
+  @extend .display-block
   @extend .position-absolute
   @extend .width-50
   @extend .height-50
   @extend .left-0
   @extend .top-0
-  @extend .display-none
   background-size: cover
   background-position: center center
   background-repeat: none
@@ -72,13 +62,8 @@
   @extend .height-50
   @extend .bg-primary
 
-.feed-display.fullscreen .feed-display__feed-photo-container
-  @extend .display-none
 
-.feed-display.fullscreen .feed-display__feed-photo-fs-background
-  @extend .display-block
-
-.feed-display.fullscreen .feed-display__feed-photo
+.feed-display .feed-display__feed-photo
   @extend .position-absolute
   @extend .left-0
   @extend .top-0

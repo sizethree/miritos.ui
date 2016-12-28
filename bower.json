@@ -28,7 +28,7 @@
     "redux_min": "https://cdnjs.cloudflare.com/ajax/libs/redux/3.6.0/redux.min.js",
     "moment": "2.15.1",
     "motion-ui": "^1.2.2",
-    "hoctable": "https://github.com/dadleyy/hoctable/releases/download/8.0.1/hoctable.all.tar.gz",
+    "hoctable": "https://github.com/dadleyy/hoctable/releases/download/9.0.0/hoctable.all.tar.gz",
     "krmp-cc": "https://krmp.cc/7e5aa7/package?steps=12&shade_min=60"
   }
 }

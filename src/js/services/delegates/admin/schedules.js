@@ -43,7 +43,7 @@ const COLUMNS = [{
   style: {width: "8%"},
   sortable: false
 }, {
-  rel: "menu",
+  rel: "schedule-menu",
   name: "",
   style: {width: "80px"},
   sortable: false
@@ -74,8 +74,18 @@ export default class ScheduleDelegate extends Engine {
     return this.state.pagination;
   }
 
+  sortBy({rel}, callback) {
+    this.sorting.rel = rel;
+    callback();
+  }
+
   sorting() {
     return this.state.sorting;
+  }
+
+  goTo(new_page, callback) {
+    this.state.pagination.current = new_page;
+    callback();
   }
 
   rows(callback) {
@@ -103,7 +113,7 @@ export default class ScheduleDelegate extends Engine {
     function finished(results) {
       util.replace(objects, results);
       let rows = schedules.map(toRow);
-      callback(rows, total);
+      callback(rows);
       return defer.resolve(rows);
     }
 
@@ -135,7 +145,7 @@ export default class ScheduleDelegate extends Engine {
     }
 
     function loadedSchedules(result) {
-      total = result.$meta.total;
+      pagination.total = result.$meta.total;
       util.replace(schedules, result);
       let activities = result.map(function({activity}) { return activity; });
 

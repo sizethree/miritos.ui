@@ -26,8 +26,6 @@ module.exports = function(gulp) {
     bower("flyby/flyby.js"),
     bower("moment/moment.js"),
     bower("redux/index.js"),
-    bower("react/react.js"),
-    bower("react/react-dom.js"),
     bower("react-day-picker/dist/DayPicker.js"),
     bower("requirejs/require.js")
   ];
@@ -38,8 +36,6 @@ module.exports = function(gulp) {
     bower("flyby/flyby.js"),
     bower("moment/min/moment.min.js"),
     bower("redux_min/index.js"),
-    bower("react/react.min.js"),
-    bower("react/react-dom.min.js"),
     bower("react-day-picker/dist/DayPicker.js"),
     bower("requirejs/require.js")
   ];
@@ -109,7 +105,9 @@ module.exports = function(gulp) {
       .pipe(rjs({
         optimize: "none",
         paths: {
-          "hoctable": path.join(bower_root, "hoctable/es5/hoctable/hoctable")
+          "react"     : path.join(bower_root, "react/react"),
+          "react-dom" : path.join(bower_root, "react/react-dom"),
+          "hoctable"  : path.join(bower_root, "hoctable/es5/hoctable/hoctable")
         }
       }))
       .pipe(gulp.dest(path.join(loc.dist.app, "assets/js")));

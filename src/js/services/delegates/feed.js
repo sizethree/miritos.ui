@@ -24,36 +24,32 @@ export default class Delegate {
     this.objects    = [];
   }
 
-  get feed() {
+  feed(callback) {
     let {objects, activities} = this;
-    let result = [];
 
     function map(activity) {
-      let [actor] = objects.filter(function({url}) { return url === activity.actor_url; });
+      let [actor]  = objects.filter(function({url}) { return url === activity.actor_url; });
       let [object] = objects.filter(function({url}) { return url === activity.object_url; });
-      return {activity, actor, object};
+      let {display} = object;
+      return {activity, actor, object, display};
     }
-
-    for(let i = 0, c = activities.length; i < c; i++) {
-      result.push(map(activities[i]));
-    }
-
-    return result;
-  }
-
-  load() {
-    let {activities, objects} = this;
 
     function finished(results) {
       util.replace(objects, results);
-      return defer.resolve(true);
+      let feed_items = [];
+
+      for(let i = 0, c = activities.length; i < c; i++) {
+        feed_items.push(map(activities[i]));
+      }
+
+      return callback(feed_items);
     }
 
     function loaded(results) {
       util.replace(activities, results);
 
       if(activities.length === 0)
-        return defer.resolve(true);
+        return callback([]);
 
       let unique_urls = [];
       let objects = [];
@@ -72,6 +68,9 @@ export default class Delegate {
         }
       }
 
+      // at this point,we have a list of all the objects that are involved in this activity
+      // feed, so we can send them to the object loader which will actually load in the
+      // record as well as any other related records.
       return loader.all(objects).then(finished);
     }
 

@@ -2,7 +2,7 @@ import util from "services/util";
 
 function FeedItemFactory(GridTransclusion, CardTransclusion) {
 
-  class GridItem extends React.Component {
+  class Box extends React.Component {
 
     constructor(props) {
       super(props);
@@ -12,7 +12,7 @@ function FeedItemFactory(GridTransclusion, CardTransclusion) {
       let {props} = this;
 
       return (
-        <div className="feed-display__grid-item">
+        <div className="feed-display__box">
           <GridTransclusion {...props} />
         </div>
       );
@@ -20,7 +20,7 @@ function FeedItemFactory(GridTransclusion, CardTransclusion) {
 
   }
 
-  return GridItem;
+  return Box;
 
 }
 

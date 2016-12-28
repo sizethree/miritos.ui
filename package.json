@@ -10,6 +10,7 @@
     "build:watch:docs": "gulp watch:docs",
     "clean": "gulp clean",
     "vendor:install": "bower i && typings i",
+    "vendor:i": "npm run vendor:install",
     "test": "npm run test:unit",
     "test:unit": "karma start --single-run=true --browsers=PhantomJS",
     "test:watch": "karma start --single-run=false --browsers=PhantomJS",

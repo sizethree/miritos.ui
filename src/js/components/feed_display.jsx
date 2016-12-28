@@ -1,129 +1,106 @@
 import TYPES from "var/object_types";
-import FeedPhoto from "components/feed/photo";
-import FeedInsta from "components/feed/instagram";
-import Viewport from "services/window";
-import Grid from "services/grid";
+import {services} from "hoctable";
+import Allocator from "services/grid/allocator";
+import Renderer from "services/grid/renderer";
+import utils from "services/util";
 
 const COLUMNS  = 12;
 const MIN_SIZE = 1;
 const MAX_SIZE = 3;
-
-function renderItem({activity, actor, object}) {
-  let {object_type} = activity;
-  let Target = null;
-
-  switch(object_type) {
-    case TYPES.INSTAGRAM:
-      Target = FeedInsta;
-      break;
-    case TYPES.PHOTO:
-      Target = FeedPhoto;
-      break;
-  }
-
-  if(Target === null)
-    return null;
-
-  return (
-    <div className="feed-display__item" key={activity.id} data-activity={activity.id}>
-      <Target key={activity.id} activity={activity} object={object} actor={actor} />
-    </div>
-  );
-}
-
-function rand(min, max) {
-  let theta = Math.random() * max;
-  return Math.floor(theta + min);
-}
-
-function reset(list_element) {
-  if(!list_element) return;
-  let {childNodes: children} = list_element;
-
-  for(let i = 0, c = children.length; i < c; i++) {
-    let child = children[i];
-    Object.assign(child.style, {width: "", height: "", top: "", left: ""});
-  }
-}
-
-function reposition(list_element) {
-  if(!list_element) return;
-  let {props} = this;
-  let {width, height} = list_element.getBoundingClientRect();
-  let {childNodes: children} = list_element;
-  let {delegate} = props;
-
-  // create the grid manager
-  let grid = new Grid(width, height, COLUMNS);
-  let max_size = MAX_SIZE;
-
-  // loop over each child element, positioning them
-  for(let i = 0, c = children.length; i < c; i++) {
-    let child = children[i];
-    let size  = rand(MIN_SIZE, max_size);
-
-    if(size >= max_size && max_size > 1)
-      max_size--;
-
-    let {width, height, left, top} = grid.occupy(size, size);
-
-    child.style.left = `${left}px`;
-    child.style.height = `${height}px`;
-    child.style.width = `${width}px`;
-    child.style.top = `${top}px`;
-  }
-}
 
 class FeedDisplay extends React.Component {
 
   constructor(props) {
     super(props);
     this.listeners = {};
+    this.rendered  = [];
+    this.state     = {fullscreen: false};
   }
 
   componentWillUnmount() {
     let {listeners} = this;
-    Viewport.off(listeners.fullscreen);
+    services.Viewport.off(listeners.fullscreen);
+  }
+
+  transclude(list_el) {
+    let {state, rendered, props} = this;
+    let {delegate} = props;
+
+    if(list_el === null)
+      return false;
+
+    function render(items) {
+      let is_fs = state.fullscreen === true;
+      let {width, height} = list_el.getBoundingClientRect();
+
+      function occupy() {
+        let box = width / COLUMNS;
+        return {width: box, height: box};
+      }
+
+      let allocator = is_fs ? new Allocator(width, height, COLUMNS) : {occupy};
+
+      for(let i = 0, c = items.length; i < c; i++) {
+        let activity_item = items[i];
+        let {top, left, width, height} = allocator.occupy(1,1);
+        let style = {
+          top    : top ? `${top}px` : "",
+          left   : left ? `${left}px` : "", 
+          width  : width ? `${width}px` : "", 
+          height : height ? `${height}px` : ""
+        };
+
+        let child = utils.dom.create("div", style, ["feed-display__grid-item"]);
+        let node  = <activity_item.display {...activity_item} />;
+
+        ReactDOM.render(node, child);
+        list_el.appendChild(child);
+        rendered.push(child);
+      }
+    }
+
+    while(rendered.length) {
+      let item = rendered.shift();
+      ReactDOM.unmountComponentAtNode(item);
+      utils.dom.remove(item);
+    }
+
+    list_el.innerHTML = "";
+    delegate.feed(render.bind(this));
   }
 
   render() {
     let {state, props, listeners} = this;
-    let {delegate} = props;
-    let {feed} = delegate;
     let is_fs  = state && state.fullscreen === true;
-    let items  = [];
-    
-    for(let i = 0, c = feed.length; i < c; i++) {
-      let item = renderItem(feed[i], delegate);
-      if(item !== null) items.push(item);
-    }
-
+   
     function close() {
+      let {rendered} = this;
       let {viewport} = this.refs;
-      let {current}  = Viewport.fullscreen;
+      let {current}  = services.Viewport.fullscreen;
 
       // if this call happened because we just opened, do nothing.
       if(current)
         return false;
 
-      Viewport.off(listeners.fullscreen);
+      services.Viewport.off(listeners.fullscreen);
       listeners.fullscreen = null;
       this.setState({fullscreen: false});
     }
 
     function fullscreen() {
+      let {rendered}    = this;
       let {viewport}    = this.refs;
-      let is_fullscreen = Viewport.fullscreen(viewport);
+      let is_fullscreen = services.Viewport.fullscreen.open(viewport);
 
       if(!is_fullscreen)
         return;
 
-      listeners.fullscreen = Viewport.on("fullscreen", close.bind(this));
+      listeners.fullscreen = services.Viewport.on("fullscreen", close.bind(this));
       this.setState({fullscreen: true});
     }
 
     function exit() {
-      Viewport.fullscreen(null);
+      services.Viewport.fullscreen.open(null);
     }
 
     let screen_icon   = is_fs ? "ion-arrow-shrink" : "ion-arrow-expand";
@@ -135,7 +112,7 @@ class FeedDisplay extends React.Component {
         <div className="feed-display__controls clearfix">
           <a className="btn float-right" onClick={screen_action}><i className={`${screen_icon} icon`}></i></a>
         </div>
-        <div className="feed-display__item-list" ref={(is_fs ? reposition : reset).bind(this)}>{items}</div>
+        <div className="feed-display__item-list" ref={this.transclude.bind(this)}></div>
       </div>
     );
   }

@@ -3,6 +3,7 @@ import defer from "services/defer";
 import Notes from "services/notes";
 import i18n from "services/i18n";
 import {Engine} from "services/events";
+import {daybreak} from "services/dates";
 
 let {DateUtils} = DayPicker;
 
@@ -20,11 +21,6 @@ function range(schedule) {
     to = moment(to).toDate();
 
   return {from, to};
-}
-
-function daybreak(x) {
-  let day = moment(x);
-  return day.seconds(0).minutes(0).hours(0).toDate();
 }
 
 class DateDelegate extends Engine {
