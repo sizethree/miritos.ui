@@ -2,6 +2,9 @@ import date from "services/formatters/date";
 import Menu from "components/admin/user_menu";
 import {hoc} from "hoctable";
 
+import * as ReactDOM from "react-dom";
+import * as React from "react";
+
 function Row({row: {user}}) {
   let detail_url = `/admin/users/${user.id}`;
 

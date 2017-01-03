@@ -21,22 +21,18 @@ module.exports = function(gulp) {
   }
 
   let vendors = [
-    bower("q/q.js"),
     bower("page/page.js"),
     bower("flyby/flyby.js"),
     bower("moment/moment.js"),
     bower("redux/index.js"),
-    bower("react-day-picker/dist/DayPicker.js"),
     bower("requirejs/require.js")
   ];
 
   vendors.release = [
-    bower("q/q.js"),
     bower("page/page.js"),
     bower("flyby/flyby.js"),
     bower("moment/min/moment.min.js"),
     bower("redux_min/index.js"),
-    bower("react-day-picker/dist/DayPicker.js"),
     bower("requirejs/require.js")
   ];
 
@@ -103,11 +99,15 @@ module.exports = function(gulp) {
   gulp.task("js", ["js:copy"], function() {
     return gulp.src(["main.js"], {cwd: path.join(loc.base, "tmp/js")})
       .pipe(rjs({
-        optimize: "none",
+        optimize      : "none",
+        insertRequire : ["daypicker"],
+        include       : ["daypicker", "main"],
         paths: {
-          "react"     : path.join(bower_root, "react/react"),
-          "react-dom" : path.join(bower_root, "react/react-dom"),
-          "hoctable"  : path.join(bower_root, "hoctable/es5/hoctable/hoctable")
+          "react"     : bower("react/react"),
+          "react-dom" : bower("react/react-dom"),
+          "hoctable"  : bower("hoctable/es5/hoctable/hoctable"),
+          "daypicker" : bower("react-day-picker/dist/DayPicker"),
+          "Q"         : bower("q/q")
         }
       }))
       .pipe(gulp.dest(path.join(loc.dist.app, "assets/js")));

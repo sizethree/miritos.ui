@@ -1,3 +1,5 @@
+import * as React from "react";
+
 function item({href, text}) {
   return (
     <div className="breadcrumbs__crumb" key={href}>

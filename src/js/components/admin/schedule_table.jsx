@@ -5,10 +5,12 @@ import DatePickerFactory from "components/hoc/date_picker";
 import ScheduleMenu from "components/admin/schedule_menu";
 import Callout from "components/admin/activity_item_callout";
 import {Light} from "components/type/weights";
-import {hoc} from "hoctable";
-
 import TYPES from "var/object_types";
 import Schedule from "resources/display_schedule";
+
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import {hoc} from "hoctable";
 
 let DatePicker = DatePickerFactory();
 

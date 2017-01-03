@@ -4,6 +4,9 @@ import MenuItem from "components/micro/menu_item";
 import MenuContents from "components/micro/menu_contents";
 import {hoc} from "hoctable";
 
+import * as ReactDOM from "react-dom";
+import * as React from "react";
+
 function Button() {
   return (
     <div className="user-menu">

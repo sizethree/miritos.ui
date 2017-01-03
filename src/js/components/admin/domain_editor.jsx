@@ -3,6 +3,9 @@ import Modals from "services/modals";
 import InputField from "components/forms/input_field";
 import Table from "components/admin/domain_table";
 
+import * as ReactDOM from "react-dom";
+import * as React from "react";
+
 class Addition extends React.Component {
 
 

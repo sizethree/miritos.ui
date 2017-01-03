@@ -6,6 +6,9 @@ import defer from "services/defer";
 import Photo from "resources/photo";
 import {hoc} from "hoctable";
 
+import * as ReactDOM from "react-dom";
+import * as React from "react";
+
 function Inner({object, type}) {
   let text = null;
   let link = null;

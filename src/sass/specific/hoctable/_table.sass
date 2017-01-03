@@ -1,9 +1,9 @@
-.hoctable-table
+.hoctable__table-container table
   @extend .display-table
   @extend .display-table--fixed
   @extend .bordered
 
-.hoctable-table tbody:nth-child(even) tr
+.hoctable__table-container tbody:nth-child(even) tr
   background-color: #f2f2f2
 
 .hoctable-date-picker input[type="text"]
@@ -21,24 +21,41 @@
   @extend .align-center
   width: 30px
 
-.hoctable-paged-table__table
-  @extend .margin-bottom-10
+.hoctable__table
+  @extend .position-relative
 
-.hoctable-paged-table__pagination
+.hoctable__table-container
+  @extend .z-1
+  @extend .padding-bottom-30
+  @extend .margin-bottom-10
+  @extend .position-relative
+
+.hoctable__table-pagination
+  @extend .z-2
   @extend .clearfix
+  @extend .position-absolute
+  @extend .bottom-0
+  @extend .left-0
 
 .hoctable-pagination__info[data-single-page="true"]
   @extend .display-none
 
-.hoctable-paged-table__pagination .hoctable-pagination__info,
-.hoctable-paged-table__pagination .hoctable-pagination__next,
-.hoctable-paged-table__pagination .hoctable-pagination__previous
-  @extend .float-left
-  @extend .margin-right-10
+.hoctable__pagination
+  @extend .clearfix
+  @extend .display-table
+  @extend .display-table--fixed
 
-.hoctable-paged-table__pagination .hoctable-pagination__info p
-  @extend .padding-tb-5
+.hoctable__pagination > div
+  @extend .display-table-cell
+  @extend .v-align-middle
 
-.hoctable-paged-table__pagination .hoctable-pagination__next a,
-.hoctable-paged-table__pagination .hoctable-pagination__previous a
+.hoctable__pagination-controls
+  @extend .padding-left-10
+
+.hoctable__pagination-controls .hoctable__pagination-next,
+.hoctable__pagination-controls .hoctable__pagination-previous
   @extend .btn
+
+.hoctable__pagination-next + .hoctable__pagination-previous,
+.hoctable__pagination-previous + .hoctable__pagination-next
+  @extend .margin-left-10

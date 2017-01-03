@@ -6,3 +6,7 @@ export function daybreak(x) {
 export function add(x, amt, type) {
   return moment(x).add(amt, type);
 }
+
+export function parse(x) {
+  return moment(x);
+}

@@ -1,69 +1,38 @@
-.feed-display
-  @extend .display-block
+.feed-display__preview
+  @extend .position-absolute
+  @extend .width-50
+  @extend .height-50
+  @extend .top-0
+  @extend .left-0
+
+.feed-display__preview .feed-display__photo
+  @extend .position-absolute
+  @extend .width-49
+  @extend .height-49
+  @extend .top-1
+  @extend .left-1
+
+.feed-display__preview .feed-display__photo-bg
+  @extend .feed-display__preview
+  @extend .background-cover
+  @extend .background-center
+
+.feed-display__card
   @extend .position-relative
-  @extend .clearfix
+  @extend .bg-grey-darken-4
+  @extend .border-color-white-darken-1
 
-.feed-display .feed-display__grid-item
-  @extend .float-left
-  @extend .position-relative
+.feed-display__card .feed-display__photo
+  height: 360px
+  width: 400px
 
-.feed-display.fullscreen
-  @extend .position-fixed
-  @extend .left-0
-  @extend .top-0
-  @extend .width-50
-  @extend .height-50
-  @extend .bg-depblu
-
-.feed-display.fullscreen .feed-display__item-list
+.feed-display__card .feed-display__photo-bg
   @extend .position-absolute
-  @extend .width-50
-  @extend .height-50
-  @extend .top-0
-  @extend .left-0
-  @extend .z-2
-
-.feed-display .feed-display__controls
-  @extend .margin-bottom-10
-
-.feed-display.fullscreen .feed-display__controls
-  @extend .position-absolute
-  @extend .top-0
-  @extend .left-0
-  @extend .z-3
-
-.feed-display.fullscreen .feed-display__grid-item
-  @extend .position-absolute
-  @extend .padding-2
-  @extend .border-3
-  @extend .border-color-depblu-l3
-  @extend .bg-transparent
-  @extend .left-0
-  @extend .top-0
-  float: none
-
-
-.feed-display .feed-display__feed-photo-fs-background
-  @extend .display-block
-  @extend .position-absolute
-  @extend .width-50
-  @extend .height-50
-  @extend .left-0
-  @extend .top-0
-  background-size: cover
-  background-position: center center
-  background-repeat: none
-
-.feed-display .feed-display__feed-photo
-  @extend .display-block
-  @extend .position-relative
-  @extend .float-left
-  @extend .width-50
-  @extend .height-50
-  @extend .bg-primary
-
-
-.feed-display .feed-display__feed-photo
-  @extend .position-absolute
-  @extend .left-0
-  @extend .top-0
+  @extend .background-contain
+  @extend .background-no-repeat
+  @extend .background-center
+  @extend .bg-black-lighten-2
+  @extend .left-1
+  @extend .top-1
+  @extend .width-48
+  @extend .height-48

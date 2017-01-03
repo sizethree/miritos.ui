@@ -1,15 +1,20 @@
 import uuid from "services/uuid";
 import util from "services/util";
 import {Engine} from "services/events";
+import * as dates from "services/dates";
+
 import {services} from "hoctable";
 
-// extern: DayPicker
+import * as DayPicker from "daypicker";
+import * as React from "react";
+import * as ReactDOM from "react-dom";
 
+const PickerComponent   = DayPicker.default;
 const TARGET_TOP_BUFFER = 3;
 const DATE_FORMAT       = "MMM Do, YYYY";
 
 function format(v) {
-  return moment(v).format(DATE_FORMAT);
+  return dates.parse(v).format(DATE_FORMAT);
 }
 
 class Picker extends React.Component {
@@ -21,7 +26,7 @@ class Picker extends React.Component {
 
   render() {
     let {config} = this.props;
-    return (<div className="date-picker"><DayPicker {...config} /></div>);
+    return (<div className="date-picker"><PickerComponent {...config} /></div>);
   }
 }
 

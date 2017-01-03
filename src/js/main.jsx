@@ -6,6 +6,9 @@ import Notes from "services/notes";
 import Header from "components/header";
 import {services} from "hoctable";
 
+import * as ReactDOM from "react-dom";
+import * as React from "react";
+
 function e(id) {
   return document.getElementById(id);
 }
@@ -47,5 +50,9 @@ export function Start() {
     return i18n.locale("en").then(init);
   }
 
-  i18n.locale(locale).then(init).catch(fallback);
+  function failed(e) {
+    console.error(e);
+  }
+
+  i18n.locale(locale).catch(fallback).then(init).catch(failed);
 }

@@ -1,17 +1,28 @@
+import * as ReactDOM from "react-dom";
+import * as React from "react";
+
 import Item from "components/feed/hoc/feed_item";
 
 const style = {maxWidth: "200px", maxHeight: "200px"};
 
-export function Photo({activity, actor, object}) {
-  let {url, width, height} = object;
-  let full_url = `/object?url=${encodeURIComponent(url)}`;
-  let bg_style = {backgroundImage: `url(${full_url})`};
+class Photo extends React.Component {
 
-  return (
-    <div className="feed-display__feed-photo">
-      <div className="feed-display__feed-photo-fs-background" style={bg_style}></div>
-    </div>
-  );
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    let {props} = this;
+    let {object: photo} = props;
+    let url = `/object?url=${encodeURIComponent(photo.url)}`;
+    let style = {"backgroundImage": `url(${url})`};
+
+    return (
+      <div className="feed-display__photo">
+        <div className="feed-display__photo-bg" style={style}></div>
+      </div>
+    );
+  }
+
 }
-
-export default Item(Photo);
+export default Photo;

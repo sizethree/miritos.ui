@@ -1,6 +1,8 @@
+import defer from "services/defer";
+
 function fetch(url) {
   let xhr = new XMLHttpRequest();
-  let {promise, resolve, reject} = Q.defer();
+  let {promise, resolve, reject} = defer.defer();
 
   xhr.open("GET", url);
 

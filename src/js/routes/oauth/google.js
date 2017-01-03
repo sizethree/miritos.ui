@@ -1,4 +1,5 @@
-import Auth from "../../services/auth"
+import Auth from "services/auth"
+import defer from "services/defer";
 
 let path = "/oauth/google";
 
@@ -11,7 +12,7 @@ function resolve() {
   if(token)
     Auth.token(token);
 
-  return Q.reject({code: 300, url: "/"});
+  return defer.reject({code: 300, url: "/"});
 }
 
 resolve.$inject = [

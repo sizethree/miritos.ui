@@ -3,22 +3,24 @@ import defer from "services/defer";
 import Notes from "services/notes";
 import i18n from "services/i18n";
 import {Engine} from "services/events";
-import {daybreak} from "services/dates";
+import * as dates from "services/dates";
+
+import * as DayPicker from "daypicker";
 
 let {DateUtils} = DayPicker;
 
 function time(x) {
-  return moment(x).toDate().getTime();
+  return dates.parse(x).toDate().getTime();
 }
 
 function range(schedule) {
   let {start: from, end: to} = schedule;
 
   if(from)
-    from = moment(from).toDate();
+    from = dates.parse(from).toDate();
 
   if(to)
-    to = moment(to).toDate();
+    to = dates.parse(to).toDate();
 
   return {from, to};
 }
@@ -75,7 +77,7 @@ class DateDelegate extends Engine {
 
   range() {
     let {schedule, field} = this;
-    let min = daybreak();
+    let min = dates.daybreak();
     let max = null;
     return [min, max];
   }

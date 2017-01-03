@@ -1,3 +1,5 @@
+import * as React from "react";
+
 export declare interface LinkProps {
   href?    : string;
   handler? : () => void;

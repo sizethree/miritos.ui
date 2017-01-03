@@ -35,8 +35,6 @@
   display: none
 
 html, body
-  @extend .grey
-  @extend .lighten-5
   @extend .position-relative
   @extend .height-50
   @extend .width-50
@@ -73,6 +71,7 @@ main#main
 @import "layers/modals"
 
 // generic classes
+@import "generic/backgrounds"
 @import "generic/cursors"
 @import "generic/display"
 @import "generic/margins"
@@ -82,6 +81,9 @@ main#main
 @import "generic/buttons"
 @import "generic/inputs"
 
+html, body
+  @extend .bg-white
+
 @import "overrides/breadcrumbs"
 @import "overrides/buttons"
 @import "overrides/cards"
@@ -90,8 +92,13 @@ main#main
 
 @import "specific/header"
 @import "specific/footer"
+
+// vendor overrides
 @import "specific/daypicker"
+
+@import "specific/hoctable/wall"
 @import "specific/hoctable/table"
+
 @import "specific/signup-form"
 @import "specific/feed-display"
 @import "specific/activity-card"

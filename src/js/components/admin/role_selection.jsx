@@ -2,6 +2,9 @@ import i18n from "services/i18n";
 import Notes from "services/notes";
 import Table from "components/hoc/paged_table";
 
+import * as ReactDOM from "react-dom";
+import * as React from "react";
+
 class RoleRow extends React.Component {
 
   constructor(props) {

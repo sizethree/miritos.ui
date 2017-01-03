@@ -136,7 +136,7 @@ export default class ScheduleDelegate extends Engine {
         if(unique_urls.indexOf(object_url) === -1) unique_urls.push(object_url);
       }
 
-      return defer.all(unique_urls.map(loadItem)).then(finished);
+      return defer.merge(unique_urls.map(loadItem)).then(finished);
     }
 
     function failed(err) {

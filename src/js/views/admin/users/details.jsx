@@ -1,3 +1,6 @@
+import * as ReactDOM from "react-dom";
+import * as React from "react";
+
 import i18n from "services/i18n";
 import Breadcrumbs from "components/breadcrumbs";
 import RoleManagement from "components/admin/user_role_management";

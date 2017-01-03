@@ -94,7 +94,7 @@ export default class AccountDelegate {
       return Client.get({"filter[id]": `in(${client_ids.join()})`}).then(finish);
     }
 
-    return defer.all([
+    return defer.merge([
       User.get({"filter[id]": `eq(${user.id})`}),
       ClientToken.get({"filter[user]": `eq(${user.id})`}),
       GoogleAccount.get({"filter[user]": `eq(${user.id})`})

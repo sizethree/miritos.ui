@@ -1,5 +1,6 @@
 import MenuItem from "components/micro/menu_item";
 import {MenuItemProps} from "components/micro/menu_item";
+import * as React from "react";
 
 type MenuItemElement = React.ReactElement<MenuItem>;
 export type MenuItems = Array<MenuItemElement>;

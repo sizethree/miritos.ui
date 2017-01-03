@@ -1,3 +1,6 @@
+import * as ReactDOM from "react-dom";
+import * as React from "react";
+
 import Item from "components/feed/hoc/feed_item";
 import {Photo} from "components/feed/photo";
 

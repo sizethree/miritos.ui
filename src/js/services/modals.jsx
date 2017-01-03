@@ -3,6 +3,9 @@ import util from "services/util";
 import Modal from "components/hoc/modal"
 import {services} from "hoctable"
 
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+
 let root        = null;
 let stack       = [];
 let view_events = [];

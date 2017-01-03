@@ -1,4 +1,5 @@
 import Link from "components/micro/link";
+import * as React from "react";
 
 export declare interface MenuItemProps {
   handler? : () => void;

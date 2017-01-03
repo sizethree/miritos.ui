@@ -9,7 +9,7 @@
     "build:docs": "gulp js:docs",
     "build:watch:docs": "gulp watch:docs",
     "clean": "gulp clean",
-    "vendor:install": "bower i && typings i",
+    "vendor:install": "bower i",
     "vendor:i": "npm run vendor:install",
     "test": "npm run test:unit",
     "test:unit": "karma start --single-run=true --browsers=PhantomJS",
@@ -26,8 +26,12 @@
     "url": "https://github.com/sizethree/miritos.ui/issues"
   },
   "homepage": "https://github.com/sizethree/miritos.ui",
-  "dependencies": {},
+  "dependencies": {
+    "@types/q": "0.0.32"
+  },
   "devDependencies": {
+    "@types/react": "^0.14.55",
+    "@types/react-dom": "^0.14.19",
     "babel-core": "^6.21.0",
     "babel-plugin-external-helpers": "6.18.0",
     "babel-plugin-transform-es2015-modules-amd": "6.24.0",

@@ -8,6 +8,9 @@ import Notes from "services/notes";
 import * as dates from "services/dates";
 import {hoc} from "hoctable";
 
+import * as ReactDOM from "react-dom";
+import * as React from "react";
+
 function Button() {
   return (
     <div className="display-inline-block">
