@@ -21,6 +21,6 @@ create.transform.request = function(data) {
   return form;
 };
 
-let InstagramPhoto = Resource(`${ENV.API_HOME}/instagram/:id`, {id: "@id"}, {create});
+let InstagramPhoto = Resource(`${ENV.API_HOME}/instagram-photos/:id`, {id: "@id"}, {create});
 
 export default InstagramPhoto;
