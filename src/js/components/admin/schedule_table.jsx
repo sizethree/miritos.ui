@@ -1,18 +1,19 @@
-import i18n from "services/i18n";
+import i18n  from "services/i18n";
 import Notes from "services/notes";
 import defer from "services/defer";
-import DatePickerFactory from "components/hoc/date_picker";
+
+import DatePicker   from "components/date_picker";
 import ScheduleMenu from "components/admin/schedule_menu";
-import Callout from "components/admin/activity_item_callout";
-import {Light} from "components/type/weights";
-import TYPES from "var/object_types";
+import Callout      from "components/admin/activity_item_callout";
+import {Light}      from "components/type/weights";
+
 import Schedule from "resources/display_schedule";
 
-import * as React from "react";
-import * as ReactDOM from "react-dom";
-import {hoc} from "hoctable";
+import TYPES    from "var/object_types";
 
-let DatePicker = DatePickerFactory();
+import * as React    from "react";
+import * as ReactDOM from "react-dom";
+import {hoc}         from "hoctable";
 
 function lower(s) {
   return s && "function" === typeof s.toLowerCase ? s.toLowerCase() : s;
@@ -72,10 +73,10 @@ class Row extends React.Component {
           <DatePicker delegate={delegates.end} />
         </td>
         <td className="admin-schedule-row__actor">
-          <Callout object={actor.object} type={activity.actor_type}/>
+          <Callout object={actor} type={activity.actor_type}/>
         </td>
         <td className="admin-schedule-row__object">
-          <Callout object={object.object} type={activity.object_type} />
+          <Callout object={object} type={activity.object_type} />
         </td>
         <td className="admin-schedule-row__approval">
           <p className={approval_color}>{i18n(lower(schedule.approval))}</p>

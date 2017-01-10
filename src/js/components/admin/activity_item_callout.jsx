@@ -19,7 +19,7 @@ function Inner({object, type}) {
       break;
     case TYPES.USER:
     case TYPES.CLIENT:
-      text = object.name;
+      text = object.object.name;
       link = i18n("client");
       break;
     case TYPES.INSTAGRAM:
@@ -58,10 +58,17 @@ function User({user}) {
   );
 }
 
-function Instagram({gram}) {
+function Instagram({gram, photo}) {
+  let url = `/object?url=${encodeURIComponent(photo.url)}`;
+  let style = {maxWidth: "100%", maxHeight: "360px"};
+
   return (
     <div className="align-left">
       <h5 className="fg-black-lighten-10 fw-300">{i18n("instagram")}</h5>
+      <hr />
+      <div className="align-center">
+        <img className="display-block center-block margin-auto" src={url} style={style} />
+      </div>
       <hr />
       <p className="black-text"><Light text={i18n("caption")} />: <SemiBold text={gram.caption} /></p>
     </div>
@@ -92,7 +99,8 @@ function Preview({type, object}) {
       content = <Client client={object} />;
       break;
     case TYPES.INSTAGRAM:
-      content = <Instagram gram={object} />;
+      let {photo} = object.meta;
+      content = <Instagram gram={object.object} photo={photo} />;
       break;
     default:
       break;

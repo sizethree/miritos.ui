@@ -14,11 +14,12 @@ for(var i =  0, c = file_names.length; i < c; i++) {
 require.config({
   baseUrl: '/base',
   paths: {
-    "views": "/base/src/js/views",
-    "fixtures": "/base/test/fixtures",
-    "services": "/base/src/js/services",
-    "components": "/base/src/js/components",
-    "routes": "/base/src/js/routes"
+    "views"      : "/base/src/js/views",
+    "fixtures"   : "/base/test/fixtures",
+    "services"   : "/base/src/js/services",
+    "components" : "/base/src/js/components",
+    "routes"     : "/base/src/js/routes",
+    "Q"          : "/base/bower_components/q/q"
   },
   shim: {},
   deps: tests,

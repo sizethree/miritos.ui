@@ -18,6 +18,8 @@ module.exports = function(config) {
   };
 
   let files = [
+    {pattern: "./bower_components/q/q.js", included: false},
+
     {pattern: "./test/unit/**/*.spec.js", included: false},
     {pattern: "./test/fixtures/**/*.js", included: false},
 

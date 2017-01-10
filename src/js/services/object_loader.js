@@ -2,8 +2,10 @@ import fetch from "services/fetch";
 import utils from "services/util";
 import TYPES from "var/object_types";
 import defer from "services/defer";
+
 import instagramLoader from "services/loaders/instagram";
-import photoLoader from "services/loaders/photo";
+import photoLoader     from "services/loaders/photo";
+import clientLoader    from "services/loaders/client";
 
 function objectUrl(s) {
   return `/object?url=${encodeURIComponent(s)}`;
@@ -58,6 +60,9 @@ function all(objects) {
         break;
       case TYPES.INSTAGRAM:
         loader = instagramLoader;
+        break;
+      case TYPES.CLIENT:
+        loader = clientLoader;
         break;
     }
 
