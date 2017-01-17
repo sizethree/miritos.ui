@@ -4,7 +4,12 @@
 
 // base imports all our variables and mixins that do not output any css
 // but will be available in the rest of the stylesheet.
-@import "base"
+@import "var/material-settings"
+@import "var/foundation-settings"
+
+@import "mixins/calc"
+@import "mixins/reset"
+@import "mixins/transform"
 
 // at this point we have all of our settings and our mixins available to us,
 // its now time to start dumping some tangible rules out into the stylesheet.
@@ -28,7 +33,6 @@
 @import "materialize/sass/components/forms/input-fields"
 
 // import utility classes
-@import "krmp-cc/base-7e5aa7"
 @import "bases.scss/src/bases"
 
 #materialize-breakpoint

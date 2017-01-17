@@ -22,13 +22,13 @@
     "q": "1.0.1",
     "foundation-sites": "6.2.3",
     "flyby": "1.3.1",
-    "materialize": "0.97.7",
+    "materialize": "https://github.com/Dogfalo/materialize/archive/v0.98.2.tar.gz",
     "redux": "https://npmcdn.com/redux/dist/redux.js",
     "react-day-picker": "3.1.1",
     "redux_min": "https://cdnjs.cloudflare.com/ajax/libs/redux/3.6.0/redux.min.js",
     "moment": "2.15.1",
     "motion-ui": "^1.2.2",
-    "hoctable": "https://github.com/dadleyy/hoctable/releases/download/9.0.3/hoctable.all.tar.gz",
+    "hoctable": "https://github.com/dadleyy/hoctable/releases/download/0.0.12/hoctable.all.tar.gz",
     "krmp-cc": "https://krmp.cc/7e5aa7/package?steps=12&shade_min=60"
   }
 }

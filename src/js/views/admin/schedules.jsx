@@ -17,15 +17,10 @@ class Schedules extends React.Component {
 
   constructor(props) {
     super(props)
-
-    function update() {
-      this.forceUpdate();
-    }
-
     let {resolved} = props;
     let {table_delegate} = resolved;
-
-    table_delegate.on("update", update.bind(this));
+    let update = this.forceUpdate.bind(this);
+    table_delegate.on("update", update);
   }
 
   render() {

@@ -58,7 +58,7 @@ function User({user}) {
   );
 }
 
-function Instagram({gram, photo}) {
+function Instagram({gram, account, photo}) {
   let url = `/object?url=${encodeURIComponent(photo.url)}`;
   let style = {maxWidth: "100%", maxHeight: "360px"};
 
@@ -70,7 +70,18 @@ function Instagram({gram, photo}) {
         <img className="display-block center-block margin-auto" src={url} style={style} />
       </div>
       <hr />
-      <p className="black-text"><Light text={i18n("caption")} />: <SemiBold text={gram.caption} /></p>
+      <table>
+        <tbody>
+          <tr>
+            <td><p className="black-text"><SemiBold text={i18n("instagram_user")} /></p></td>
+            <td><p><Light text={account.username} /></p></td>
+          </tr>
+          <tr>
+            <td><p className="black-text"><SemiBold text={i18n("caption")} /></p></td>
+            <td><p><Light text={gram.caption} /></p></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   );
 }
@@ -99,8 +110,8 @@ function Preview({type, object}) {
       content = <Client client={object} />;
       break;
     case TYPES.INSTAGRAM:
-      let {photo} = object.meta;
-      content = <Instagram gram={object.object} photo={photo} />;
+      let {photo, account} = object.meta;
+      content = <Instagram gram={object.object} photo={photo} account={account} />;
       break;
     default:
       break;

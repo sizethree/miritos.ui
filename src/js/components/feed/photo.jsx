@@ -1,8 +1,6 @@
 import * as ReactDOM from "react-dom";
 import * as React from "react";
 
-import Item from "components/feed/hoc/feed_item";
-
 const style = {maxWidth: "200px", maxHeight: "200px"};
 
 class Photo extends React.Component {
@@ -13,13 +11,14 @@ class Photo extends React.Component {
 
   render() {
     let {props} = this;
-    let {object: photo} = props;
+    let {object} = props;
+    let {object: photo} = object;
     let url = `/object?url=${encodeURIComponent(photo.url)}`;
     let style = {"backgroundImage": `url(${url})`};
 
     return (
-      <div className="feed-display__photo">
-        <div className="feed-display__photo-bg" style={style}></div>
+      <div className="feed-display__photo position-relative">
+        <div className="feed-display__photo-bg position-absolute left-0 top-0" style={style}></div>
       </div>
     );
   }

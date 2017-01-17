@@ -26,12 +26,10 @@
     "url": "https://github.com/sizethree/miritos.ui/issues"
   },
   "homepage": "https://github.com/sizethree/miritos.ui",
-  "dependencies": {
-    "@types/q": "0.0.32"
-  },
   "devDependencies": {
-    "@types/react": "^0.14.55",
-    "@types/react-dom": "^0.14.19",
+    "@types/q": "1.0.0",
+    "@types/react": "15.0.24",
+    "@types/react-dom": "15.5.0",
     "babel-core": "^6.21.0",
     "babel-plugin-external-helpers": "6.18.0",
     "babel-plugin-transform-es2015-modules-amd": "6.24.0",

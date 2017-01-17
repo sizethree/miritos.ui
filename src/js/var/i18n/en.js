@@ -36,6 +36,7 @@ const en = {
   id: "ID",
   initialize: "Initialize",
   instagram: "Instagram",
+  instagram_user: "Instagram User",
   linked_accounts: "Linked Accounts",
   loading_please_wait: "Loading, please wait...",
   logout: "Logout",

@@ -96,7 +96,8 @@ export default class ScheduleDelegate extends Engine {
     let {current: page, size: limit} = pagination;
     let total = null;
 
-    let update = (function() { this.trigger("update"); }).bind(this);
+    let update  = () => this.trigger("update");
+    let signals = {update};
 
     function map(schedule) {
       let [activity] = activities.filter(function({id}) { return id === schedule.activity; });
@@ -108,7 +109,7 @@ export default class ScheduleDelegate extends Engine {
         end   : new DateDelegate("end", schedule)
       };
 
-      return {activity, actor, object, schedule, delegates};
+      return {activity, actor, object, signals, schedule, delegates};
     }
 
     function finished(results) {

@@ -27,13 +27,24 @@
   height: 460px
   width: 520px
 
+.feed-display__card .feed-display__instagram-caption
+  max-height: 460px
+  max-width: 520px
+
 .feed-display__card .feed-display__photo-bg
-  @extend .position-absolute
   @extend .background-contain
   @extend .background-no-repeat
   @extend .background-center
   @extend .bg-black-lighten-2
-  @extend .left-1
-  @extend .top-1
-  @extend .width-48
-  @extend .height-48
+  @extend .width-50
+  @extend .height-50
+  @extend .left-0
+  @extend .top-0
+
+.feed-display__source-icon
+  @extend .position-absolute
+  @extend .left-0
+  @extend .top-0
+
+.feed-display__instagram-source-icon
+  @extend .feed-display__source-icon

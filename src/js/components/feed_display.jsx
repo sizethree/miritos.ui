@@ -1,9 +1,12 @@
 import TYPES from "var/object_types";
-import Unkown from "components/feed/unknown";
-import Photo from "components/feed/photo";
 
-import {services, hoc} from "hoctable";
+import Unkown           from "components/feed/unknown";
+import Photo            from "components/feed/photo";
+import InstagramPhoto   from "components/feed/instagram_photo";
+import InstagramCaption from "components/feed/instagram_caption";
+
 import * as React from "react";
+import {services, hoc} from "hoctable";
 
 class Preview extends React.Component {
 
@@ -24,7 +27,7 @@ class Preview extends React.Component {
       case TYPES.INSTAGRAM:
         InnerPreview = Photo;
         let {photo} = object.meta;
-        object = {object: photo};
+        object = {object: {object: photo}};
         break;
     }
 
@@ -41,7 +44,7 @@ class Card extends React.Component {
 
   render() {
     let {props} = this;
-    let {object} = props.item;
+    let {actor, object} = props.item;
 
     let Left  = Unkown;
     let Right = Unkown;
@@ -51,9 +54,9 @@ class Card extends React.Component {
         Left = Photo;
         break;
       case TYPES.INSTAGRAM:
-        Left = Photo;
-        let {photo} = object.meta;
-        object = {object: photo};
+        Left  = InstagramPhoto;
+        Right = InstagramCaption;
+        actor = object;
         break;
       case TYPES.USER:
         console.log("user");
@@ -62,11 +65,17 @@ class Card extends React.Component {
 
     return (
       <div className="feed-display__card clearfix">
-        <div className="float-left">
-          <Left object={object.object} />
-        </div>
-        <div className="float-right">
-          <Right object={object.actor} />
+        <div className="display-flex display-flex-row">
+          <div className="display-inline-block">
+            <div className="position-relative padding-tb-10 padding-left-10 padding-right-5">
+              <Left object={object} />
+            </div>
+          </div>
+          <div className="display-inline-block">
+            <div className="position-relative padding-tb-10 padding-right-10 padding-left-5">
+              <Right object={actor} />
+            </div>
+          </div>
         </div>
       </div>
     );
