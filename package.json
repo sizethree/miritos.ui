@@ -69,7 +69,7 @@
     "karma-requirejs": "1.1.0",
     "karma-typescript-preprocessor": "0.3.0",
     "merge-stream": "1.0.1",
-    "redis": "2.6.3",
+    "redis": "2.7.0",
     "request": "2.81.0",
     "typescript": "^2.0.10",
     "typings": "^2.0.0"
