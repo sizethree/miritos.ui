@@ -51,7 +51,7 @@
     "gulp-requirejs-optimize": "1.2.0",
     "gulp-sass": "3.1.0",
     "gulp-typescript": "3.1.6",
-    "gulp-uglify": "2.0.1",
+    "gulp-uglify": "2.1.1",
     "gulp-util": "3.0.7",
     "gulp-yuidoc": "0.1.2",
     "jasmine-ajax": "^3.3.1",
