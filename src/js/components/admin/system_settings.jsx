@@ -3,6 +3,9 @@ import Modals from "services/modals";
 import DomainEditor from "components/admin/domain_editor";
 import DomainDelegate from "services/delegates/admin/email_whitelist";
 
+import * as ReactDOM from "react-dom";
+import * as React from "react";
+
 class SystemSettings extends React.Component {
 
   constructor(props) {

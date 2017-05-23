@@ -16,19 +16,20 @@ function contains(target : HTMLElement, child : HTMLElement) : boolean {
   return false;
 }
 
-function create(tag : string, style? : React.CSSProperties) : HTMLElement {
+function create(tag : string, style? : React.CSSProperties, class_list? : Array<string>) : HTMLElement {
   let element = document.createElement(tag);
 
   element.setAttribute("util-dom", "true");
 
-  if(!style)
-    return element;
-
-  let rules = Object.keys(style);
+  let rules = style ? Object.keys(style) : [];
 
   for(let i = 0, c = rules.length; i < c; i++) {
     let rule  = rules[i];
     element.style[rule] = style[rule];
+  }
+
+  for(var i = 0, c = class_list ? class_list.length : 0; i < c; i++) {
+    classes.add(element, class_list[i]);
   }
 
   return element;

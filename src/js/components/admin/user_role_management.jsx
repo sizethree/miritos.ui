@@ -7,6 +7,9 @@ import RoleSelection from "components/admin/role_selection";
 import Delegate from "services/delegates/admin/role_selection";
 import Manager from "services/managers/user_roles";
 
+import * as ReactDOM from "react-dom";
+import * as React from "react";
+
 function Mapping({mapping, manager}) {
   let role_label = null;
 

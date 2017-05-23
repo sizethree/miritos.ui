@@ -1,3 +1,6 @@
+import * as ReactDOM from "react-dom";
+import * as React from "react";
+
 import i18n from "services/i18n";
 import Breadcrumbs from "components/breadcrumbs";
 import Settings from "components/admin/system_settings";

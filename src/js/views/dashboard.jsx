@@ -2,23 +2,24 @@ import FeedDisplay from "../components/feed_display";
 import PhotoUpload from "../components/photo_upload_button";
 import PhotoDelegate from "../services/delegates/photo_saver";
 
+import * as ReactDOM from "react-dom";
+import * as React from "react";
+
 class Dashboard extends React.Component {
 
   constructor(props) {
     super(props);
     let update = this.forceUpdate.bind(this);
+    let {feed_delegate} = props.resolved;
 
-    function photo() {
-      let {feed_delegate} = this.props.resolved;
-      feed_delegate.load().then(function() { update(); });
+    function refresh() {
+      feed_delegate.items(update);
     }
 
     this.photo_delegate = new PhotoDelegate();
 
     // register listeners
-    this.listeners = {
-      upload: this.photo_delegate.on("saved", photo.bind(this))
-    };
+    this.listeners = {upload: this.photo_delegate.on("saved", refresh)};
   }
 
   componentWillUnmount() {

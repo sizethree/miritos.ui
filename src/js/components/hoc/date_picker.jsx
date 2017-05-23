@@ -1,15 +1,20 @@
-import Popups from "services/popups";
 import uuid from "services/uuid";
 import util from "services/util";
 import {Engine} from "services/events";
+import * as dates from "services/dates";
 
-// extern: DayPicker
+import {services} from "hoctable";
 
+import * as DayPicker from "daypicker";
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+
+const PickerComponent   = DayPicker.default;
 const TARGET_TOP_BUFFER = 3;
 const DATE_FORMAT       = "MMM Do, YYYY";
 
 function format(v) {
-  return moment(v).format(DATE_FORMAT);
+  return dates.parse(v).format(DATE_FORMAT);
 }
 
 class Picker extends React.Component {
@@ -21,7 +26,7 @@ class Picker extends React.Component {
 
   render() {
     let {config} = this.props;
-    return (<div className="date-picker"><DayPicker {...config} /></div>);
+    return (<div className="date-picker"><PickerComponent {...config} /></div>);
   }
 }
 
@@ -32,6 +37,10 @@ function DatePickerFactory() {
       super(props);
       this.picker_id = uuid();
       this.picker_events = new Engine();
+    }
+
+    componentWillUnmount() {
+      if(this.popup) services.Popups.close(this.popup);
     }
 
     render() {
@@ -79,13 +88,13 @@ function DatePickerFactory() {
 
       function open({currentTarget: target}) {
         let bounding  = target.getBoundingClientRect();
-        let top       = util.dom.px(bounding.top + bounding.height + TARGET_TOP_BUFFER + window.scrollY);
+        let top       = bounding.top + bounding.height + TARGET_TOP_BUFFER + window.scrollY;
         let placement = {top};
 
         if(bounding.left > window.innerWidth * 0.5) {
-          placement.right = util.dom.px(window.innerWidth - (bounding.left + bounding.width));
+          placement.right = window.innerWidth - (bounding.left + bounding.width);
         } else {
-          placement.left = util.dom.px(bounding.left);
+          placement.left = bounding.left;
         }
 
         if("function" === typeof delegate.range)
@@ -98,7 +107,7 @@ function DatePickerFactory() {
           disabledDays   : disabled
         };
 
-        this.popup = Popups.open(<Picker events={picker_events} config={props} />, placement);
+        this.popup = services.Popups.open(<Picker events={picker_events} config={props} />, placement);
       }
 
       return (

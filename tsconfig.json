@@ -7,9 +7,13 @@
     "allowJs"   : true,
     "jsx"       : "React",
     "typeRoots" : [
-      "./typings/globals",
-      "./typings/modules",
       "./bower_components/hoctable/typings"
     ]
-  }
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "./node_modules/@types/**/*.d.ts",
+    "./bower_components/hoctable/typings/hoctable/index.d.ts"
+  ]
 }

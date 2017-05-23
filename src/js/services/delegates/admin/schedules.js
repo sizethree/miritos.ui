@@ -1,11 +1,12 @@
-import util from "services/util";
-import defer from "services/defer";
-import fetch from "services/fetch";
-import i18n from "services/i18n";
-import DisplaySchedule from "resources/display_schedule";
+import util         from "services/util";
+import loader       from "services/object_loader";
+import defer        from "services/defer";
+import i18n         from "services/i18n";
 import DateDelegate from "services/delegates/admin/schedule_date";
-import Activity from "resources/activity";
-import {Engine} from "services/events";
+import {Engine}     from "services/events";
+
+import Activity        from "resources/activity";
+import DisplaySchedule from "resources/display_schedule";
 
 const COLUMNS = [{
   rel: "id",
@@ -43,7 +44,7 @@ const COLUMNS = [{
   style: {width: "8%"},
   sortable: false
 }, {
-  rel: "menu",
+  rel: "schedule-menu",
   name: "",
   style: {width: "80px"},
   sortable: false
@@ -74,8 +75,18 @@ export default class ScheduleDelegate extends Engine {
     return this.state.pagination;
   }
 
+  sortBy({rel}, callback) {
+    this.sorting.rel = rel;
+    callback();
+  }
+
   sorting() {
     return this.state.sorting;
+  }
+
+  goTo(new_page, callback) {
+    this.state.pagination.current = new_page;
+    callback();
   }
 
   rows(callback) {
@@ -85,48 +96,64 @@ export default class ScheduleDelegate extends Engine {
     let {current: page, size: limit} = pagination;
     let total = null;
 
-    let update = (function() { this.trigger("update"); }).bind(this);
+    let update  = () => this.trigger("update");
+    let signals = {update};
 
-    function toRow(schedule) {
+    function map(schedule) {
       let [activity] = activities.filter(function({id}) { return id === schedule.activity; });
-      let [actor] = objects.filter(function({url}) { return url === activity.actor_url; });
-      let [object] = objects.filter(function({url}) { return url === activity.object_url; });
+      let [actor]    = objects.filter(function({uuid}) { return uuid === activity.actor_uuid; });
+      let [object]   = objects.filter(function({uuid}) { return uuid === activity.object_uuid; });
 
       let delegates  = {
-        start: new DateDelegate("start", schedule),
-        end: new DateDelegate("end", schedule)
+        start : new DateDelegate("start", schedule),
+        end   : new DateDelegate("end", schedule)
       };
 
-      return {schedule, activity, delegates, signals: {update}, actor, object};
+      return {activity, actor, object, signals, schedule, delegates};
     }
 
     function finished(results) {
       util.replace(objects, results);
-      let rows = schedules.map(toRow);
-      callback(rows, total);
-      return defer.resolve(rows);
-    }
+      let feed_items = [];
 
-    function loadItem(url) {
-      function normalize({results}) {
-        let [object] = results;
-        return defer.resolve({object, url});
+      for(let i = 0, c = schedules.length; i < c; i++) {
+        feed_items.push(map(schedules[i]));
       }
 
-     return fetch(objectUrl(url)).then(normalize);
+      callback(feed_items);
+      return defer.resolve(feed_items);
     }
 
-    function loadedActivity(result) {
-      util.replace(activities, result);
-      let unique_urls = [];
+    function loadedActivity(activity_results) {
+      util.replace(activities, activity_results);
+
+      if(activities.length === 0) {
+        callback([]);
+        return defer.resolve([]);
+      }
+
+      let register = [];
+      let objects  = [];
 
       for(let i = 0, c = activities.length; i < c; i++) {
-        let {actor_url, object_url} = activities[i];
-        if(unique_urls.indexOf(actor_url) === -1) unique_urls.push(actor_url);
-        if(unique_urls.indexOf(object_url) === -1) unique_urls.push(object_url);
+        // get the type and the uuid from the actors and objects
+        let {actor_type, object_type, object_uuid, actor_uuid} = activities[i];
+
+        // load in the actor if not already in our unique list
+        if(register.indexOf(actor_uuid) === -1) {
+          register.push(actor_uuid);
+          objects.push({uuid: actor_uuid, type: actor_type});
+        }
+
+        // load in the object if not already in our unique list
+        if(register.indexOf(object_uuid) === -1) {
+          register.push(object_uuid);
+          objects.push({uuid: object_uuid, type: object_type});
+        }
       }
 
-      return defer.all(unique_urls.map(loadItem)).then(finished);
+      return loader.all(objects)
+        .then(finished);
     }
 
     function failed(err) {
@@ -135,7 +162,7 @@ export default class ScheduleDelegate extends Engine {
     }
 
     function loadedSchedules(result) {
-      total = result.$meta.total;
+      pagination.total = result.$meta.total;
       util.replace(schedules, result);
       let activities = result.map(function({activity}) { return activity; });
 

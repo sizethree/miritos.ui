@@ -1,6 +1,7 @@
 import i18n from "services/i18n";
 import Basic from "components/account/basic_info";
 import Links from "components/account/linked_accounts";
+import * as React from "react";
 
 class AccountSettings extends React.Component {
 

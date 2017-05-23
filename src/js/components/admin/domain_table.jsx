@@ -1,10 +1,14 @@
 import i18n from "services/i18n";
+import * as dates from "services/dates";
 import {hoc} from "hoctable";
+
+import * as ReactDOM from "react-dom";
+import * as React from "react";
 
 const DATE_FORMAT = "MMM Do, YYYY";
 
 function format(v) {
-  return moment(v).format(DATE_FORMAT);
+  return dates.parse(v).format(DATE_FORMAT);
 }
 
 class Row extends React.Component {

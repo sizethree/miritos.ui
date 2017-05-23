@@ -1,7 +1,15 @@
 import i18n from "services/i18n";
 import Schedule from "resources/display_schedule";
+
+import MenuItem from "components/micro/menu_item";
+import MenuContents from "components/micro/menu_contents";
+
 import Notes from "services/notes";
+import * as dates from "services/dates";
 import {hoc} from "hoctable";
+
+import * as ReactDOM from "react-dom";
+import * as React from "react";
 
 function Button() {
   return (
@@ -9,10 +17,6 @@ function Button() {
       <a className="waves-effect waves-light btn"><i className="icon ion-navicon-round"></i></a>
     </div>
   )
-}
-
-function option(key, a) {
-  return (<li key={key} className="position-relative margin-top-0">{a}</li>);
 }
 
 function Menu({close, signals, schedule}) {
@@ -44,20 +48,22 @@ function Menu({close, signals, schedule}) {
     return close();
   }
 
+  if(pending) {
+    let text    = i18n("approve_for_thirty");
+    let start   = dates.daybreak();
+    let end     = dates.add(start, 30, "days").toDate();
+    let handler = update.bind({approval: "APPROVED", start, end});
+    items.push(<MenuItem key="approve_for_30" text={text} handler={handler} />);
+  }
+
   // if this schedule item is pending but has start/end either approve or deny
   if(pending || schedule.approval === "APPROVED")
-    items.push(option("reject", <a onClick={update.bind({approval: "REJECTED"})}>{i18n("reject")}</a>));
+    items.push(<MenuItem key="reject" text={i18n("reject")} handler={update.bind({approval: "REJECTED"})} />);
 
-  // if the item is pending approval but has both a start and end date, allow the user
-  // to approve it.
-  if((pending || schedule.approval === "REJECTED") && schedule.start && schedule.end)
-    items.push(option("approve", <a onClick={update.bind({approval: "APPROVED"})}>{i18n("approve")}</a>));
+  if(schedule.start && schedule.end && schedule.approval === "REJECTED")
+    items.push(<MenuItem key="approve" text={i18n("approve")} handler={update.bind({approval: "APPROVED"})} />);
 
-  return (
-    <section className="dropdown">
-      <ul className="dropdown__option-list">{items}</ul>
-    </section>
-  )
+  return (<MenuContents>{items}</MenuContents>);
 }
 
-export default hoc.ActionMenu(Button, Menu);
+export default hoc.ActionMenu(Menu, Button);

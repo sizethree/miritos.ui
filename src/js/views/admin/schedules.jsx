@@ -1,3 +1,6 @@
+import * as ReactDOM from "react-dom";
+import * as React from "react";
+
 import i18n from "services/i18n";
 import Table from "components/admin/schedule_table";
 import Breadcrumbs from "components/breadcrumbs";
@@ -14,15 +17,10 @@ class Schedules extends React.Component {
 
   constructor(props) {
     super(props)
-
-    function update() {
-      this.forceUpdate();
-    }
-
     let {resolved} = props;
     let {table_delegate} = resolved;
-
-    table_delegate.on("update", update.bind(this));
+    let update = this.forceUpdate.bind(this);
+    table_delegate.on("update", update);
   }
 
   render() {

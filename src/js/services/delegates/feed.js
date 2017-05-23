@@ -24,54 +24,58 @@ export default class Delegate {
     this.objects    = [];
   }
 
-  get feed() {
+  items(callback) {
     let {objects, activities} = this;
-    let result = [];
 
     function map(activity) {
-      let [actor] = objects.filter(function({url}) { return url === activity.actor_url; });
-      let [object] = objects.filter(function({url}) { return url === activity.object_url; });
+      let [actor]  = objects.filter(function({uuid}) { return uuid === activity.actor_uuid; });
+      let [object] = objects.filter(function({uuid}) { return uuid === activity.object_uuid; });
       return {activity, actor, object};
     }
 
-    for(let i = 0, c = activities.length; i < c; i++) {
-      result.push(map(activities[i]));
-    }
-
-    return result;
-  }
-
-  load() {
-    let {activities, objects} = this;
-
     function finished(results) {
       util.replace(objects, results);
-      return defer.resolve(true);
+      let feed_items = [];
+
+      for(let i = 0, c = activities.length; i < c; i++) {
+        feed_items.push(map(activities[i]));
+      }
+
+      callback(feed_items);
+      return defer.resolve(feed_items);
     }
 
     function loaded(results) {
       util.replace(activities, results);
 
-      if(activities.length === 0)
-        return defer.resolve(true);
+      if(activities.length === 0) {
+        callback([]);
+        return defer.resolve([]);
+      }
 
-      let unique_urls = [];
-      let objects = [];
+      let register = [];
+      let objects  = [];
 
       for(let i = 0, c = activities.length; i < c; i++) {
-        let {actor_url, object_url, actor_type, object_type} = activities[i];
+        // get the type and the uuid from the actors and objects
+        let {actor_type, object_type, object_uuid, actor_uuid} = activities[i];
 
-        if(unique_urls.indexOf(actor_url) === -1) {
-          unique_urls.push(actor_url);
-          objects.push({url: actor_url, type: actor_type});
+        // load in the actor if not already in our unique list
+        if(register.indexOf(actor_uuid) === -1) {
+          register.push(actor_uuid);
+          objects.push({uuid: actor_uuid, type: actor_type});
         }
 
-        if(unique_urls.indexOf(object_url) === -1) {
-          unique_urls.push(object_url);
-          objects.push({url: object_url, type: object_type});
+        // load in the object if not already in our unique list
+        if(register.indexOf(object_uuid) === -1) {
+          register.push(object_uuid);
+          objects.push({uuid: object_uuid, type: object_type});
         }
       }
 
+      // at this point,we have a list of all the objects that are involved in this activity
+      // feed, so we can send them to the object loader which will actually load in the
+      // record as well as any other related records.
       return loader.all(objects).then(finished);
     }
 

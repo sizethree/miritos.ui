@@ -1,3 +1,6 @@
+import * as ReactDOM from "react-dom";
+import * as React from "react";
+
 import i18n from "services/i18n";
 
 let {API_HOME} = window.ENV;

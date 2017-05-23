@@ -13,7 +13,7 @@ function resolve() {
 
   let user_request = {"filter[id]": `eq(${params.id})`};
 
-  return defer.all([
+  return defer.merge([
     User.get(user_request),
     role_manager.refresh()
   ]).then(success);

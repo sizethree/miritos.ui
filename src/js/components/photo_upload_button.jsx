@@ -3,6 +3,9 @@ import Modals from "services/modals";
 import defer from "services/defer";
 import Saver from "components/photo_saver";
 
+import * as ReactDOM from "react-dom";
+import * as React from "react";
+
 function start({target}) {
   let {files}    = target;
   let {delegate} = this;

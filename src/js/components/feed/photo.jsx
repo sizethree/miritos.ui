@@ -1,16 +1,27 @@
+import * as ReactDOM from "react-dom";
+import * as React from "react";
+
 const style = {maxWidth: "200px", maxHeight: "200px"};
 
-export default function FeedPhoto({activity, actor, object}) {
-  let {url, width, height} = object.object;
-  let full_url = `/object?url=${encodeURIComponent(url)}`;
-  let bg_style = {backgroundImage: `url(${full_url})`};
+class Photo extends React.Component {
 
-  return (
-    <div className="feed-display__feed-photo">
-      <div className="feed-display__feed-photo-fs-background" style={bg_style}></div>
-      <div className="feed-display__feed-photo-container">
-        <img src={full_url} />
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    let {props} = this;
+    let {object} = props;
+    let {object: photo} = object;
+    let url = `/object?url=${encodeURIComponent(photo.url)}`;
+    let style = {"backgroundImage": `url(${url})`};
+
+    return (
+      <div className="feed-display__photo position-relative">
+        <div className="feed-display__photo-bg position-absolute left-0 top-0" style={style}></div>
       </div>
-    </div>
-  );
+    );
+  }
+
 }
+export default Photo;

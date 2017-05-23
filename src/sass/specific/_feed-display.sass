@@ -1,84 +1,50 @@
-.feed-display
-  @extend .display-block
-  @extend .position-relative
-  @extend .clearfix
-
-.feed-display .feed-display__item
-  @extend .float-left
-  @extend .position-relative
-
-.feed-display.fullscreen
-  @extend .position-fixed
-  @extend .left-0
-  @extend .top-0
-  @extend .width-50
-  @extend .height-50
-  @extend .bg-depblu
-
-.feed-display.fullscreen .feed-display__item-list
+.feed-display__preview
   @extend .position-absolute
   @extend .width-50
   @extend .height-50
   @extend .top-0
   @extend .left-0
-  @extend .z-2
 
-.feed-display .feed-display__controls
-  @extend .margin-bottom-10
-
-.feed-display.fullscreen .feed-display__controls
+.feed-display__preview .feed-display__photo
   @extend .position-absolute
-  @extend .top-0
-  @extend .left-0
-  @extend .z-3
+  @extend .width-49
+  @extend .height-49
+  @extend .top-1
+  @extend .left-1
 
-.feed-display.fullscreen .feed-display__item
-  @extend .position-absolute
-  @extend .padding-2
-  @extend .border-3
-  @extend .border-color-depblu-l3
-  @extend .bg-transparent
-  @extend .left-0
-  @extend .top-0
+.feed-display__preview .feed-display__photo-bg
+  @extend .feed-display__preview
+  @extend .background-cover
+  @extend .background-center
 
-.feed-display .feed-display__feed-photo-container
+.feed-display__card
   @extend .position-relative
-  @extend .display-block
+  @extend .bg-grey-darken-4
+  @extend .border-color-grey-darken-3
+  @extend .border-1
 
-.feed-display .feed-display__feed-photo-container img
-  @extend .position-relative
-  @extend .display-block
-  max-height: 256px
-  max-width: 256px
-  min-height: 20px
-  min-width: 20px
+.feed-display__card .feed-display__photo
+  height: 460px
+  width: 520px
 
-.feed-display .feed-display__feed-photo-fs-background
-  @extend .position-absolute
+.feed-display__card .feed-display__instagram-caption
+  max-height: 460px
+  max-width: 520px
+
+.feed-display__card .feed-display__photo-bg
+  @extend .background-contain
+  @extend .background-no-repeat
+  @extend .background-center
+  @extend .bg-black-lighten-2
   @extend .width-50
   @extend .height-50
   @extend .left-0
   @extend .top-0
-  @extend .display-none
-  background-size: cover
-  background-position: center center
-  background-repeat: none
 
-.feed-display .feed-display__feed-photo
-  @extend .display-block
-  @extend .position-relative
-  @extend .float-left
-  @extend .width-50
-  @extend .height-50
-  @extend .bg-primary
-
-.feed-display.fullscreen .feed-display__feed-photo-container
-  @extend .display-none
-
-.feed-display.fullscreen .feed-display__feed-photo-fs-background
-  @extend .display-block
-
-.feed-display.fullscreen .feed-display__feed-photo
+.feed-display__source-icon
   @extend .position-absolute
   @extend .left-0
   @extend .top-0
+
+.feed-display__instagram-source-icon
+  @extend .feed-display__source-icon

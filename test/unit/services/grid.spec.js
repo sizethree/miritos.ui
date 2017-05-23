@@ -1,4 +1,4 @@
-const {default: Grid} = require("services/grid");
+const {default: Grid} = require("services/grid/allocator");
 const fixtures = require("fixtures/grids");
 describe("Grid serivce test suite", function() {
 

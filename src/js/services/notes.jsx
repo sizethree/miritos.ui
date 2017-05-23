@@ -1,15 +1,9 @@
-/** 
- * The notes module is responsible for the management of "notifications" that
- * can be used to display a message/component to the user at the top of the 
- * screen. These are commonly used to communicate the application is performing
- * an action, the action's "successfulness" upon completion and any other
- * alert-worthy feedback that is helpful to display.
- *
- * @module notes
- */
 import uuid from "services/uuid";
 import util from "services/util";
 import Notification from "components/hoc/notification";
+
+import * as ReactDOM from "react-dom";
+import * as React from "react";
 
 const DEFAULT_FLASH_TIME = 2500;
 const REMOVAL_DELAY      = 800;

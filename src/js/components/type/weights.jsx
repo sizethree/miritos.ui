@@ -1,5 +1,11 @@
-export function Light({text}) {
-  return <span className="fw-300">{text}</span>
+import * as ReactDOM from "react-dom";
+import * as React from "react";
+
+export function Light({text, children}) {
+  if(text)
+    return <span className="fw-300">{text}</span>
+
+  return <span className="fw-300">{children}</span>
 }
 
 export function SemiBold({text}) {

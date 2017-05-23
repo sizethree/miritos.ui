@@ -21,4 +21,12 @@ function replace(a1 : Array<any>, a2 : Array<any>) {
   return a1;
 }
 
-export default {replace, pad, url, dom};
+function flatten(input : Array<any>) : Array<any> {
+  function reduce(a : Array<any>, b : any) : Array<any> {
+    return a.concat(b);
+  }
+
+  return input.reduce(reduce, []);
+}
+
+export default {replace, flatten, pad, url, dom};

@@ -1,145 +1,86 @@
 import TYPES from "var/object_types";
-import FeedPhoto from "components/feed/photo";
-import FeedInsta from "components/feed/instagram";
-import Viewport from "services/window";
-import Grid from "services/grid";
 
-const COLUMNS  = 12;
-const MIN_SIZE = 1;
-const MAX_SIZE = 3;
+import Unkown           from "components/feed/unknown";
+import Photo            from "components/feed/photo";
+import InstagramPhoto   from "components/feed/instagram_photo";
+import InstagramCaption from "components/feed/instagram_caption";
 
-function renderItem({activity, actor, object}) {
-  let {object_type} = activity;
-  let Target = null;
+import * as React from "react";
+import {services, hoc} from "hoctable";
 
-  switch(object_type) {
-    case TYPES.INSTAGRAM:
-      Target = FeedInsta;
-      break;
-    case TYPES.PHOTO:
-      Target = FeedPhoto;
-      break;
-  }
-
-  if(Target === null)
-    return null;
-
-  return (
-    <div className="feed-display__item" key={activity.id} data-activity={activity.id}>
-      <Target key={activity.id} activity={activity} object={object} actor={actor} />
-    </div>
-  );
-}
-
-function rand(min, max) {
-  let theta = Math.random() * max;
-  return Math.floor(theta + min);
-}
-
-function reset(list_element) {
-  if(!list_element) return;
-  let {childNodes: children} = list_element;
-
-  for(let i = 0, c = children.length; i < c; i++) {
-    let child = children[i];
-    Object.assign(child.style, {width: "", height: "", top: "", left: ""});
-  }
-}
-
-function reposition(list_element) {
-  if(!list_element) return;
-  let {props} = this;
-  let {width, height} = list_element.getBoundingClientRect();
-  let {childNodes: children} = list_element;
-  let {delegate} = props;
-
-  // create the grid manager
-  let grid = new Grid(width, height, COLUMNS);
-  let max_size = MAX_SIZE;
-
-  // loop over each child element, positioning them
-  for(let i = 0, c = children.length; i < c; i++) {
-    let child = children[i];
-    let size  = rand(MIN_SIZE, max_size);
-
-    if(size >= max_size && max_size > 1)
-      max_size--;
-
-    let {width, height, left, top} = grid.occupy(size, size);
-
-    child.style.left = `${left}px`;
-    child.style.height = `${height}px`;
-    child.style.width = `${width}px`;
-    child.style.top = `${top}px`;
-  }
-}
-
-class FeedDisplay extends React.Component {
+class Preview extends React.Component {
 
   constructor(props) {
     super(props);
-    this.listeners = {};
-  }
-
-  componentWillUnmount() {
-    let {listeners} = this;
-    Viewport.off(listeners.fullscreen);
   }
 
   render() {
-    let {state, props, listeners} = this;
-    let {delegate} = props;
-    let {feed} = delegate;
-    let is_fs  = state && state.fullscreen === true;
-    let items  = [];
-    
-    for(let i = 0, c = feed.length; i < c; i++) {
-      let item = renderItem(feed[i], delegate);
-      if(item !== null) items.push(item);
+    let {props} = this;
+    let {object} = props.item;
+
+    let InnerPreview = Unkown;
+
+    switch(object.type) {
+      case TYPES.PHOTO:
+        InnerPreview = Photo;
+        break;
+      case TYPES.INSTAGRAM:
+        InnerPreview = Photo;
+        let {photo} = object.meta;
+        object = {object: {object: photo}};
+        break;
     }
 
-    function close() {
-      let {viewport} = this.refs;
-      let {current}  = Viewport.fullscreen;
+    return (<div className="feed-display__preview"><InnerPreview object={object.object} /></div>);
+  }
 
-      // if this call happened because we just opened, do nothing.
-      if(current)
-        return false;
+}
 
-      Viewport.off(listeners.fullscreen);
-      listeners.fullscreen = null;
-      this.setState({fullscreen: false});
+class Card extends React.Component {
+
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    let {props} = this;
+    let {actor, object} = props.item;
+
+    let Left  = Unkown;
+    let Right = Unkown;
+
+    switch(object.type) {
+      case TYPES.PHOTO:
+        Left = Photo;
+        break;
+      case TYPES.INSTAGRAM:
+        Left  = InstagramPhoto;
+        Right = InstagramCaption;
+        actor = object;
+        break;
+      case TYPES.USER:
+        console.log("user");
+        break;
     }
-
-    function fullscreen() {
-      let {viewport}    = this.refs;
-      let is_fullscreen = Viewport.fullscreen(viewport);
-
-      if(!is_fullscreen)
-        return;
-
-      listeners.fullscreen = Viewport.on("fullscreen", close.bind(this));
-      this.setState({fullscreen: true});
-    }
-
-    function exit() {
-      Viewport.fullscreen(null);
-    }
-
-    let screen_icon   = is_fs ? "ion-arrow-shrink" : "ion-arrow-expand";
-    let screen_action = (is_fs ? exit : fullscreen).bind(this);
-    let current_class = is_fs ? "fullscreen feed-display" : "feed-display";
 
     return (
-      <div className={current_class} ref="viewport">
-        <div className="feed-display__controls clearfix">
-          <a className="btn float-right" onClick={screen_action}><i className={`${screen_icon} icon`}></i></a>
+      <div className="feed-display__card clearfix">
+        <div className="display-flex display-flex-row">
+          <div className="display-inline-block">
+            <div className="position-relative padding-tb-10 padding-left-10 padding-right-5">
+              <Left object={object} />
+            </div>
+          </div>
+          <div className="display-inline-block">
+            <div className="position-relative padding-tb-10 padding-right-10 padding-left-5">
+              <Right object={actor} />
+            </div>
+          </div>
         </div>
-        <div className="feed-display__item-list" ref={(is_fs ? reposition : reset).bind(this)}>{items}</div>
       </div>
     );
   }
 
 }
 
-export default FeedDisplay;
+export default hoc.Wall(Preview, Card);

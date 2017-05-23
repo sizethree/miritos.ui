@@ -2,6 +2,9 @@ import i18n from "services/i18n";
 import {hoc} from "hoctable";
 import Notes from "services/notes";
 
+import * as ReactDOM from "react-dom";
+import * as React from "react";
+
 function Button() {
   return (
     <div className="display-inline-block">

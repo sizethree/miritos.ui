@@ -1,6 +1,6 @@
 import util from "services/util";
 
-export default class Grid {
+class Grid {
 
   constructor(width, height, columns) {
     let box  = Math.floor(width / columns);
@@ -97,3 +97,5 @@ export default class Grid {
   }
 
 }
+
+export default Grid;

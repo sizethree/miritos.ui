@@ -1,7 +1,7 @@
-import Photo from "../../resources/photo";
-import {Engine} from "../events";
-import defer from "../defer";
-import util from "../util";
+import Photo from "resources/photo";
+import {Engine} from "services/events";
+import defer from "services/defer";
+import util from "services/util";
 
 function read(file) {
   let {promise, reject, resolve} = defer.defer();
@@ -45,18 +45,11 @@ class Delegate extends Engine {
 
     function save(item) {
       let {file, caption} = item;
-      let {promise, resolve, reject} = defer.defer();
-
-      function finished(err, result) {
-        if(err) return reject(new Error("FAILED_SAVE"));
-        resolve(result[0]);
-      }
 
       if(!caption || true !== caption.length >= 1)
         return defer.reject(new Error("BAD_CAPTION"));
 
-      Photo.create({photo: file, label: caption}, finished);
-      return promise;
+      return Photo.create({photo: file, label: caption});
     }
 
     function saved() {
@@ -64,9 +57,8 @@ class Delegate extends Engine {
       this.trigger("saved");
     }
 
-    let saves = defer.all(photos.map(save));
-    saves.fin(saved.bind(this));
-    return saves;
+    return defer.merge(photos.map(save))
+      .fin(saved.bind(this));
   }
 
   load(files) {
@@ -91,7 +83,7 @@ class Delegate extends Engine {
     }
 
     let promises = files.map(load);
-    return defer.all(promises).then(replace);
+    return defer.merge(promises).then(replace);
   }
 
 }

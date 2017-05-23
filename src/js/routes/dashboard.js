@@ -2,6 +2,9 @@ import Auth from "../services/auth";
 import defer from "../services/defer";
 import filters from "../services/routing/filters";
 
+import * as ReactDOM from "react-dom";
+import * as React from "react";
+
 function resolve() {
   let {dependencies} = this;
   let [{default: Delegate}] = dependencies;
@@ -10,11 +13,11 @@ function resolve() {
   // create the feed delegate
   let feed_delegate = new Delegate();
 
-  function finish() {
-    return defer.resolve({feed_delegate});
+  function finish(cache) {
+    return defer.resolve({feed_delegate, cache});
   }
 
-  return feed_delegate.load().then(finish);
+  return feed_delegate.items(finish).then(finish);
 }
 
 resolve.$inject = [
