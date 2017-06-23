@@ -37,7 +37,7 @@
     "babel-preset-react": "6.16.0",
     "bower": "1.8.0",
     "btoa": "1.1.2",
-    "commander": "2.9.0",
+    "commander": "2.10.0",
     "connect-redis": "3.2.0",
     "del": "2.2.2",
     "dotenv": "3.0.0",
