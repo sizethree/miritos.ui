@@ -39,7 +39,7 @@
     "btoa": "1.1.2",
     "commander": "2.10.0",
     "connect-redis": "3.2.0",
-    "del": "2.2.2",
+    "del": "3.0.0",
     "dotenv": "3.0.0",
     "express": "4.14.1",
     "express-http-proxy": "1.0.4",
