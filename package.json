@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/sizethree/miritos.ui",
   "devDependencies": {
-    "@types/q": "1.0.5",
+    "@types/q": "1.0.6",
     "@types/react": "16.0.5",
     "@types/react-dom": "15.5.4",
     "babel-core": "^6.21.0",
